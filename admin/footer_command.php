@@ -13,9 +13,7 @@ $today = date("l F jS, Y");
           <img class="imgspace" src="../static/icon.php?file=github.svg"  width="30px"/>
           </a>
       </div>
-<?php
-echo '<p>&copy; 2017 - '.$today.'</p>';
-?>
+      <?php echo "\t".'<p>&copy 2017 - '.$today.'</p>'."\n"; ?>
     <div id="footer">
         <p>Made By <a class="developer" href="https://carry0987.github.io/" target="_blank">carry0987</a> <?php echo $version; ?></p>
     </div>
