@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+/* Tablet view */
+
+@media screen and (min-width: 700px) and (max-width: 1224px) {
+    #logo {
+        width: 15%;
+        height: 15%;
+    }
+    
+    .login_div {
+        width: 50%;
+    }
+
+    .signup_div {
+        width: 50%;
+    }
+
+    .change_language {
+        width: 60%;
+    }
+
+    .novalue>a {
+        font-size: 2em;
+        white-space: nowrap;
+    }
+
+    /* message */
+    .message_div{
+        width: 90%;
+    }
+
+    .message-input {
+        width: 85%;
+    }
+
+    .message-edit {
+        width: 85%;
+    }
+
+    .box {
+        width: 80%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+    }
+}

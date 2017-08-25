@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+/* Mobile view */
+
+@media screen and (min-width: 320px) and (max-width: 700px) {
+    #logo {
+        width: 40%;
+        height: 40%;
+    }
+    
+    .login_div {
+        width: 100%;
+    }
+
+    .login-input {
+        width: 85%;
+    }
+
+    .signup_div {
+        width: 100%;
+    }
+
+    .signup-input {
+        width: 85%;
+        font-size: large;
+    }
+
+    .change_language {
+        width: 100%;
+    }
+
+    .setting_div {
+        width: 100%;
+    }
+
+    .setting-input {
+        width: 85%;
+        font-size: medium;
+    }
+
+    .setting-textarea {
+        width: 93%;
+    }
+
+    .novalue>a {
+        font-size: 1em;
+        white-space: nowrap;
+    }
+
+    /* message */
+    .message_div{
+        width: 100%;
+    }
+
+    .message-input {
+        width: 85%;
+    }
+
+    .message-edit {
+        width: 85%;
+    }
+
+    .box {
+        width: 100%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+    }
+
+    .box td {
+        font-size: 13px;
+    }
+    .submit_edit>button {
+        width: 100%;
+    }
+
+    .pages>.pages_tag {
+        padding: 3px 7px;
+        font-size: large;
+        white-space: nowrap;
+    }
+
+    .pages>.pages_more {
+        padding: 0;
+        font-size: medium;
+    }
+
+    .pages>.active {
+        padding: 3px 10px;
+        font-size: large;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #4582FF;
+    }
+}
+
+
+
+

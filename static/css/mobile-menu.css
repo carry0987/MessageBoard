@@ -1,0 +1,102 @@
+@media all and (max-width: 800px) {
+    #cssmenu {
+        background: #333333;
+    }
+    #cssmenu>ul {
+        display: none;
+    }
+    #cssmenu>ul.open {
+        display: block;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    #cssmenu.align-right>ul {
+        float: none;
+    }
+    #cssmenu.align-center>ul {
+        text-align: left;
+    }
+    #cssmenu>ul>li,
+    #cssmenu.align-right>ul>li {
+        float: none;
+        display: block;
+    }
+    #cssmenu>ul>li>a {
+        padding: 18px 25px 18px 25px;
+        border-right: 0;
+        font-size: 1em;
+    }
+
+    #cssmenu>ul>li:hover>a,
+    #cssmenu>ul>li.active>a {
+        background: rgba(0, 0, 0, 0.1);
+    }
+    #cssmenu #menu-button {
+        display: block;
+        text-decoration: none;
+        font-size: 1em;
+        font-weight: 700;
+        color: #dddddd;
+        padding: 18px 25px 18px 25px;
+        letter-spacing: 1px;
+        cursor: pointer;
+    }
+    #cssmenu ul ul,
+    #cssmenu ul li:hover>ul,
+    #cssmenu>ul>li>ul,
+    #cssmenu ul ul ul,
+    #cssmenu ul ul li:hover>ul,
+    #cssmenu.align-right ul ul,
+    #cssmenu.align-right ul li:hover>ul,
+    #cssmenu.align-right>ul>li>ul,
+    #cssmenu.align-right ul ul ul,
+    #cssmenu.align-right ul ul li:hover>ul {
+        left: 0;
+        right: auto;
+        top: auto;
+        opacity: 1;
+        width: 100%;
+        padding: 0;
+        position: relative;
+        text-align: left;
+    }
+    #cssmenu ul ul li {
+        width: 100%;
+    }
+    #cssmenu ul ul li a {
+        width: 100%;
+        box-shadow: none;
+        padding-left: 35px;
+    }
+    #cssmenu ul ul ul li a {
+        padding-left: 45px;
+    }
+    #cssmenu ul ul li:first-child>a,
+    #cssmenu ul ul li:last-child>a {
+        border-radius: 0;
+    }
+    #cssmenu #menu-button::after {
+        display: block;
+        content: '';
+        position: absolute;
+        height: 3px;
+        width: 22px;
+        border-top: 2px solid #dddddd;
+        border-bottom: 2px solid #dddddd;
+        right: 25px;
+        top: 18px;
+    }
+    #cssmenu #menu-button::before {
+        display: block;
+        content: '';
+        position: absolute;
+        height: 3px;
+        width: 22px;
+        border-top: 2px solid #dddddd;
+        right: 25px;
+        top: 28px;
+    }
+    #cssmenu>ul>li.has-sub>a::after,
+    #cssmenu ul ul li.has-sub>a::after {
+        display: none;
+    }
+}
