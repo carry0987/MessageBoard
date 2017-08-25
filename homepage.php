@@ -17,7 +17,7 @@ echo '
 <div id="cssmenu">
     <ul>
 ';
-if($_SESSION['username'])
+if(!empty($_SESSION['username']))
 {
   echo $menu_index;
   echo $menu_logout;

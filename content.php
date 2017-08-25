@@ -12,7 +12,7 @@ echo '
 <div id="cssmenu">
     <ul>
 ';
-if($_SESSION['username'])
+if(!empty($_SESSION['username']))
 {
   echo $menu_homepage;
   echo $menu_logout;
