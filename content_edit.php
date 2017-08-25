@@ -48,15 +48,16 @@ echo '
 </div>
 ';
 
-/* Check Login */
-if($_SESSION['username']) {
+/* Check login */
+if (!empty($_SESSION['username'])) {
   echo '';
 } else {
   echo '
     <script>
-      alert('.$lang_not_login.');location.href="login.php";
+      alert("'.$lang_not_login.'");location.href="login.php";
     </script>
   ';
+  exit();
 }
 
 /* Check if not author */
