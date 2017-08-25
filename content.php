@@ -39,6 +39,7 @@ if(isset($_GET['id'])) {
   $id = 1;
 }
 
+if($result) {
 if($row = $result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     echo "<div class='main'>\n";
@@ -56,6 +57,10 @@ if($row = $result->num_rows > 0) {
         <a>'.$lang_content_not_found.'</a>
       </div>
       ';
+}
+} else {
+  echo '<h1>'.$lang_system_error.'</h1>';
+  exit();
 }
 ?>
 

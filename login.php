@@ -32,9 +32,9 @@ if (!empty($_SESSION['username'])) {
 echo '<div class="login_div">';
 $Online = 1;
 $Username_Err = $Password_Err = '';
-if(isset($_POST["submit"])){
-  $Username = input_safety($_POST["username"]);
-  $Password = input_safety($_POST["password"]);
+if(isset($_POST['submit'])){
+  $Username = input_safety($_POST['username']);
+  $Password = input_safety($_POST['password']);
 
   if($Online){
     $OK = 1;
@@ -45,7 +45,7 @@ if(isset($_POST["submit"])){
       $Username_Err = $lang_username_not_exist;
       $OK = 0;
     }
-    elseif($row["password"] != $Password){
+    elseif($row['password'] != $Password){
       $Password_Err = $lang_wrong_password;
       $OK = 0;
     }

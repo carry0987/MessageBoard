@@ -1,19 +1,17 @@
 <?php
 header('content-type:text/html;charset=utf-8');
+require dirname(__FILE__).'/admin/check_database.php';
 ob_start();
 require dirname(__FILE__).'/include/header.php';
 $change_title = ob_get_contents();
 ob_end_clean();
-
 if(!empty($_GET['id'])) {
   echo '';
 } else {
   header('Location: ./');
 }
-
 $edit_title = 'SELECT title FROM msg WHERE id='.$_GET['id'];
 $edit_result = $con->query($edit_title);
-
 if($edit_result) {
 if($edit_result->num_rows > 0) {
   while($edit_row = $edit_result->fetch_assoc()) {
@@ -23,7 +21,6 @@ if($edit_result->num_rows > 0) {
     $page_title = 'Not Found !';
 }
 }
-
 $change_title = preg_replace('/(<title>)(.*?)(<\/title>)/i', '$1'.$page_title.'$3', $change_title);
 echo $change_title;
 
@@ -66,7 +63,7 @@ $check_user_result = $con->query($check_user_sql);
 if($check_user_result) {
 if($check_user_result->num_rows > 0) {
   while($check_user_row = $check_user_result->fetch_assoc()) {
-  if($_SESSION['username'] == $check_user_row['username'] || $now_admin == $_SESSION['username']) {
+  if($_SESSION['username'] == $check_user_row['username'] || $now_admin == 1) {
     echo '';
   } else {
     echo '
