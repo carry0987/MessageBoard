@@ -57,6 +57,7 @@ $lang_repassword_error = $lang['repassword_error'];
 $lang_repassword_pass = $lang['repassword_pass'];
 $lang_username_empty = $lang['username_empty'];
 $lang_username_rule = $lang['username_rule'];
+$lang_username_length = $lang['username_length'];
 $lang_username_pass = $lang['username_pass'];
 $lang_password_empty = $lang['password_empty'];
 $lang_password_rule = $lang['password_rule'];

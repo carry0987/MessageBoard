@@ -58,6 +58,7 @@ $lang = array
     'repassword_pass' => '密碼可以使用',
     'username_empty' => '用戶名不得為空！',
     'username_rule' => '用戶名只能為大小寫字母和數字，不得包含空白',
+    'username_length' => '用戶名至少6個字！',
     'username_pass' => '用戶名可以使用',
     'password_empty' => '密碼不得為空！',
     'password_rule' => '密碼至少要8個字！',

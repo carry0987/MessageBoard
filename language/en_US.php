@@ -58,6 +58,7 @@ $lang = array
     'repassword_pass' => 'Password can be used',
     'username_empty' => 'Username should not be empty !',
     'username_rule' => 'Username can only containing case letters and numbers, and shouldn\'t contain blanks !',
+    'username_length' => 'Username requires at least 6 words !',
     'username_pass' => 'Username can be use',
     'password_empty' => 'Password can not be empty !',
     'password_rule' => 'Password should longer than 8 characters !',

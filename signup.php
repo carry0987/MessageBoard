@@ -51,7 +51,7 @@ if (!empty($_SESSION['username']))
             $Permit = 1;
             $sql = 'SELECT username FROM user WHERE username = '."\"$Username\"";
             $result = $con->query($sql);
-            $row = $result -> fetch_assoc();
+            $row = $result->fetch_assoc();
             if($result->num_rows > 0){
                 $UsernameErr = $lang_duplicate_username;
                 $Permit = 0;
@@ -101,7 +101,7 @@ if(!isset($_POST['submit'])) {
             <tr>
                 <td class="signup-a">'.$lang_username.'：</td>
                 <td class="signup-a">
-                    <input class="signup-input" type="text" name="username" id="username" placeholder="Username" maxlength="20">
+                    <input class="signup-input" type="text" name="username" id="username" placeholder="Username" maxlength="20" oninput="check_username();" onpropertychange="check_username();">
                 </td>
             </tr>
             <tr>
@@ -113,7 +113,7 @@ if(!isset($_POST['submit'])) {
             <tr>
                 <td class="signup-a">'.$lang_confirm.'：</td>
                 <td class="signup-a">
-                    <input class="signup-input" type="password" name="pdr" id="pdr" placeholder="Confirm Password" maxlength="20" oninput="checkpdr();" onpropertychange="checkpdr();">
+                    <input class="signup-input" type="password" name="pdr" id="pdr" placeholder="Confirm Password" maxlength="20">
                 </td>
             </tr>
         </table>
@@ -126,35 +126,75 @@ if(!isset($_POST['submit'])) {
 }
 ?>
 <script>
-function signup_check(){
-if(document.getElementById("username").value == '')
-{
-  <?php echo "alert(\"$lang_username_empty\");"; ?>
-  document.getElementById("username").focus();
-  return false;
-}
-else if(document.getElementById("password").value == '')
-{
-  <?php echo "alert(\"$lang_password_empty\");"; ?>
-  document.getElementById("password").focus();
-  return false;
-}
-else if(document.getElementById("password").value != document.getElementById("pdr").value)
-{
-  <?php echo "alert(\"$lang_repassword_error\");"; ?>
-  document.getElementById("pdr").focus();
-  return false;
-}
+function signup_check() {
+    var username = document.signup.username.value;
+    var password1 = document.signup.password.value;
+    var password2 = document.signup.pdr.value;
+    var regex = new RegExp("^[A-Za-z0-9]+$");
+    if(username == '')
+    {
+      <?php echo "alert(\"$lang_username_empty\");"; ?>
+      document.getElementById("username").focus();
+      return false;
+    }
+    else if(username.length < 6)
+    {
+      <?php echo "alert(\"$lang_username_length\");"; ?>
+      document.getElementById("username").focus();
+      return false;
+    }
+    else if(!regex.test(username))
+    {
+      <?php echo "alert(\"$lang_username_rule\");"; ?>
+      document.getElementById("username").focus();
+      return false;
+    }
+    else if(password1 == '' || password2 == '')
+    {
+      <?php echo "alert(\"$lang_password_empty\");"; ?>
+      document.getElementById("password").focus();
+      return false;
+    }
+    else if(password1 != password2)
+    {
+      <?php echo "alert(\"$lang_repassword_error\");"; ?>
+      document.getElementById("pdr").focus();
+      return false;
+    }
+    else if(password1.length < 8 || password2.length < 8 || !regex.test(password1) || !regex.test(password2))
+    {
+      <?php echo "alert(\"$lang_password_rule\");"; ?>
+      document.getElementById('password').value = "";
+      document.getElementById('pdr').value = "";
+      return false;
+    }
 return true;
 }
 
-function checkpdr() {
-    var password1 = document.signup.password.value;
-    var password2 = document.signup.pdr.value;
-    if (password1 != password2) {
-        document.getElementById('checkbox').innerHTML = '<span style="color: red"><?php echo $lang_repassword_error; ?></span>';
-    } else {
-        document.getElementById('checkbox').innerHTML = '<span style="color: green"><?php echo $lang_repassword_pass; ?></span>';
+var XHR;
+
+function createXHR() {
+    if (window.ActiveXObject) {
+        XHR = new ActiveXObject('Microsoft.XMLHTTP');
+    } else if (window.XMLHttpRequest) {
+        XHR = new XMLHttpRequest();
+    }
+}
+
+function check_username() {
+    var username = document.signup.username.value;
+    createXHR();
+    XHR.open("GET", "./admin/check_username.php?username=" + username, true);
+    XHR.onreadystatechange = response;
+    XHR.send(null);
+}
+
+function response() {
+    if (XHR.readyState == 4) {
+        if (XHR.status == 200) {
+            var textHTML = XHR.responseText;
+            document.getElementById('checkbox').innerHTML = textHTML;
+        }
     }
 }
 <?php
