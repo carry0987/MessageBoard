@@ -13,14 +13,12 @@ $today = date("l F jS, Y");
           <img class="imgspace" src="../static/icon.php?file=github.svg"  width="30px"/>
           </a>
       </div>
-<?php
-echo '<p>&copy 2017 - '.$today.'</p>';
-?>
+      <?php echo "\t".'<p>&copy 2017 - '.$today.'</p>'."\n"; ?>
       <div class="change_language">
         <select class="language" name="change_language" onChange="location = this.options[this.selectedIndex].value;">
           <option selected disabled hidden>Language</option>
-          <option value="./install_language.php?lang=en_US">English</option>
-          <option value="./install_language.php?lang=zh_TW">Chinese</option>
+          <option value="../admin/change_language.php?lang=en_US">English</option>
+          <option value="../admin/change_language.php?lang=zh_TW">Chinese</option>
         </select>
       </div>
       <div id="footer">

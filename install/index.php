@@ -14,15 +14,6 @@ $if_user_exists = $con->query($check_table_user_exists);
 $if_config_exists = $con->query($check_table_config_exists);
 $if_session_id_exists = $con->query($check_session_id_exists);
 
-$cookie_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$path1 = dirname($cookie_path).'/';
-$path2 = $cookie_path.'/';
-
-if(!empty($_COOKIE['language'])) {
-    unset($_COOKIE['language']);
-    setcookie('language', null, -1, $path1);
-    setcookie('language', null, -1, $path2);
-}
 if($if_msg_exists && $if_user_exists && $if_config_exists && $if_session_id_exists) {
 if($if_msg_exists->num_rows > 0 && $if_user_exists->num_rows > 0 && $if_config_exists->num_rows > 0 && $if_session_id_exists->num_rows > 0) {
     echo '<script>';
