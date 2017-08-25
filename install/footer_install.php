@@ -24,7 +24,7 @@ echo '<p>&copy 2017 - '.$today.'</p>';
         </select>
       </div>
       <div id="footer">
-          <p>Made By carry0987 <a class="developer" href="https://carry0987.github.io/" target="_blank">@carry0987</a> <?php echo $version; ?></p>
+          <p>Made By <a class="developer" href="https://carry0987.github.io/" target="_blank">carry0987</a> <?php echo $version; ?></p>
       </div>
     </footer>
     </div>
