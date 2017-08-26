@@ -79,6 +79,7 @@ $lang = array
     'not_admin' => 'You are not admin !',
     'delete_message' => 'Delete',
     'delete_success' => 'Delete Success !',
+    'delete_empty' => 'You did\'t choose any message !',
     'web_name' => 'Web Name',
     'web_description' => 'Web Description',
     'web_email' => 'Web Email',
@@ -93,6 +94,8 @@ $lang = array
     'add_board' => 'Add Board',
     'board_name_empty' => 'Board Name should not be empty !',
     'board_description_empty' => 'Board Description should not be empty !',
+    'send_board_add_1' => 'Board Add Success !<br />It will redirect to previous page'.' ',
+    'send_board_add_2' => ' second',
     'board_empty' => 'There are currently no board yet !',
     'board_from' => 'Send From',
 );

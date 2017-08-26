@@ -57,7 +57,7 @@ if(isset($_POST['add_board'])) {
     </script>
     ';
     echo '<div class="infomation">';
-    echo '<a>'.$lang_send_message_1.'<span id="refresh">1</span>'.$lang_send_message_2.'</a>';
+    echo '<a>'.$lang_send_board_add_1.'<span id="refresh">1</span>'.$lang_send_board_add_2.'</a>';
     echo '<br />';
     echo '<a class="ifnorefresh" href="../">'.$lang_no_refresh.'</a>';
     echo '</div>';

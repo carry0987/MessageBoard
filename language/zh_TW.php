@@ -79,6 +79,7 @@ $lang = array
     'not_admin' => '您不是管理員！',
     'delete_message' => '刪除',
     'delete_success' => '文章刪除成功！',
+    'delete_empty' => '您沒有選擇要刪除的文章！',
     'web_name' => '網站名稱',
     'web_description' => '網站介紹',
     'web_email' => '網站信箱',
@@ -93,6 +94,8 @@ $lang = array
     'add_board' => '新增版塊',
     'board_name_empty' => '版塊名稱不得為空！',
     'board_description_empty' => '版塊簡介不得為空！',
+    'send_board_add_1' => '版塊新增成功！ <br />網頁將於 ',
+    'send_board_add_2' => ' 秒後跳轉至上一頁',
     'board_empty' => '目前尚無任何版塊！',
     'board_from' => '發表於',
 );

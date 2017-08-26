@@ -78,6 +78,7 @@ $lang_not_author = $lang['not_author'];
 $lang_not_admin = $lang['not_admin'];
 $lang_delete_message = $lang['delete_message'];
 $lang_delete_success = $lang['delete_success'];
+$lang_delete_empty = $lang['delete_empty'];
 $lang_web_name = $lang['web_name'];
 $lang_web_description = $lang['web_description'];
 $lang_web_email = $lang['web_email'];
@@ -92,6 +93,8 @@ $lang_board_description = $lang['board_description'];
 $lang_add_board = $lang['add_board'];
 $lang_board_name_empty = $lang['board_name_empty'];
 $lang_board_description_empty = $lang['board_description_empty'];
+$lang_send_board_add_1 = $lang['send_board_add_1'];
+$lang_send_board_add_2 = $lang['send_board_add_2'];
 $lang_board_empty = $lang['board_empty'];
 $lang_board_from = $lang['board_from'];
 ?>

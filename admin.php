@@ -50,18 +50,18 @@ if(!empty($action) && $action == 'message_manager' || $action == 'board_manager'
 } else {
   echo '
   <div class="admin">
-  <table>
-  <tbody>
-  <tr>
-  <td>
-    <a href="./admin.php?action=message_manager">'.$lang_message_manager.'</a>
-  </td>
-  <td>
-    <a href="./admin.php?action=board_manager">'.$lang_board_manager.'</a>
-  </td>
-  </tr>
-  </tbody>
-  </table>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="./admin.php?action=message_manager">'.$lang_message_manager.'</a>
+          </td>
+          <td>
+            <a href="./admin.php?action=board_manager">'.$lang_board_manager.'</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
       ';
 }
