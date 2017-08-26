@@ -61,7 +61,7 @@ $pageoffset = ($showpage-1)/2;
 if(!empty($_SESSION['username'])) {
 echo '<h1 style="text-align: center; margin: 0;">'.$lang_admin_list.'</h1>';
 
-  if($row = $result->num_rows > 0) {
+  if($result->num_rows > 0) {
       echo '
     <form action="./admin/delete_message.php" method="post">
       <div class="box">
