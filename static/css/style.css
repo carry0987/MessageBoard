@@ -620,6 +620,12 @@ body {
     word-break: break-all;
 }
 
+.message-text-n {
+    resize: none;
+    word-break: break-all;
+    font-size: 3em;
+}
+
 /* Change Setting */
 
 .setting_div {

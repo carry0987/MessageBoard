@@ -67,6 +67,12 @@
         width: 85%;
     }
 
+    .message-text-n {
+        resize: none;
+        word-break: break-all;
+        font-size: 1.5em;
+    }
+
     .box {
         width: 100%;
         margin-top: 1%;

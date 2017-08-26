@@ -200,9 +200,9 @@ echo '
         <table class="message">
           <tr>
             <td class="message-content">
-                <textarea class="message-text" id="message" 
+                <textarea class="message-text-n" id="message" 
                 type="text" name="message" placeholder="Message" 
-                rows="3" cols="20" maxlength="100" readonly="readonly" style="font-size: 3em;">'.$lang_not_login.'</textarea>
+                rows="3" cols="20" maxlength="100" readonly="readonly">'.$lang_not_login.'</textarea>
             </td>
           </tr>
         </table>
