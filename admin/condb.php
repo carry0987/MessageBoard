@@ -9,7 +9,7 @@ define('DB_PORT', '3306');                //Your database connect port
 date_default_timezone_set('Asia/Taipei'); //Your Timezone
 $con = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
 $check_connect = $con->query("SET CHARACTER SET utf8");
-$version = 'v1.0.3';
+$version = 'v1.0.4';
 if(!$con || !$check_connect){
     echo '<h1>Connect Error !</h1>';
     echo '<br />';

@@ -42,6 +42,45 @@ body {
     color: #929292;
 }
 
+.admin {
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 5px;
+    width: 50%;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10%;
+}
+
+.admin>table {
+    width: 100%;
+    height: 100%;
+    border-spacing: 0;
+}
+
+.admin>table td {
+    text-align: center;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+}
+
+.admin>table a {
+    font-size: 2em;
+    font-weight: bold;
+    color: #0366d6;
+    text-decoration: none;
+}
+
+
+.add_board {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .infomation {
     text-align: center;
 }
@@ -66,7 +105,6 @@ body {
     padding: 15px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 15%;
 }
 
 .novalue>a {
@@ -224,6 +262,13 @@ body {
 }
 
 .main>header>.date {
+    font-size: unset;
+    color: #AAAAAA;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.main>header>.from {
     font-size: unset;
     color: #AAAAAA;
     margin-top: 0;
@@ -650,6 +695,17 @@ body {
     resize: none;
     font-size: large;
     width: 98%;
+}
+
+.not_login {
+    text-align: center;
+    border-color: #929292;
+    border-width: 2px;
+    border-style: solid;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
 }
 
 /* footer */

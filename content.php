@@ -12,6 +12,7 @@ echo '
 <div id="cssmenu">
     <ul>
 ';
+  echo $menu_index;
 if(!empty($_SESSION['username']))
 {
   echo $menu_homepage;
@@ -20,13 +21,12 @@ if(!empty($_SESSION['username']))
   echo $menu_login;
   echo $menu_signup;
 }
-  echo $menu_message;
 echo '
     </ul>
 </div>
 ';
 
-$sql = 'SELECT id,username,title,content,date FROM msg WHERE id='.$_GET["id"];
+$sql = 'SELECT id,username,title,content,board_id,date FROM msg WHERE id = '.$_GET["id"];
 $result = $con->query($sql);
 
 if(isset($_GET['id'])) {
@@ -40,17 +40,25 @@ if(isset($_GET['id'])) {
 }
 
 if($result) {
-if($row = $result->num_rows > 0) {
-  while($row = $result->fetch_assoc()) {
+if($result->num_rows > 0) {
+$row = $result->fetch_assoc();
     echo "<div class='main'>\n";
     echo "<header>\n";
     echo "<h1>".$row["title"]."</h1>\n";
     echo '<p class="author">'.$lang_author.'：'.$row['username'].'</p>'."\n";
     echo '<p class="date">'.$lang_publish_date.'：'.$row['date'].'</p>'."\n";
+    $board_sql = 'SELECT board_name FROM board WHERE id = '.$row['board_id'];
+    $board_result = $con->query($board_sql);
+    if($board_result) {
+      $board_row = $board_result->fetch_assoc();
+      $send_from = $board_row['board_name'];
+    } else {
+      $send_from = '';
+    }
+    echo '<p class="from">'.$lang_board_from.'：'.$send_from.'</p>'."\n";
     echo "</header>\n";
     echo "<div class='box-content'>\n".htmlspecialchars_decode($row['content'])."\n</div>\n";
     echo "</div>";
-  }
 } else {
   echo '
       <div class="novalue">

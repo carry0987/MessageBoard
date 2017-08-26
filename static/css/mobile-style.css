@@ -25,6 +25,14 @@
         font-size: large;
     }
 
+    .admin {
+        width: auto;
+    }
+
+    .add_board {
+        width: 100%;
+    }
+
     .change_language {
         width: 100%;
     }
@@ -44,7 +52,6 @@
 
     .novalue>a {
         font-size: 1em;
-        white-space: nowrap;
     }
 
     /* message */
@@ -90,6 +97,10 @@
         font-weight: bold;
         color: #ffffff;
         background-color: #4582FF;
+    }
+
+    .not_login {
+        width: 98%;
     }
 }
 

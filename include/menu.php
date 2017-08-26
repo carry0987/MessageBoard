@@ -33,11 +33,6 @@ $menu_signup = '
             <a href="signup.php">'.$lang_signup.'</a>
         </li>
             ';
-$menu_message = '
-        <li>
-            <a href="message.php">'.$lang_message.'</a>
-        </li>
-            ';
 $menu_setting = '
         <li>
             <a href="./setting.php">'.$lang_setting.'</a>

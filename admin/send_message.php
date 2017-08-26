@@ -1,10 +1,11 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require 'header_command.php';
+require dirname(__FILE__).'/header_command.php';
 
 if (isset($_POST['submit'])) {
     $Title = input_safety($_POST['title']);
     $Content = input_safety($_POST['message']);
+    $Board_id = input_safety($_GET['board_id']);
     $OK = '1';
     $TitleErr = $ContentErr = $AnonymousErr = '';
     $Time = date('Y-m-d H:i:s');
@@ -22,8 +23,9 @@ if (isset($_POST['submit'])) {
         $OK = '0';
     }
     if ($OK == '1') {
-        $sql = 'INSERT INTO msg (username,title,content,date) VALUES ('."\"$Username\"".','."\"$Title\"".','."\"$Content\"".','."\"$Time\"".')';
-        $con->query($sql);
+        $sql = 'INSERT INTO msg (username,title,content,board_id,date) VALUES ('."\"$Username\"".','."\"$Title\"".','."\"$Content\"".','."\"$Board_id\"".','."\"$Time\"".')';
+        $result = $con->query($sql);
+        if($result) {
         echo '
         <script type="text/javascript">
         setTimeout("countdown()", 1000);
@@ -31,7 +33,7 @@ if (isset($_POST['submit'])) {
             var s = document.getElementById("refresh");
             s.innerHTML = s.innerHTML - 1;
             if (s.innerHTML == 0) {
-                window.location = "../";
+                window.location = "../board.php?board_id='.$Board_id.'";
             } else {
                 setTimeout("countdown()", 1000);
             }
@@ -41,8 +43,11 @@ if (isset($_POST['submit'])) {
         echo '<div class="infomation">';
         echo '<a>'.$lang_send_message_1.'<span id="refresh">1</span>'.$lang_send_message_2.'</a>';
         echo '<br />';
-        echo '<a class="ifnorefresh" href="../">'.$lang_no_refresh.'</a>';
+        echo '<a class="ifnorefresh" href="../board.php?board_id='.$Board_id.'">'.$lang_no_refresh.'</a>';
         echo '</div>';
+      } else {
+        echo '<h1>'.$lang_system_error.'</h1>';
+      }
     }
 } else {
     echo '
@@ -74,4 +79,4 @@ if (isset($_POST['submit'])) {
   ?>
 </script>
 
-<?php require 'footer_command.php'; ?>
+<?php require dirname(__FILE__).'/footer_command.php'; ?>

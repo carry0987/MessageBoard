@@ -28,6 +28,7 @@ echo '
 <div id="cssmenu">
     <ul>
 ';
+  echo $menu_index;
 if(!empty($_SESSION['username']))
 {
   if($now_admin == 1) {
@@ -39,7 +40,6 @@ if(!empty($_SESSION['username']))
   echo $menu_login;
   echo $menu_signup;
 }
-  echo $menu_message;
 echo '
     </ul>
 </div>
@@ -110,6 +110,7 @@ if(!empty($_GET['id']) && $row = $result->num_rows > 0) {
               </tr>
             </tbody>
           </table>
+          <br />
           <div class="submit_edit">
               <button type="submit" name="change_mg">'.$lang_edit.'</button>
           </div>

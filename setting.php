@@ -12,9 +12,9 @@ echo '
 <div id="cssmenu">
     <ul>
 ';
+echo $menu_index;
 echo $menu_admin;
 echo $menu_logout;
-echo $menu_message;
 echo '
     </ul>
 </div>

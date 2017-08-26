@@ -40,12 +40,15 @@ if($if_session_id_exists->num_rows > 0) {
     $row = $if_session_id_exists->fetch_assoc();
     $session_id = trim($row['session_id']);
     $session_id = preg_replace('/\s(?=)/', '', $session_id);
-  }
 } else {
     echo '<h1>'.$lang_session_error.'</h1>';
     echo '<br />';
     echo '<h2>'.$lang_please.' <a href="./install" style="color: blue;">'.$lang_reinstall.'</a> '.$lang_messageboard.' !</h2>';
     $session_id = 'sessionerror';
+    exit();
+}
+} else {
+    header('Location: ./install');
 }
 
 session_name($session_id);

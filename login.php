@@ -23,7 +23,6 @@ if (!empty($_SESSION['username'])) {
   ';
   echo $menu_index;
   echo $menu_signup;
-  echo $menu_message;
   echo '
       </ul>
   </div>

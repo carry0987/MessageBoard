@@ -13,6 +13,7 @@ $web_name = input_safety($_POST['web_name']);
 $web_email = input_safety($_POST['web_email']);
 $admin_username = input_safety($_POST['admin_username']);
 $admin_password = input_safety($_POST['admin_password']);
+$default_board = 'default';
 
 $set_first = '
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -26,6 +27,7 @@ CREATE TABLE IF NOT EXISTS msg (
   username varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   title varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   content varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
+  board_id int(3) NOT NULL,
   date datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 
@@ -35,6 +37,14 @@ CREATE TABLE IF NOT EXISTS user (
   username varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   password varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   is_admin varchar(1) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
+
+$create_board = '
+CREATE TABLE IF NOT EXISTS board (
+  id int(3) UNSIGNED NOT NULL,
+  board_name varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  board_description varchar(300) COLLATE utf8_unicode_ci NOT NULL,
+  date datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 
 $create_config = '
@@ -48,34 +58,43 @@ CREATE TABLE IF NOT EXISTS config (
 
 $add_msg_pk  = 'ALTER TABLE msg ADD PRIMARY KEY (id)';
 $add_user_pk  = 'ALTER TABLE user ADD PRIMARY KEY (id)';
+$add_board_pk  = 'ALTER TABLE board ADD PRIMARY KEY (id)';
 $add_config_pk  = 'ALTER TABLE config ADD PRIMARY KEY (id)';
 
 $set_msg_ai = 'ALTER TABLE msg MODIFY id int(11) UNSIGNED NOT NULL AUTO_INCREMENT';
 $set_user_ai = 'ALTER TABLE user MODIFY id int(11) UNSIGNED NOT NULL AUTO_INCREMENT';
+$set_board_ai = 'ALTER TABLE board MODIFY id int(3) UNSIGNED NOT NULL AUTO_INCREMENT';
 $set_config_ai = 'ALTER TABLE config MODIFY id int(1) UNSIGNED NOT NULL AUTO_INCREMENT';
 
 $insert_demo_msg = '
-INSERT INTO msg (id, username, title, content, date) 
-VALUES (NULL'.','."\"".$admin_username."\"".','. "\"Welcome\"".','."\"Welcome To ".$web_name." !\"".','."\"".$get_time."\"".')';
+INSERT INTO msg (id, username, title, content, board_id, date) 
+VALUES (NULL, \''.$admin_username.'\', \'Welcome\', \'Welcome To '.$web_name.' !\', \'1\', \''.$get_time.'\')';
 
 $insert_demo_user = '
 INSERT INTO user (id, username, password, is_admin) 
 VALUES (NULL, \''.$admin_username.'\', \''.$admin_password.'\', \'1\')';
 
+$insert_board = '
+INSERT INTO board (id, board_name, board_description, date) 
+VALUES (NULL, \''.$default_board.'\', \'This MessageBoard was made by carry0987\', \''.$get_time.'\')';
+
 $insert_config = '
 INSERT INTO config (id, web_name, web_description, web_email, session_id) 
 VALUES (NULL, \''.$web_name.'\', \'This MessageBoard was made by carry0987\', \''.$web_email.'\', \''.$session_id.'\')';
 
-if(!empty($_POST['admin_username']) && !empty($_POST['admin_password']) && !empty($_POST['web_email']) && !empty($_POST['web_name'])) {
+if(!empty($admin_username) && !empty($admin_password) && !empty($web_email) && !empty($web_name)) {
   $con->query($set_first);
   $con->query($create_msg);
   $con->query($create_user);
+  $con->query($create_board);
   $con->query($create_config);
   $con->query($add_msg_pk);
   $con->query($add_user_pk);
+  $con->query($add_board_pk);
   $con->query($add_config_pk);
   $con->query($set_msg_ai);
   $con->query($set_user_ai);
+  $con->query($set_board_ai);
   $con->query($set_config_ai);
 } else {
   echo '<script>';
@@ -85,20 +104,23 @@ if(!empty($_POST['admin_username']) && !empty($_POST['admin_password']) && !empt
 
 $check_table_msg_exists = 'SELECT id FROM msg';
 $check_table_user_exists = 'SELECT id FROM user';
+$check_table_board_exists = 'SELECT id FROM board';
 $check_table_config_exists = 'SELECT id,session_id FROM config';
 $if_msg_exists = $con->query($check_table_msg_exists);
 $if_user_exists = $con->query($check_table_user_exists);
+$if_board_exists = $con->query($check_table_board_exists);
 $if_config_exists = $con->query($check_table_config_exists);
 
 $check_session_id_exists = 'SELECT session_id FROM config WHERE session_id IS NOT NULL';
 $if_session_id_exists = $con->query($check_session_id_exists);
 
-if($if_msg_exists && $if_user_exists && $if_config_exists) {
-if($if_msg_exists->num_rows > 0 && $if_user_exists->num_rows > 0 && $if_config_exists->num_rows > 0) {
+if($if_msg_exists && $if_user_exists && $if_board_exists && $if_config_exists) {
+if($if_msg_exists->num_rows > 0 && $if_user_exists->num_rows > 0 && $if_board_exists->num_rows > 0 && $if_config_exists->num_rows > 0) {
   header('Location: ../');
-} elseif($if_msg_exists->num_rows == 0 && $if_user_exists->num_rows == 0 && $if_config_exists->num_rows == 0) {
+} elseif($if_msg_exists->num_rows == 0 && $if_user_exists->num_rows == 0 && $if_config_exists->num_rows == 0 && $if_board_exists->num_rows == 0) {
   $con->query($insert_demo_msg);
   $con->query($insert_demo_user);
+  $con->query($insert_board);
   $con->query($insert_config);
   if($if_session_id_exists) {
   if($if_session_id_exists->num_rows > 0) {
