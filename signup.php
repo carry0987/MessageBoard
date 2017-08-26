@@ -57,7 +57,7 @@ if (!empty($_SESSION['username']))
                 $Permit = 0;
             }
             if ($Permit){
-                $sql = 'INSERT INTO user (username, password) VALUES ('."\"$Username\"".','."\"$Password\"".')';
+                $sql = 'INSERT INTO user (username, password, is_admin) VALUES ('."\"$Username\"".','."\"$Password\"".','.'0'.')';
                 $con->query($sql);
             echo '
             <script type="text/javascript">
