@@ -40,7 +40,9 @@ Homepage
 ![](http://i.imgur.com/6z82R70.jpg)
 Message
 ![](http://i.imgur.com/Z8SgtW3.jpg)
-Admin Page
+Admin Message manager page
 ![](https://i.imgur.com/uHISGPo.jpg)
+Admin Board manager page
+![](http://i.imgur.com/VZyTGaK.jpg)
 Mobile Overview<br />
 ![](http://i.imgur.com/JTovlzE.jpg)
