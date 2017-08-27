@@ -36,8 +36,10 @@ $version = 'vx.x.x';                      //Don't edit it !
 ## Screenshots
 Install
 ![](https://i.imgur.com/urfaIYg.jpg)
+Homepage
+![](http://i.imgur.com/6z82R70.jpg)
 Message
-![](https://i.imgur.com/YQOZHlm.jpg)
+![](http://i.imgur.com/Z8SgtW3.jpg)
 Admin Page
 ![](https://i.imgur.com/uHISGPo.jpg)
 Mobile Overview<br />
