@@ -18,6 +18,7 @@ require dirname(__FILE__).'/../admin/check_language.php';
     <meta property="fb:admins" content="carry0987"/>
     <meta property="fb:app_id" content="1455782504488287">
     <meta property="og:image" content="https://www.nehscsa.com/icnc/fblogo1.png">
+    <link href="./static/icon/logo.png" rel="apple-touch-icon" />
     <link href="./static/css.php?file=style.css" rel="stylesheet" type="text/css">
     <link href="./static/css.php?file=mobile-style.css" rel="stylesheet" type="text/css">
     <link href="./static/css.php?file=tablet-style.css" rel="stylesheet" type="text/css">

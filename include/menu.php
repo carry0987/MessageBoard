@@ -6,9 +6,9 @@ $menu_admin = '
             ';
 
 if(!empty($_SESSION['username'])) {
-$menu_homepage = '
+$menu_home = '
         <li>
-            <a href="homepage.php">'.$_SESSION['username'].'</a>
+            <a href="home.php">'.$_SESSION['username'].'</a>
         </li>
             ';
 }

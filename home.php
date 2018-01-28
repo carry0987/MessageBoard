@@ -32,7 +32,7 @@ echo '
 
 if(isset($_GET['page'])) {
   if($_GET['page'] == '1' || $_GET['page'] == '0' || $_GET['page'] == '') {
-    header('Location: ./homepage.php');
+    header('Location: ./home.php');
   } else {
     $page = $_GET['page'];
   }
@@ -95,7 +95,7 @@ echo '<h1 style="text-align: center; margin: 0;">'.$lang_message_my_list.'</h1>'
   } else {
     echo '
           <div class="novalue">
-            <a>'.$lang_homepage_content_empty.'</a>
+            <a>'.$lang_home_content_empty.'</a>
           </div>
         ';
   }
@@ -111,7 +111,7 @@ echo '<h1 style="text-align: center; margin: 0;">'.$lang_message_my_list.'</h1>'
 if($result->num_rows > 0) {
   echo "<div class=\"pages\">\n";
 if($page > 1) {
-  echo '<a class="pages_tag" href="homepage.php?page='.($page-1).'">'.$lang_next_page.'</a>';
+  echo '<a class="pages_tag" href="home.php?page='.($page-1).'">'.$lang_next_page.'</a>';
 }
 
 $start = 1;
@@ -145,7 +145,7 @@ for($i = $start; $i <= $end; $i++){
     if($page == $i){ 
       echo '<a class="active">'.$i.'</a>';
   }else{  
-     echo '<a class="pages_tag" href="homepage.php?page='.$i.'">'.$i.'</a>';
+     echo '<a class="pages_tag" href="home.php?page='.$i.'">'.$i.'</a>';
   }
 }
 
@@ -154,7 +154,7 @@ if($total_pages > $showpage && $total_pages > $page + $pageoffset){
 }
 
 if($page < $total_pages){
-echo '<a class="pages_tag" href="homepage.php?page='.($page+1).'">'.$lang_next_page.'</a>';
+echo '<a class="pages_tag" href="home.php?page='.($page+1).'">'.$lang_next_page.'</a>';
 }
 echo "\t</div>\n";
 }

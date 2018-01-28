@@ -15,7 +15,7 @@ echo '
   echo $menu_index;
 if(!empty($_SESSION['username']))
 {
-  echo $menu_homepage;
+  echo $menu_home;
   echo $menu_logout;
 } else {
   echo $menu_login;

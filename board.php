@@ -13,7 +13,7 @@ if(!empty($_SESSION['username']))
   if($now_admin == 1) {
     echo $menu_admin;
   }
-  echo $menu_homepage;
+  echo $menu_home;
   echo $menu_logout;
 } else {
   echo $menu_login;

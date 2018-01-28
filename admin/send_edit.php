@@ -56,7 +56,7 @@ if($success == '1') {
 } else {
     echo '
       <script>
-        alert("'.$lang_not_author.'");location.href="../homepage.php";
+        alert("'.$lang_not_author.'");location.href="../home.php";
       </script>
         ';
 }
