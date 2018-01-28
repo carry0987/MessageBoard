@@ -118,7 +118,7 @@ if(!isset($_POST['submit'])) {
         </table>
         <br />
         <div class="submit">
-            <button type="submit" name="submit">Sighup</button>
+            <button type="submit" name="submit">'.$lang_signup.'</button>
         </div>
     </form>
 </div>';
