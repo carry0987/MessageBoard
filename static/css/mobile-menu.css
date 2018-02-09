@@ -1,6 +1,6 @@
 @media all and (max-width: 800px) {
     #cssmenu {
-        background: #333333;
+        background: #2FE2B3;
     }
     #cssmenu>ul {
         display: none;
@@ -28,14 +28,14 @@
 
     #cssmenu>ul>li:hover>a,
     #cssmenu>ul>li.active>a {
-        background: rgba(0, 0, 0, 0.1);
+        background: #FE7981;
     }
     #cssmenu #menu-button {
         display: block;
         text-decoration: none;
         font-size: 1em;
         font-weight: 700;
-        color: #dddddd;
+        color: #ffffff;
         padding: 18px 25px 18px 25px;
         letter-spacing: 1px;
         cursor: pointer;
@@ -80,8 +80,8 @@
         position: absolute;
         height: 3px;
         width: 22px;
-        border-top: 2px solid #dddddd;
-        border-bottom: 2px solid #dddddd;
+        border-top: 2px solid #ffffff;
+        border-bottom: 2px solid #ffffff;
         right: 25px;
         top: 18px;
     }
@@ -91,7 +91,7 @@
         position: absolute;
         height: 3px;
         width: 22px;
-        border-top: 2px solid #dddddd;
+        border-top: 2px solid #ffffff;
         right: 25px;
         top: 28px;
     }

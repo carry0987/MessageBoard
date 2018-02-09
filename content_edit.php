@@ -91,7 +91,7 @@ if($result) {
 if(!empty($_GET['id']) && $row = $result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
           echo '
-          <form action="./admin/send_edit.php?id='.$_GET['id'].'" method="post">
+          <form action="./admin/send_msg_edit.php?id='.$_GET['id'].'" method="post">
           <table class="content_edit">
             <tbody>
               <tr>

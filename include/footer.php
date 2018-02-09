@@ -22,8 +22,22 @@ $today = date("l F jS, Y");
         </select>
       </div>
       <div id="footer">
-          <p>Made By <a class="developer" href="https://carry0987.github.io/" target="_blank">carry0987</a> <?php echo $version; ?></p>
+          <p><img class="rotate" src="./static/icon/logo.png"><br>
+            Made By <a class="developer" href="https://carry0987.github.io/" target="_blank">carry0987</a> <?php echo $version; ?></p>
       </div>
+    <script type="text/javascript">
+        var degrees = 0;
+        $(".rotate").click(function(){
+            degrees += 360;
+            $(this).css({
+                "transform" : "rotate("+degrees+"deg)",
+                "-ms-transform" : "rotate("+degrees+"deg)",
+                "-moz-transform" : "rotate("+degrees+"deg)",
+                "-webkit-transform" : "rotate("+degrees+"deg)",
+                "-o-transform" : "rotate("+degrees+"deg)"
+            });
+        });
+    </script>
     </footer>
     </div>
     <script src="./static/js.php?file=menu.js" type="text/javascript"></script>

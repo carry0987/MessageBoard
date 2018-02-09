@@ -31,6 +31,16 @@ CREATE TABLE IF NOT EXISTS msg (
   date datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 
+$create_reply = '
+CREATE TABLE IF NOT EXISTS reply (
+  id int(11) UNSIGNED NOT NULL,
+  username varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  content varchar(100000) COLLATE utf8_unicode_ci NOT NULL,
+  article_id varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  board_id int(3) NOT NULL,
+  date datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
+
 $create_user = '
 CREATE TABLE IF NOT EXISTS user (
   id int(11) UNSIGNED NOT NULL,
@@ -57,11 +67,13 @@ CREATE TABLE IF NOT EXISTS config (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 
 $add_msg_pk  = 'ALTER TABLE msg ADD PRIMARY KEY (id)';
+$add_reply_pk  = 'ALTER TABLE reply ADD PRIMARY KEY (id)';
 $add_user_pk  = 'ALTER TABLE user ADD PRIMARY KEY (id)';
 $add_board_pk  = 'ALTER TABLE board ADD PRIMARY KEY (id)';
 $add_config_pk  = 'ALTER TABLE config ADD PRIMARY KEY (id)';
 
 $set_msg_ai = 'ALTER TABLE msg MODIFY id int(11) UNSIGNED NOT NULL AUTO_INCREMENT';
+$set_reply_ai = 'ALTER TABLE msg MODIFY id int(11) UNSIGNED NOT NULL AUTO_INCREMENT';
 $set_user_ai = 'ALTER TABLE user MODIFY id int(11) UNSIGNED NOT NULL AUTO_INCREMENT';
 $set_board_ai = 'ALTER TABLE board MODIFY id int(3) UNSIGNED NOT NULL AUTO_INCREMENT';
 $set_config_ai = 'ALTER TABLE config MODIFY id int(1) UNSIGNED NOT NULL AUTO_INCREMENT';
@@ -85,14 +97,17 @@ VALUES (NULL, \''.$web_name.'\', \'This MessageBoard was made by carry0987\', \'
 if(!empty($admin_username) && !empty($admin_password) && !empty($web_email) && !empty($web_name)) {
   $con->query($set_first);
   $con->query($create_msg);
+  $con->query($create_reply);
   $con->query($create_user);
   $con->query($create_board);
   $con->query($create_config);
   $con->query($add_msg_pk);
+  $con->query($add_reply_pk);
   $con->query($add_user_pk);
   $con->query($add_board_pk);
   $con->query($add_config_pk);
   $con->query($set_msg_ai);
+  $con->query($set_reply_ai);
   $con->query($set_user_ai);
   $con->query($set_board_ai);
   $con->query($set_config_ai);
@@ -103,10 +118,12 @@ if(!empty($admin_username) && !empty($admin_password) && !empty($web_email) && !
 }
 
 $check_table_msg_exists = 'SELECT id FROM msg';
+$check_table_reply_exists = 'SELECT id FROM reply';
 $check_table_user_exists = 'SELECT id FROM user';
 $check_table_board_exists = 'SELECT id FROM board';
 $check_table_config_exists = 'SELECT id,session_id FROM config';
 $if_msg_exists = $con->query($check_table_msg_exists);
+$if_reply_exists = $con->query($check_table_reply_exists);
 $if_user_exists = $con->query($check_table_user_exists);
 $if_board_exists = $con->query($check_table_board_exists);
 $if_config_exists = $con->query($check_table_config_exists);

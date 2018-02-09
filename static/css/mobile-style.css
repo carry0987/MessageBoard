@@ -29,8 +29,15 @@
         width: auto;
     }
 
-    .add_board {
-        width: 100%;
+    .admin>table a {
+        font-size: 1em;
+        font-weight: bold;
+        color: #0366d6;
+        text-decoration: none;
+    }
+
+    h1 {
+        font-size: 1.5em;
     }
 
     .change_language {
@@ -54,7 +61,18 @@
         font-size: 1em;
     }
 
+    /* board */
+    
+    .add_board {
+        width: 100%;
+    }
+
+    .board_name {
+        width: 100%;
+    }
+
     /* message */
+
     .message_div{
         width: 100%;
     }
@@ -74,9 +92,13 @@
     }
 
     .box {
-        width: 100%;
+        width: 90%;
         margin-top: 1%;
         margin-bottom: 5%;
+    }
+
+    .box th {
+        width: 70%;
     }
 
     .box td {

@@ -57,7 +57,7 @@ $row = $result->fetch_assoc();
     }
     echo '<p class="from">'.$lang_board_from.'：'.$send_from.'</p>'."\n";
     echo "</header>\n";
-    echo "<div class='box-content'>\n".htmlspecialchars_decode($row['content'])."\n</div>\n";
+    echo "<div class='box_content'>\n".htmlspecialchars_decode($row['content'])."\n</div>\n";
     echo "</div>";
 } else {
   echo '

@@ -11,7 +11,7 @@ if (isset($_POST['delete_message']) && $now_admin == 1) {
         }
         echo '
         <script>
-          alert("'.$lang_delete_success.'");location.href="../admin.php";
+          alert("'.$lang_delete_success.$_SESSION['username'].'");location.href="../admin.php";
         </script>
         ';
     } else {

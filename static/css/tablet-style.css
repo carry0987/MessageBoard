@@ -26,6 +26,7 @@
     }
 
     /* message */
+    
     .message_div{
         width: 90%;
     }
@@ -39,7 +40,7 @@
     }
 
     .box {
-        width: 80%;
+        width: 90%;
         margin-top: 1%;
         margin-bottom: 5%;
     }

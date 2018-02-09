@@ -10,7 +10,7 @@ require dirname(__FILE__).'/../admin/check_language.php';
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0 ,maximum-scale=1.0, initial-scale=1" user-scalable="no">
     <title><?php echo $lang_installing; ?></title>
     <link href="../static/css.php?file=style.css" rel="stylesheet" type="text/css">
     <link href="../static/css.php?file=mobile-style.css" rel="stylesheet" type="text/css">

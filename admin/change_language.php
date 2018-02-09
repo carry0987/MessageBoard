@@ -10,14 +10,14 @@ if($select_language == 'zh_TW') {
   setcookie("language","zh_TW",time()+86400,$path1);
   setcookie("language","zh_TW",time()+86400,$path2);
     echo '<script>';
-    echo 'alert("Language : Chinese");location.href="../";';
+    echo 'alert("Language : Chinese");history.back(0);';
     echo '</script>';
 } else {
   $select_language == 'en_US';
   setcookie("language","en_US",time()+86400,$path1);
   setcookie("language","en_US",time()+86400,$path2);
     echo '<script>';
-    echo 'alert("Language : English");location.href="../";';
+    echo 'alert("Language : English");history.back(0);';
     echo '</script>';
 }
 ?>

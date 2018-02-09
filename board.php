@@ -61,20 +61,62 @@ $total = $total_result->num_rows;
 $total_pages = ceil($total/$results_per_page);
 $pageoffset = ($showpage-1)/2;
 
-echo '<h1 style="text-align: center; margin: 0;">'.$board_row['board_name'].'</h1>';
-echo '<h1 style="text-align: center; margin: 0;">'.$lang_message_list.'</h1>';
+/* Today Post */
+$today_string = date("Y-m-d");
+$today_sql = 'SELECT id FROM msg WHERE date = '."\"$today_string\"";
+$today_result = $con->query($today_sql);
+$today = $today_result->num_rows;
+
+echo '
+  <div class="board_name">
+    <table>
+      <tbody>
+        <tr>
+          <th><a href="././board.php?board_id='.$_GET['board_id'].'">'.$board_row['board_name'].'</a></th>
+          <td>'.$lang_today_post.':<a class="total_post">'.$today.'</a></td>
+          <td>'.$lang_total_post.':<a class="total_post">'.$total.'</a></td>
+          <td><img class="refresh" src="./static/image/refresh.svg"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  ';
+echo '
+  <script type="text/javascript">
+    var degrees = 0;
+      $(".refresh").click(function(){
+        degrees += 360;
+        $(this).css({
+          "transform" : "rotate("+degrees+"deg)",
+          "-ms-transform" : "rotate("+degrees+"deg)",
+          "-moz-transform" : "rotate("+degrees+"deg)",
+          "-webkit-transform" : "rotate("+degrees+"deg)",
+          "-o-transform" : "rotate("+degrees+"deg)"
+        });
+      });
+  </script>
+  ';
+//echo '<h1 style="text-align: center; margin: 0;">'.$lang_message_list.'</h1>';
 echo '<br />';
 
 if($result->num_rows > 0) {
     echo '
     <div class="box">
       <table>
+        <tbody>
+          <tr>
+            <th>'.$lang_title.'</th>
+            <td class="by">'.$lang_author.'</td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
       ';
 while($row = $result->fetch_assoc()) {
   $format = 'Y-m-d';
   $date = date($format, strtotime($row['date']));
     echo '
-          <tbody>
+          <tbody class="box_tbody">
             <tr>
               <th>
                 <a href=./content.php?id='.$row['id'].' target="_blank">'.$row['title'].'</a>
@@ -160,59 +202,6 @@ if($page < $total_pages){
 echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.($page+1).'">'.$lang_next_page.'</a>';
 }
 echo "\t</div>\n";
-}
-
-if(!empty($_SESSION['username'])) {
-echo '
-<div class="message_div">
-    <form class="message_form" onsubmit="message_check();" action="./admin/send_message.php?board_id='.input_safety($_GET['board_id']).'" method="post">
-        <table class="message">
-          <tr>
-            <td class="message-title">'.$lang_title.'：</td>
-            <td class="message-title">
-                <input class="message-input" id="title" type="text" name="title" placeholder="Title" maxlength="50">
-            </td>
-          </tr>
-          <tr>
-            <td class="message-content">'.$lang_content.'：</td>
-            <td class="message-content">
-              <script src="./static/js/ckeditor/ckeditor.js"></script>
-                <textarea class="message-text" id="message" 
-                type="text" name="message" placeholder="Message" 
-                rows="7" cols="50" maxlength="100"></textarea>
-              <script>
-                CKEDITOR.replace( "message", {});
-              </script>
-            </td>
-          </tr>
-        </table>
-        <br />
-        <div class="submit">
-          <button type="submit" name="submit">'.$lang_submit.'</button>
-        </div>
-    </form>
-</div>
-';
-} else {
-echo '
-<div class="message_div">
-    <form class="message_form" onsubmit="message_check();" action="./admin/send_message.php?board_id='.input_safety($_GET['board_id']).'" method="post">
-        <table class="message">
-          <tr>
-            <td class="message-content">
-                <textarea class="message-text-n" id="message" 
-                type="text" name="message" placeholder="Message" 
-                rows="3" cols="20" maxlength="100" readonly="readonly">'.$lang_not_login.'</textarea>
-            </td>
-          </tr>
-        </table>
-        <br />
-        <div class="submit">
-          <button type="submit" name="submit" disabled="disabled">'.$lang_submit.'</button>
-        </div>
-    </form>
-</div>
-';
 }
 ?>
 

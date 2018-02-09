@@ -4,10 +4,11 @@
 
 body {
 	font-family: Verdana,Helvetica,Arial,sans-serif;
+    margin: 0px;
 }
 
 #mainwrapper {
-    background-color: #ffffff;
+    background-color: #F9F9F9;
     overflow: auto;
     font-style: normal;
     font-weight: 400;
@@ -24,7 +25,7 @@ body {
     width: auto;
     height: auto;
     color: #929292;
-    background-color: #d0cfcf;
+    background-color: #F9F9F9;
 }
 
 #logo {
@@ -72,13 +73,6 @@ body {
     font-weight: bold;
     color: #0366d6;
     text-decoration: none;
-}
-
-
-.add_board {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .infomation {
@@ -174,12 +168,13 @@ body {
 
 /* index.php */
 .box {
-    width: 50%;
+    width: 70%;
     height: auto;
     margin-left: auto;
     margin-right: auto;
     margin-top: 0;
     margin-bottom: 1%;
+    background-color: #ffffff;
 }
 
 .box table {
@@ -192,7 +187,7 @@ body {
     margin-right: auto;
 }
 
-.box tbody:hover {
+.box_tbody:hover {
     background-color: #F1F1F1;
 }
 
@@ -204,6 +199,7 @@ body {
 }
 
 .box th {
+    width: 80%;
     text-align: left;
     padding-right: 1.5em;
     padding-left: 1.5em;
@@ -274,7 +270,7 @@ body {
     margin-top: 0;
 }
 
-.box-content {
+.box_content {
     border-top-color: #cccccc;
     border-top-style: solid;
     border-top-width: 1px;
@@ -377,6 +373,150 @@ body {
     cursor: pointer;
     color: #ffffff;
     background-color: #4582FF;
+}
+
+/* board */
+
+.add_board {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.board_name {
+    width: 70%;
+    margin: auto;
+    background-color: #ffffff;
+}
+
+.board_name th {
+    padding: 0.5em;
+}
+
+.board_name td {
+    padding: 0.5em;
+    font-size: 1.0em;
+}
+
+.board_name th a {
+    color: #000000;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.board_name th a:hover {
+    cursor: pointer;
+    color: #41C2A0;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: #41C2A0;
+}
+
+.board_name .total_post {
+    color: #F26C4F;
+    font-weight: bold;
+    font-size: 1.0em;
+}
+
+.board_name img.refresh {
+    width: 20px;
+    height: 20px;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+}
+
+.board {
+    width: 82%;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.board ol {
+    padding-left: 0;
+    margin-top: 0;
+    display: -webkit-flex;
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    -webkit-flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-around;
+}
+
+.board li {
+    display: -webkit-flex;
+    display: flex;
+    width: 359px;
+    margin-bottom: 16px;
+    padding: 16px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #d1d5da;
+    border-radius: 3px;
+    background-color: #ffffff;
+}
+
+.board .board_list {
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+}
+
+.board_list>span {
+    position: relative;
+}
+
+.board_list>span>a {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #000000;
+    text-decoration: none;
+}
+
+.board_list>span>a:hover {
+    cursor: pointer;
+    color: #41C2A0;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: #41C2A0;
+}
+
+.board_list .p1 {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: auto;
+    -webkit-box-flex: 1;
+    color: #586069;
+    margin-bottom: 16px;
+    margin-top: 8px;
+    -webkit-flex-grow: 1;
+    -webkit-flex-shrink: 0;
+    -webkit-flex-basis: auto;
+}
+
+.board_list .p2 {
+    font-size: small;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.board_list>p:last-child>span {
+    background-color: #f1e05a;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
 }
 
 /* login */
@@ -721,7 +861,7 @@ footer {
     text-align: center;
     width: auto;
     height: auto;
-    background-color: #ffffff;
+    background-color: #F9F9F9;
     border: 0px;
 }
 
@@ -765,3 +905,15 @@ footer p {
     border-bottom-style: solid;
     border-bottom-color: #0366d6;
 }
+
+/* Other */
+.rotate {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+}
+

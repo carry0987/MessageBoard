@@ -31,37 +31,37 @@ echo '<h1 style="text-align: center; margin: 0;">'.$lang_board_list.'</h1>';
 
 if($result->num_rows > 0) {
     echo '
-    <div class="box">
-      <table>
+    <div class="board">
+        <ol>
       ';
 while($row = $result->fetch_assoc()) {
   $format = 'Y-m-d';
   $date = date($format, strtotime($row['date']));
-  if(mb_strlen($row['board_description'],'utf-8') > 25) {
-    $board_description = mb_substr($row['board_description'],0,25,'utf-8').'...';
+  if(mb_strlen($row['board_description'],'utf-8') > 50) {
+    $board_description = mb_substr($row['board_description'],0,50,'utf-8').'...';
   } else {
-    $board_description = mb_substr($row['board_description'],0,25,'utf-8');
+    $board_description = mb_substr($row['board_description'],0,50,'utf-8');
   }
     echo '
-          <tbody>
-            <tr>
-              <th>
-                <a href=./board.php?board_id='.$row['id'].' target="_blank">'.$row['board_name'].'</a>
-              </th>
-              <td>
-                <a>'.$board_description.'</a>
-              </td>
-              <td class="by">
-                <em>
-                  <span>'.$date.'</span>
-                </em>
-              </td>
-            </tr>
-          </tbody>
+            <li>
+                <div class="board_list">
+                    <span>
+                      <a href=./board.php?board_id='.$row['id'].'>
+                        <span>'.$row['board_name'].'</span>
+                      </a>
+                    </span>
+                    <p class="p1">'.$board_description.'</p>
+                    <p class="p2">
+                      <em>
+                        <span>'.$date.'</span>
+                      </em>
+                    </p>
+                </div>
+            </li>
          ';
 }
 echo '
-    </table>
+    </ol>
   </div>
     ';
 } else {

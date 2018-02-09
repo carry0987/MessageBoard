@@ -53,10 +53,14 @@ $total_pages = ceil($total/$results_per_page);
 $pageoffset = ($showpage-1)/2;
 
 if(!empty($_SESSION['username'])) {
+  $current_user_sql = 'SELECT id FROM user WHERE username = '."\"$name\"";
+  $current_user_result = $con->query($current_user_sql);
+  $current_user_row = $current_user_result->fetch_array();
 echo '<h1 style="text-align: center; margin: 0;">'.$lang_message_my_list.'</h1>';
 
   if($row = $result->num_rows > 0) {
       echo '
+    <form action="./admin/delete_message.php?user_id='.$current_user_row['id'].'" method="post">
       <div class="box">
         <table>
         ';
@@ -66,6 +70,9 @@ echo '<h1 style="text-align: center; margin: 0;">'.$lang_message_my_list.'</h1>'
       echo '
             <tbody>
               <tr>
+                <td class="delete">
+                    <input type="checkbox" name="checkbox[]" value="'.$row["id"].'">
+                </td>
                 <th>
                   <a href=./content_edit.php?id='.$row["id"].'>'.$row["title"].'</a>
                 </th>
@@ -84,7 +91,12 @@ echo '<h1 style="text-align: center; margin: 0;">'.$lang_message_my_list.'</h1>'
   }
       echo '
           </table>
+          <br />
+          <div class="submit">
+            <button type="submit" name="delete_message">'.$lang_delete_message.'</button>
+          </div>
         </div>
+      </form>
           ';
   } elseif ($total_result->num_rows > 0) {
     echo '
