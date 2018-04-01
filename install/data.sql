@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS reply (
 CREATE TABLE IF NOT EXISTS user (
   id int(11) UNSIGNED NOT NULL,
   username varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  password varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  password varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   email varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   is_admin varchar(1) COLLATE utf8mb4_unicode_ci NOT NULL,
   date datetime NOT NULL
@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS config (
   id int(1) UNSIGNED NOT NULL,
   web_name varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   web_description varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
+  site_path varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   recaptcha_site varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
   recaptcha_secret varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
   session_id varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL

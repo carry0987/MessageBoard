@@ -15,29 +15,36 @@ $admin_username = input_safety($_POST['admin_username']);
 $admin_password = password_hash(input_safety($_POST['admin_password']), PASSWORD_DEFAULT);
 $recaptcha_site = input_safety($_POST['recaptcha_site']);
 $recaptcha_secret = input_safety($_POST['recaptcha_secret']);
-$default_board = 'Default';
-$default_sort = 'Default Sort';
 $get_time = date('Y-m-d H:i:s');
+$get_url = $_SERVER['HTTP_HOST'].dirname(dirname($_SERVER['PHP_SELF']));
 
 $insert_demo_article = '
 INSERT INTO article (id, username, title, content, board_id, sort_id, date) 
-VALUES (NULL, \''.$admin_username.'\', \'Welcome\', \'Welcome To '.$web_name.' !\', \'1\', \'1\', \''.$get_time.'\')';
+VALUES (\'1\', \''.$admin_username.'\', \'Welcome\', \'Welcome To '.$web_name.' !\', \'1\', \'1\', \''.$get_time.'\')';
 
 $insert_demo_user = '
 INSERT INTO user (id, username, password, email, is_admin, date) 
-VALUES (NULL, \''.$admin_username.'\', \''.$admin_password.'\', \''.$user_email.'\', \'1\', \''.$get_time.'\')';
+VALUES (\'1\', \''.$admin_username.'\', \''.$admin_password.'\', \''.$user_email.'\', \'1\', \''.$get_time.'\')';
 
 $insert_board = '
 INSERT INTO board (id, board_name, board_description, sort_id, date) 
-VALUES (NULL, \''.$default_board.'\', \'This MessageBoard was made by carry0987\', \'1\', \''.$get_time.'\')';
+VALUES (\'1\', \'Default\', \'This MessageBoard was made by carry0987\', \'1\', \''.$get_time.'\')';
 
 $insert_sort = '
 INSERT INTO sort (id, sort_name, sort_description, date) 
-VALUES (NULL, \''.$default_sort.'\', \'Default Sort\', \''.$get_time.'\')';
+VALUES (\'1\', \'Default Sort\', \'Default Sort\', \''.$get_time.'\')';
 
 $insert_config = '
-INSERT INTO config (id, web_name, web_description,  recaptcha_site, recaptcha_secret, session_id) 
-VALUES (NULL, \''.$web_name.'\', \'This MessageBoard was made by carry0987\', \''.$recaptcha_site.'\', \''.$recaptcha_secret.'\', \''.$session_id.'\')';
+INSERT INTO config (id, web_name, web_description, site_path, recaptcha_site, recaptcha_secret, session_id) 
+VALUES (
+\'1\',
+ \''.$web_name.'\',
+  \'This MessageBoard was made by carry0987\',
+   \''.$get_url.'\',
+    \''.$recaptcha_site.'\',
+     \''.$recaptcha_secret.'\',
+      \''.$session_id.'\'
+    )';
 
 if(!empty($admin_username) && !empty($admin_password) && !empty($user_email) && !empty($web_name) && !empty($recaptcha_site) && !empty($recaptcha_secret)) {
   $sql = file_get_contents('data.sql');

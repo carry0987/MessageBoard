@@ -3,6 +3,12 @@ header('content-type:text/html;charset=utf-8');
 require_once dirname(__FILE__).'/condb.php';
 require dirname(__FILE__).'/input_safety.php';
 require dirname(__FILE__).'/check_language.php';
+$site_path = 'SELECT site_path FROM config WHERE id = 1';
+$site_path_query = $con->query($site_path);
+if ($site_path_query && $site_path_query->num_rows > 0) {
+    $site_path_row = $site_path_query->fetch_assoc();
+    $base_url = (isset($_SERVER['HTTPS'])?"https":"http") . '://' . $site_path_row['site_path'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,12 +18,12 @@ require dirname(__FILE__).'/check_language.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0 ,maximum-scale=1.0, initial-scale=1" user-scalable="no">
     <title>Waiting...</title>
-    <link href="../static/css.php?file=style.css" rel="stylesheet" type="text/css">
-    <link href="../static/css.php?file=mobile-style.css" rel="stylesheet" type="text/css">
-    <link href="../static/css.php?file=tablet-style.css" rel="stylesheet" type="text/css">
-    <link href="../static/css.php?file=menu.css" rel="stylesheet" type="text/css">
-    <link href="../static/css.php?file=mobile-menu.css" rel="stylesheet" type="text/css">
-    <link href="../static/css.php?file=command.css" rel="stylesheet" type="text/css">
+    <link href="<?=$base_url?>/static/static.php?file=style.css" rel="stylesheet" type="text/css">
+    <link href="<?=$base_url?>/static/static.php?file=mobile-style.css" rel="stylesheet" type="text/css">
+    <link href="<?=$base_url?>/static/static.php?file=tablet-style.css" rel="stylesheet" type="text/css">
+    <link href="<?=$base_url?>/static/static.php?file=menu.css" rel="stylesheet" type="text/css">
+    <link href="<?=$base_url?>/static/static.php?file=mobile-menu.css" rel="stylesheet" type="text/css">
+    <link href="<?=$base_url?>/static/static.php?file=command.css" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="../favicon.ico" />
     <noscript>
         <meta http-equiv="refresh" content="0;url=../static/noscript">
@@ -65,6 +71,6 @@ if (!empty($_SESSION['username'])) {
 }
 ?>
     <div id="logo">
-        <img id="logo-img" src="../static/icon/logo.png" alt="logo">
+        <a href="<?=$base_url?>"><img id="logo-img" src="../static/icon/logo.png" alt="logo"></a>
     </div>
 </header>
