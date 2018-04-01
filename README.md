@@ -16,7 +16,7 @@ You must **not** edit :<br />
 $version = 'vx.x.x';                      //Don't edit it !
 ```
 ## Support
-- PHP ≧ 5.5
+- PHP ≧ 7
 - Mysqli
 
 ## Feature
