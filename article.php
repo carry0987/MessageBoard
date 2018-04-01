@@ -95,6 +95,7 @@ if($result->num_rows > 0) {
 $index_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]";
 $board_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]";
 $article_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+if ($result && $result->num_rows > 0) {
 echo '
     <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
         <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
@@ -121,6 +122,7 @@ echo '
         </span>
     </span>
     ';
+}
 ?>
 
 <?php require dirname(__FILE__).'/include/footer.php'; ?>
