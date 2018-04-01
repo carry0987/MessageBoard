@@ -13,7 +13,7 @@ $Board_id = $board_row['id'];
 
 if(!empty($_SESSION['username'])) {
   echo '
-    <script src="../static/jquery.php?file=jquery.min.js"></script>
+    <script src="../static/static.php?file=jquery.min.js"></script>
     <link rel="stylesheet" href="../static/js/editor/development/themes/default.css" id="theme-style" />
     <script src="../static/js/editor/development/sceditor.js"></script>
     <script src="../static/js/editor/development/icons/monocons.js"></script>

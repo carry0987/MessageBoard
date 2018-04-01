@@ -12,6 +12,10 @@ switch ($file) {
         header('content-type:text/css;charset=utf-8');
         readfile('./css/'.input_safety($_GET['file']));
         break;
+    case ($file === 'svg'):
+        header('content-type:image/svg+xml;charset=utf-8');
+        readfile('./icon/'.input_safety($_GET['file']));
+        break;
     default:
         echo 'Access Denied !';
         break;
