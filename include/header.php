@@ -19,13 +19,13 @@ require dirname(__FILE__).'/../function/check_language.php';
     <meta property="fb:app_id" content="1455782504488287">
     <meta property="og:image" content="https://www.nehscsa.com/icnc/fblogo1.png">
     <link href="./static/icon/logo.png" rel="apple-touch-icon" />
-    <link href="./static/css.php?file=style.css" rel="stylesheet" type="text/css">
-    <link href="./static/css.php?file=mobile-style.css" rel="stylesheet" type="text/css">
-    <link href="./static/css.php?file=tablet-style.css" rel="stylesheet" type="text/css">
-    <link href="./static/css.php?file=menu.css" rel="stylesheet" type="text/css">
-    <link href="./static/css.php?file=mobile-menu.css" rel="stylesheet" type="text/css">
+    <link href="./static/static.php?file=style.css" rel="stylesheet" type="text/css">
+    <link href="./static/static.php?file=mobile-style.css" rel="stylesheet" type="text/css">
+    <link href="./static/static.php?file=tablet-style.css" rel="stylesheet" type="text/css">
+    <link href="./static/static.php?file=menu.css" rel="stylesheet" type="text/css">
+    <link href="./static/static.php?file=mobile-menu.css" rel="stylesheet" type="text/css">
     <link href="./favicon.ico" rel="shortcut icon" />
-    <script src="./static/jquery.php?file=jquery.min.js" type="text/javascript"></script>
+    <script src="./static/static.php?file=jquery.min.js" type="text/javascript"></script>
     <!--
     <noscript>
         <meta http-equiv="refresh" content="0;url=./static/noscript">

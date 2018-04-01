@@ -41,6 +41,6 @@ $today = date("l F jS, Y");
     </script>
     </footer>
   </div>
-    <script src="./static/js.php?file=menu.js" type="text/javascript"></script>
+    <script src="./static/static.php?file=menu.js" type="text/javascript"></script>
 </body>
 </html>

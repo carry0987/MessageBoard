@@ -30,6 +30,7 @@ if(!empty($_SESSION['username'])) {
     <script>
     var textarea = document.getElementById("article");
     sceditor.create(textarea, {
+        ltr: true,
         format: "bbcode",
         icons: "monocons",
         style: "../static/js/editor/development/themes/content/default.css"

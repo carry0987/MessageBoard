@@ -159,6 +159,8 @@ div.sceditor-grip {
     More info at: http://lesselements.com
   ---------------------------------------------------*/
 .sceditor-container {
+  margin-left: auto;
+  margin-right: auto;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
@@ -188,7 +190,6 @@ div.sceditor-grip {
 div.sceditor-dropdown,
 div.sceditor-dropdown div {
   padding: 0;
-  margin: 0;
   z-index: 3;
 }
 .sceditor-container iframe,

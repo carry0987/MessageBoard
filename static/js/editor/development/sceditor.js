@@ -1253,28 +1253,28 @@
         emoticonsRoot: '',
         emoticons: {
             dropdown: {
-                ':)': 'emoticons/smile.svg',
-                ':scile-cry': 'emoticons/smile-crying.svg',
-                ':angel:': 'emoticons/angel.svg',
-                ':angry:': 'emoticons/angry.svg',
-                '8-)': 'emoticons/cool.svg',
-                ':\'(': 'emoticons/cwy.svg',
-                ':ermm:': 'emoticons/ermm.svg',
-                ':(': 'emoticons/sad.svg',
-                ':O': 'emoticons/shocked.svg',
-                ':P': 'emoticons/tongue.svg',
-                ';)': 'emoticons/wink.svg'
+                ':)': '../static/js/editor/emoticons/smile.svg',
+                ':scile-cry': '../static/js/editor/emoticons/smile-crying.svg',
+                ':angel:': '../static/js/editor/emoticons/angel.svg',
+                ':angry:': '../static/js/editor/emoticons/angry.svg',
+                '8-)': '../static/js/editor/emoticons/cool.svg',
+                ':\'(': '../static/js/editor/emoticons/cwy.svg',
+                ':ermm:': '../static/js/editor/emoticons/ermm.svg',
+                ':(': '../static/js/editor/emoticons/sad.svg',
+                ':O': '../static/js/editor/emoticons/shocked.svg',
+                ':P': '../static/js/editor/emoticons/tongue.svg',
+                ';)': '../static/js/editor/emoticons/wink.svg'
             },
             more: {
-                ':alien:': 'emoticons/alien.svg',
-                ':devil:': 'emoticons/devil.svg',
-                ':dizzy:': 'emoticons/dizzy.svg',
-                ':happy:': 'emoticons/happy.svg',
-                ':kissing:': 'emoticons/kissing.svg',
-                ':sick:': 'emoticons/sick.svg',
-                ':sleeping:': 'emoticons/sleeping.svg',
-                ':woot:': 'emoticons/w00t.svg',
-                ':wub:': 'emoticons/wub.svg'
+                ':alien:': '../static/js/editor/emoticons/alien.svg',
+                ':devil:': '../static/js/editor/emoticons/devil.svg',
+                ':dizzy:': '../static/js/editor/emoticons/dizzy.svg',
+                ':happy:': '../static/js/editor/emoticons/happy.svg',
+                ':kissing:': '../static/js/editor/emoticons/kissing.svg',
+                ':sick:': '../static/js/editor/emoticons/sick.svg',
+                ':sleeping:': '../static/js/editor/emoticons/sleeping.svg',
+                ':woot:': '../static/js/editor/emoticons/w00t.svg',
+                ':wub:': '../static/js/editor/emoticons/wub.svg'
             }
         },
 
