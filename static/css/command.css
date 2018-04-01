@@ -31,24 +31,12 @@ h1,h2,h3 {
     width: 148px;
 }
 
+/* Submit */
 .submit {
     text-align: center;
     font-size: 2em;
     font-weight: bold;
-    border-color: #000000;
-    background-color: transparent;
-    border-style: solid;
-    width: 50%;
     margin-top: 2%;
-}
-
-.submit:hover {
-    cursor: pointer;
-    border-color: #17dc42;
-    background-color: #448eff;
-    border-style: solid;
-    color: #ffffff;
-    transition: all .2s ease-in-out 0s;
 }
 
 label {

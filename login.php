@@ -2,7 +2,7 @@
 header('content-type:text/html;charset=utf-8');
 ob_start();
 require dirname(__FILE__).'/include/header.php';
-require dirname(__FILE__).'/admin/check_database.php';
+require dirname(__FILE__).'/function/check_database.php';
 
 $change_title = ob_get_contents();
 ob_end_clean();
@@ -44,7 +44,8 @@ if(isset($_POST['submit'])){
       $Username_Err = $lang_username_not_exist;
       $OK = 0;
     }
-    elseif($row['password'] != $Password){
+
+    elseif(!password_verify($Password, $row['password'])) {
       $Password_Err = $lang_wrong_password;
       $OK = 0;
     }

@@ -17,8 +17,8 @@ $today = date("l F jS, Y");
       <div class="change_language">
         <select class="language" name="change_language" onChange="location = this.options[this.selectedIndex].value;">
           <option selected disabled hidden>Language</option>
-          <option value="../admin/change_language.php?lang=en_US">English</option>
-          <option value="../admin/change_language.php?lang=zh_TW">Chinese</option>
+          <option value="../function/change_language.php?lang=en_US">English</option>
+          <option value="../function/change_language.php?lang=zh_TW">Chinese</option>
         </select>
       </div>
       <div id="footer">

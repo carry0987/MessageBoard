@@ -2,7 +2,7 @@
 header('content-type:text/html;charset=utf-8');
 
 if(!empty($_GET['id'])) {
-    $sql = 'SELECT title,content FROM msg WHERE id = '.$_GET['id'];
+    $sql = 'SELECT title,content FROM article WHERE id = '.$_GET['id'];
     $result = $con->query($sql);
 } elseif(!empty($_GET['board_id'])) {
     $sql = 'SELECT board_name,board_description FROM board WHERE id = '.$_GET['board_id'];

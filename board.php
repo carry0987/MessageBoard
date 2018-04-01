@@ -1,6 +1,6 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/admin/check_database.php';
+require dirname(__FILE__).'/function/check_database.php';
 require dirname(__FILE__).'/include/header.php';
 
 echo '
@@ -24,7 +24,8 @@ echo '
 </div>
 ';
 
-if(!empty($_GET['board_id'])) {
+/* Check URL */
+if(!empty($_GET['board_id']) && ctype_digit($_GET['board_id'])) {
 if(isset($_GET['page'])) {
   if($_GET['page'] == '1' || $_GET['page'] == '' || $_GET['page'] == '0') {
   header('Location: ./board.php?board_id='.$_GET['board_id'].'');
@@ -51,11 +52,11 @@ if($board_result) {
 $results_per_page = 7;
 $showpage = 3;
 $this_page_first_result = ($page-1)*$results_per_page;
-$sql = 'SELECT id,username,title,board_id,date FROM msg WHERE board_id = '.input_safety($_GET['board_id']).' 
+$sql = 'SELECT id,username,title,board_id,date FROM article WHERE board_id = '.input_safety($_GET['board_id']).' 
 ORDER BY id DESC LIMIT '.$this_page_first_result.','.$results_per_page;
 $result = $con->query($sql);
 
-$total_sql = 'SELECT board_id FROM msg WHERE board_id = '.input_safety($_GET['board_id']).'';
+$total_sql = 'SELECT board_id FROM article WHERE board_id = '.input_safety($_GET['board_id']).'';
 $total_result = $con->query($total_sql);
 $total = $total_result->num_rows;
 $total_pages = ceil($total/$results_per_page);
@@ -63,9 +64,11 @@ $pageoffset = ($showpage-1)/2;
 
 /* Today Post */
 $today_string = date("Y-m-d");
-$today_sql = 'SELECT id FROM msg WHERE date = '."\"$today_string\"";
+$today_sql = 'SELECT id FROM article WHERE DATE(date) = '."\"$today_string\"";
 $today_result = $con->query($today_sql);
 $today = $today_result->num_rows;
+
+echo '<div class="board">';
 
 echo '
   <div class="board_name">
@@ -73,88 +76,30 @@ echo '
       <tbody>
         <tr>
           <th><a href="././board.php?board_id='.$_GET['board_id'].'">'.$board_row['board_name'].'</a></th>
-          <td>'.$lang_today_post.':<a class="total_post">'.$today.'</a></td>
+          <td>'.$lang_today_post.':<a class="today_post">'.$today.'</a></td>
           <td>'.$lang_total_post.':<a class="total_post">'.$total.'</a></td>
           <td><img class="refresh" src="./static/image/refresh.svg"></td>
         </tr>
       </tbody>
     </table>
+    <div class="board_description">
+      <span>'.$board_row['board_description'].'</span>
+    </div>
   </div>
   ';
+
 echo '
-  <script type="text/javascript">
-    var degrees = 0;
-      $(".refresh").click(function(){
-        degrees += 360;
-        $(this).css({
-          "transform" : "rotate("+degrees+"deg)",
-          "-ms-transform" : "rotate("+degrees+"deg)",
-          "-moz-transform" : "rotate("+degrees+"deg)",
-          "-webkit-transform" : "rotate("+degrees+"deg)",
-          "-o-transform" : "rotate("+degrees+"deg)"
-        });
-      });
-  </script>
+  <div class="post">
+    <div class="post_button">
+        <a class="post_link" href="./function/article_add.php?board_id='.input_safety($_GET['board_id']).'">
+          <span>'.$lang_post_article.'</span>
+        </a>
+    </div>
   ';
-//echo '<h1 style="text-align: center; margin: 0;">'.$lang_message_list.'</h1>';
-echo '<br />';
 
+/* Pages Top */
 if($result->num_rows > 0) {
-    echo '
-    <div class="box">
-      <table>
-        <tbody>
-          <tr>
-            <th>'.$lang_title.'</th>
-            <td class="by">'.$lang_author.'</td>
-          </tr>
-        </tbody>
-      </table>
-      <table>
-      ';
-while($row = $result->fetch_assoc()) {
-  $format = 'Y-m-d';
-  $date = date($format, strtotime($row['date']));
-    echo '
-          <tbody class="box_tbody">
-            <tr>
-              <th>
-                <a href=./content.php?id='.$row['id'].' target="_blank">'.$row['title'].'</a>
-              </th>
-              <td class="by">
-                <cite>
-                  <a>'.$row['username'].'</a>
-                </cite>
-                <br />
-                <em>
-                  <span>'.$date.'</span>
-                </em>
-              </td>
-            </tr>
-          </tbody>
-         ';
-}
-echo '
-    </table>
-  </div>
-    ';
-} elseif ($total_result->num_rows > 0) {
-  echo '
-        <div class="novalue">
-          <a>'.$lang_page_not_found.'</a>
-        </div>
-      ';
-} else {
-  echo '
-        <div class="novalue">
-          <a>'.$lang_index_content_empty.'</a>
-        </div>
-      ';
-}
-
-/* Pages */
-if($result->num_rows > 0) {
-  echo "<div class=\"pages\">\n";
+  echo "\t<div class=\"pages\">\n";
 if($page > 1) {
   echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.($page-1).'">'.$lang_pre_page.'</a>';
 }
@@ -162,8 +107,10 @@ if($page > 1) {
 $start = 1;
 $end = $total_pages;
 if($total_pages > $showpage) {
-    if($page > $pageoffset + 1) {
-        echo '<a class="pages_more">...</a>';
+    if($page > $pageoffset + 2) {
+      echo '<a class="pages_first" href="board.php?board_id='.$_GET['board_id'].'&page=1">1...</a>';
+    } elseif($page == $pageoffset + 2) {
+      echo '<a class="pages_first" href="board.php?board_id='.$_GET['board_id'].'&page=1">1</a>';
     }
 
     if($page > $pageoffset) {
@@ -188,21 +135,209 @@ if($total_pages > $showpage) {
 
 for($i = $start; $i <= $end; $i++){
     if($page == $i){ 
-      echo '<a class="active">'.$i.'</a>';
-  }else{  
-     echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.$i.'">'.$i.'</a>';
+      echo "\t\t<a class=\"active\">".$i."</a>\n";
+  } else {  
+     echo "\t\t<a class=\"pages_tag\" href=\"board.php?board_id=".$_GET['board_id']."&page=".$i."\">".$i."</a>\n";
   }
 }
 
-if($total_pages > $showpage && $total_pages > $page + $pageoffset){
-   echo '<a class="pages_more">...</a>';
+if($total_pages > $showpage && $total_pages > $page + $pageoffset + 1){
+  echo '<a class="pages_final" href="board.php?board_id='.$_GET['board_id'].'&page='.$total_pages.'">...'.$total_pages.'</a>';
+} elseif($total_pages > $showpage && $total_pages == $page + $pageoffset + 1) {
+  echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.$total_pages.'">'.$total_pages.'</a>';
 }
 
 if($page < $total_pages){
-echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.($page+1).'">'.$lang_next_page.'</a>';
+  echo "\t\t<a class=\"pages_tag\" href=\"board.php?board_id=".$_GET['board_id']."&page=".($page+1)."\">".$lang_next_page."</a>";
 }
-echo "\t</div>\n";
+
+echo "
+  \t</div>
+  </div>
+  ";
+} else {
+echo "
+  </div>
+  ";
 }
+
+/* Box */
+if($result->num_rows > 0) {
+    echo '
+    <div class="box">
+      <div class="box_detail">
+        <dl>
+          <dt><span>'.$lang_title.'</span></dt>
+          <dd class="box_reply">'.$lang_reply.'</dd>
+          <dd class="box_latest_reply">'.$lang_final_reply.'</dd>
+        </dl>
+        <ol class="box_ol">
+      ';
+while($row = $result->fetch_assoc()) {
+  if(mb_strlen($row['title'],'utf-8') > 20) {
+      $title = mb_substr($row['title'],0,20,'utf-8').'...';
+    } else {
+      $title = mb_substr($row['title'],0,20,'utf-8');
+    }
+  $format = 'Y-m-d';
+  $date = date($format, strtotime($row['date']));
+    echo '
+          <li class="box_list">
+            <div class="box_title">
+              <a class="box_link" href=./article.php?id='.$row['id'].' target="_blank">'.$title.'</a>
+              <span>'.$row['username'].'</span>
+              <span>, '.$date.'</span>
+            </div>
+          </li>
+         ';
+}
+echo '
+        </ol>
+      </div>
+    </div>
+    ';
+} elseif ($total_result->num_rows > 0) {
+  echo '
+        <div class="novalue">
+          <a>'.$lang_page_not_found.'</a>
+        </div>
+      </div>
+      ';
+} else {
+  echo '
+        <div class="novalue">
+          <a>'.$lang_index_content_empty.'</a>
+        </div>
+      </div>
+      ';
+}
+
+/* Pages Bottom */
+if($result->num_rows > 5) {
+  echo '
+    <div class="post">
+      <div class="post_button">
+          <a class="post_link" href="./function/article_add.php?board_id='.input_safety($_GET['board_id']).'">
+            <span>'.$lang_post_article.'</span>
+          </a>
+      </div>
+    ';
+  echo "\t<div class=\"pages\">\n";
+if($page > 1) {
+  echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.($page-1).'">'.$lang_pre_page.'</a>';
+}
+
+$start = 1;
+$end = $total_pages;
+if($total_pages > $showpage) {
+    if($page > $pageoffset + 2) {
+      echo '<a class="pages_first" href="board.php?board_id='.$_GET['board_id'].'&page=1">1...</a>';
+    } elseif($page == $pageoffset + 2) {
+      echo '<a class="pages_first" href="board.php?board_id='.$_GET['board_id'].'&page=1">1</a>';
+    }
+
+    if($page > $pageoffset) {
+      $start = $page - $pageoffset;
+        if($end = $total_pages > $page + $pageoffset) {
+          $end = $page + $pageoffset;
+        } else {
+          $end = $total_pages;
+        }
+    } else {
+       $start = 1;
+       if($end = $total_pages > $showpage) {
+        $end = $showpage;
+      } else {
+        $end = $total_pages;
+    }
+  }
+    if($page + $pageoffset > $total_pages) {
+       $start = $start - ($page + $pageoffset - $end);
+    }
+} 
+
+for($i = $start; $i <= $end; $i++){
+    if($page == $i){ 
+      echo "\t\t<a class=\"active\">".$i."</a>\n";
+  } else {  
+     echo "\t\t<a class=\"pages_tag\" href=\"board.php?board_id=".$_GET['board_id']."&page=".$i."\">".$i."</a>\n";
+  }
+}
+
+if($total_pages > $showpage && $total_pages > $page + $pageoffset + 1){
+  echo '<a class="pages_final" href="board.php?board_id='.$_GET['board_id'].'&page='.$total_pages.'">...'.$total_pages.'</a>';
+} elseif($total_pages > $showpage && $total_pages == $page + $pageoffset + 1) {
+  echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.$total_pages.'">'.$total_pages.'</a>';
+}
+
+if($page < $total_pages){
+  echo "\t\t<a class=\"pages_tag\" href=\"board.php?board_id=".$_GET['board_id']."&page=".($page+1)."\">".$lang_next_page."</a>";
+}
+
+echo "
+  \t</div>
+  </div>
+</div>
+  ";
+} else {
+echo "
+  </div>
+  ";
+}
+?>
+
+<?php
+/* Breadcrumb */
+$index_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]";
+$board_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+echo '
+    <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+        <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+            <a href="'.str_replace("board.php","",$index_url).'" itemprop="item">
+                <span itemprop="name">'.$main_name.'</span>
+                <meta content="1" itemprop="position" />
+            </a>
+        </span>
+    </span>
+    <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+        <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+            <a href="'.$board_url.'" itemprop="item">
+                <span itemprop="name">'.$board_row['board_name'].'</span>
+                <meta content="2" itemprop="position" />
+            </a>
+        </span>
+    </span>
+    ';
+
+/* Script */
+echo '
+  <script>
+    var degrees = 0;
+      $(".refresh").click(function(){
+        degrees += 360;
+        $(this).css({
+          "transform" : "rotate("+degrees+"deg)",
+          "-ms-transform" : "rotate("+degrees+"deg)",
+          "-moz-transform" : "rotate("+degrees+"deg)",
+          "-webkit-transform" : "rotate("+degrees+"deg)",
+          "-o-transform" : "rotate("+degrees+"deg)"
+        });
+        $.ajax({
+            url: "./function/check_new_article.php",
+            type : "GET",
+            dataType : "text",
+            success: function(result) {
+                $(".today_post").text = result;
+                console.log(result);
+            },
+            error: function(result) {
+                console.log(result);
+            }
+        })
+      });
+  </script>
+  ';
+//echo '<h1 style="text-align: center; margin: 0;">'.$lang_article_list.'</h1>';
 ?>
 
 <?php require dirname(__FILE__).'/include/footer.php'; ?>

@@ -1,6 +1,6 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/../admin/session.php';
+require dirname(__FILE__).'/../function/session.php';
 ob_start();
 require dirname(__FILE__).'/header_install.php';
 $change_title = ob_get_contents();
@@ -10,134 +10,74 @@ $change_title = preg_replace('/(<title>)(.*?)(<\/title>)/i', '$1'.$page_title.'$
 echo $change_title;
 
 $web_name = input_safety($_POST['web_name']);
-$web_email = input_safety($_POST['web_email']);
+$user_email = input_safety($_POST['email']);
 $admin_username = input_safety($_POST['admin_username']);
-$admin_password = input_safety($_POST['admin_password']);
-$default_board = 'default';
-
-$set_first = '
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00"';
-
+$admin_password = password_hash(input_safety($_POST['admin_password']), PASSWORD_DEFAULT);
+$recaptcha_site = input_safety($_POST['recaptcha_site']);
+$recaptcha_secret = input_safety($_POST['recaptcha_secret']);
+$default_board = 'Default';
+$default_sort = 'Default Sort';
 $get_time = date('Y-m-d H:i:s');
 
-$create_msg = '
-CREATE TABLE IF NOT EXISTS msg (
-  id int(11) UNSIGNED NOT NULL,
-  username varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  title varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  content varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
-  board_id int(3) NOT NULL,
-  date datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-
-$create_reply = '
-CREATE TABLE IF NOT EXISTS reply (
-  id int(11) UNSIGNED NOT NULL,
-  username varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  content varchar(100000) COLLATE utf8_unicode_ci NOT NULL,
-  article_id varchar(11) COLLATE utf8_unicode_ci NOT NULL,
-  board_id int(3) NOT NULL,
-  date datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-
-$create_user = '
-CREATE TABLE IF NOT EXISTS user (
-  id int(11) UNSIGNED NOT NULL,
-  username varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  password varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  is_admin varchar(1) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-
-$create_board = '
-CREATE TABLE IF NOT EXISTS board (
-  id int(3) UNSIGNED NOT NULL,
-  board_name varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  board_description varchar(300) COLLATE utf8_unicode_ci NOT NULL,
-  date datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-
-$create_config = '
-CREATE TABLE IF NOT EXISTS config (
-  id int(1) UNSIGNED NOT NULL,
-  web_name varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  web_description varchar(300) COLLATE utf8_unicode_ci NOT NULL,
-  web_email varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  session_id varchar(16) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-
-$add_msg_pk  = 'ALTER TABLE msg ADD PRIMARY KEY (id)';
-$add_reply_pk  = 'ALTER TABLE reply ADD PRIMARY KEY (id)';
-$add_user_pk  = 'ALTER TABLE user ADD PRIMARY KEY (id)';
-$add_board_pk  = 'ALTER TABLE board ADD PRIMARY KEY (id)';
-$add_config_pk  = 'ALTER TABLE config ADD PRIMARY KEY (id)';
-
-$set_msg_ai = 'ALTER TABLE msg MODIFY id int(11) UNSIGNED NOT NULL AUTO_INCREMENT';
-$set_reply_ai = 'ALTER TABLE msg MODIFY id int(11) UNSIGNED NOT NULL AUTO_INCREMENT';
-$set_user_ai = 'ALTER TABLE user MODIFY id int(11) UNSIGNED NOT NULL AUTO_INCREMENT';
-$set_board_ai = 'ALTER TABLE board MODIFY id int(3) UNSIGNED NOT NULL AUTO_INCREMENT';
-$set_config_ai = 'ALTER TABLE config MODIFY id int(1) UNSIGNED NOT NULL AUTO_INCREMENT';
-
-$insert_demo_msg = '
-INSERT INTO msg (id, username, title, content, board_id, date) 
-VALUES (NULL, \''.$admin_username.'\', \'Welcome\', \'Welcome To '.$web_name.' !\', \'1\', \''.$get_time.'\')';
+$insert_demo_article = '
+INSERT INTO article (id, username, title, content, board_id, sort_id, date) 
+VALUES (NULL, \''.$admin_username.'\', \'Welcome\', \'Welcome To '.$web_name.' !\', \'1\', \'1\', \''.$get_time.'\')';
 
 $insert_demo_user = '
-INSERT INTO user (id, username, password, is_admin) 
-VALUES (NULL, \''.$admin_username.'\', \''.$admin_password.'\', \'1\')';
+INSERT INTO user (id, username, password, email, is_admin, date) 
+VALUES (NULL, \''.$admin_username.'\', \''.$admin_password.'\', \''.$user_email.'\', \'1\', \''.$get_time.'\')';
 
 $insert_board = '
-INSERT INTO board (id, board_name, board_description, date) 
-VALUES (NULL, \''.$default_board.'\', \'This MessageBoard was made by carry0987\', \''.$get_time.'\')';
+INSERT INTO board (id, board_name, board_description, sort_id, date) 
+VALUES (NULL, \''.$default_board.'\', \'This MessageBoard was made by carry0987\', \'1\', \''.$get_time.'\')';
+
+$insert_sort = '
+INSERT INTO sort (id, sort_name, sort_description, date) 
+VALUES (NULL, \''.$default_sort.'\', \'Default Sort\', \''.$get_time.'\')';
 
 $insert_config = '
-INSERT INTO config (id, web_name, web_description, web_email, session_id) 
-VALUES (NULL, \''.$web_name.'\', \'This MessageBoard was made by carry0987\', \''.$web_email.'\', \''.$session_id.'\')';
+INSERT INTO config (id, web_name, web_description,  recaptcha_site, recaptcha_secret, session_id) 
+VALUES (NULL, \''.$web_name.'\', \'This MessageBoard was made by carry0987\', \''.$recaptcha_site.'\', \''.$recaptcha_secret.'\', \''.$session_id.'\')';
 
-if(!empty($admin_username) && !empty($admin_password) && !empty($web_email) && !empty($web_name)) {
-  $con->query($set_first);
-  $con->query($create_msg);
-  $con->query($create_reply);
-  $con->query($create_user);
-  $con->query($create_board);
-  $con->query($create_config);
-  $con->query($add_msg_pk);
-  $con->query($add_reply_pk);
-  $con->query($add_user_pk);
-  $con->query($add_board_pk);
-  $con->query($add_config_pk);
-  $con->query($set_msg_ai);
-  $con->query($set_reply_ai);
-  $con->query($set_user_ai);
-  $con->query($set_board_ai);
-  $con->query($set_config_ai);
+if(!empty($admin_username) && !empty($admin_password) && !empty($user_email) && !empty($web_name) && !empty($recaptcha_site) && !empty($recaptcha_secret)) {
+  $sql = file_get_contents('data.sql');
+  $array = explode(';', $sql);
+  foreach ($array as $value) {
+      $con->query($value.';');
+  }
 } else {
   echo '<script>';
   echo 'alert("'.$lang_install_empty.'");location.href="../";';
   echo '</script>';
 }
 
-$check_table_msg_exists = 'SELECT id FROM msg';
-$check_table_reply_exists = 'SELECT id FROM reply';
+$check_table_article_exists = 'SELECT id FROM article';
 $check_table_user_exists = 'SELECT id FROM user';
 $check_table_board_exists = 'SELECT id FROM board';
+$check_table_sort_exists = 'SELECT id FROM sort';
 $check_table_config_exists = 'SELECT id,session_id FROM config';
-$if_msg_exists = $con->query($check_table_msg_exists);
-$if_reply_exists = $con->query($check_table_reply_exists);
+$if_article_exists = $con->query($check_table_article_exists);
 $if_user_exists = $con->query($check_table_user_exists);
 $if_board_exists = $con->query($check_table_board_exists);
+$if_sort_exists = $con->query($check_table_sort_exists);
 $if_config_exists = $con->query($check_table_config_exists);
 
 $check_session_id_exists = 'SELECT session_id FROM config WHERE session_id IS NOT NULL';
 $if_session_id_exists = $con->query($check_session_id_exists);
 
-if($if_msg_exists && $if_user_exists && $if_board_exists && $if_config_exists) {
-if($if_msg_exists->num_rows > 0 && $if_user_exists->num_rows > 0 && $if_board_exists->num_rows > 0 && $if_config_exists->num_rows > 0) {
+if($if_article_exists && $if_user_exists && $if_board_exists && $if_sort_exists && $if_config_exists) {
+if($if_article_exists->num_rows > 0 && $if_user_exists->num_rows > 0 && $if_board_exists->num_rows > 0 && $if_sort_exists->num_rows > 0 && $if_config_exists->num_rows > 0) {
   header('Location: ../');
-} elseif($if_msg_exists->num_rows == 0 && $if_user_exists->num_rows == 0 && $if_config_exists->num_rows == 0 && $if_board_exists->num_rows == 0) {
-  $con->query($insert_demo_msg);
+} elseif(
+  $if_article_exists->num_rows == 0 && 
+  $if_user_exists->num_rows == 0 && 
+  $if_sort_exists->num_rows == 0 && 
+  $if_config_exists->num_rows == 0 && 
+  $if_board_exists->num_rows == 0) {
+  $con->query($insert_demo_article);
   $con->query($insert_demo_user);
   $con->query($insert_board);
+  $con->query($insert_sort);
   $con->query($insert_config);
   if($if_session_id_exists) {
   if($if_session_id_exists->num_rows > 0) {

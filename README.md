@@ -2,7 +2,7 @@
 A simple messageboard, use php7, mysqli, js
 
 ## Usage
-You must set your **[config](./admin/condb.php#L4-L9)** first :<br />
+You must set your **[config](./function/condb.php#L4-L9)** first :<br />
 ```
 define('DB_HOST', 'localhost');           //Your database host
 define('DB_USER', 'root');                //Your database username

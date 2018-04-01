@@ -1,21 +1,18 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/../admin/session.php';
+require dirname(__FILE__).'/../function/session.php';
 require dirname(__FILE__).'/header_install.php';
 ?>
 
 <?php
-$check_table_msg_exists = 'SELECT id FROM msg';
-$check_table_user_exists = 'SELECT id FROM user';
 $check_table_config_exists = 'SELECT id FROM config';
 $check_session_id_exists = 'SELECT session_id FROM config WHERE session_id IS NOT NULL';
-$if_msg_exists = $con->query($check_table_msg_exists);
-$if_user_exists = $con->query($check_table_user_exists);
 $if_config_exists = $con->query($check_table_config_exists);
 $if_session_id_exists = $con->query($check_session_id_exists);
 
-if($if_msg_exists && $if_user_exists && $if_config_exists && $if_session_id_exists) {
-if($if_msg_exists->num_rows > 0 && $if_user_exists->num_rows > 0 && $if_config_exists->num_rows > 0 && $if_session_id_exists->num_rows > 0) {
+if($if_config_exists && $if_session_id_exists) {
+if($if_config_exists->num_rows > 0 && 
+   $if_session_id_exists->num_rows > 0) {
     echo '<script>';
     echo 'alert("'.$lang_installed.'");location.href="../";';
     echo '</script>';
@@ -35,8 +32,8 @@ if($if_msg_exists->num_rows > 0 && $if_user_exists->num_rows > 0 && $if_config_e
                     <td><input type="text" name="web_name" placeholder="Example" onblur="web();"></td>
                 </tr>
                 <tr>
-                    <td><label>'.$lang_web_email.'</label></td>
-                    <td><input type="text" name="web_email" placeholder="example@email.com" onblur="email();"></td>
+                    <td><label>Email</label></td>
+                    <td><input type="text" name="email" placeholder="examole@example.com" onblur="email();"></td>
                 </tr>
                 <tr>
                     <td><label>'.$lang_username.'</label></td>
@@ -49,6 +46,14 @@ if($if_msg_exists->num_rows > 0 && $if_user_exists->num_rows > 0 && $if_config_e
                 <tr>
                     <td><label>'.$lang_confirm.'</label></td>
                     <td><input type="password" maxlength="20" name="admin_confirm_password" placeholder="Confirm Password" oninput="check();" onpropertychange="check()"></td>
+                </tr>
+                <tr>
+                    <td><label>reCaptcha Site</label></td>
+                    <td><input type="text" name="recaptcha_site" placeholder="recaptcha site key" onblur="recaptcha_site();"></td>
+                </tr>
+                <tr>
+                    <td><label>reCaptcha Secret</label></td>
+                    <td><input type="text" name="recaptcha_secret" placeholder="recaptcha secret key" onblur="recaptcha_secret();"></td>
                 </tr>
             </tbody>
         </table>
@@ -96,12 +101,12 @@ function web() {
 }
 
 function email() {
-    var email = document.install.web_email.value;
+    var email = document.install.email.value;
     if (email == '') {
-        document.getElementById('checkbox').innerHTML = '<span style="color: red"><?php echo $lang_web_email_empty; ?></span>';
+        document.getElementById('checkbox').innerHTML = '<span style="color: red"><?php echo $lang_email_empty; ?></span>';
         return false;
     } else {
-        document.getElementById('checkbox').innerHTML = '<span style="color: green"><?php echo $lang_web_email_pass; ?></span>';
+        document.getElementById('checkbox').innerHTML = '<span style="color: green"><?php echo $lang_email_pass; ?></span>';
         return true;
     }
 }
@@ -113,6 +118,28 @@ function username() {
         return false;
     } else {
         document.getElementById('checkbox').innerHTML = '<span style="color: green"><?php echo $lang_username_pass; ?></span>';
+        return true;
+    }
+}
+
+function recaptcha_site() {
+    var recaptcha_site = document.install.recaptcha_site.value;
+    if (recaptcha_site == '') {
+        document.getElementById('checkbox').innerHTML = '<span style="color: red">Site Empty !</span>';
+        return false;
+    } else {
+        document.getElementById('checkbox').innerHTML = '<span style="color: green">Site Pass !</span>';
+        return true;
+    }
+}
+
+function recaptcha_secret() {
+    var recaptcha_secret = document.install.recaptcha_secret.value;
+    if (recaptcha_secret == '') {
+        document.getElementById('checkbox').innerHTML = '<span style="color: red">reCaptcha Secret Empty !</span>';
+        return false;
+    } else {
+        document.getElementById('checkbox').innerHTML = '<span style="color: green">reCaptcha Secret Pass !</span>';
         return true;
     }
 }

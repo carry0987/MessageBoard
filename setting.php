@@ -21,7 +21,7 @@ echo '
 ';
 
 /* Select Config */
-$sql = 'SELECT web_name,web_description,web_email FROM config WHERE id = 1';
+$sql = 'SELECT web_name,web_description FROM config WHERE id = 1';
 $result = $con->query($sql);
 
 /* Show Edit Board */
@@ -30,7 +30,7 @@ if($now_admin == 1 && $result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
           echo '
           <div class="setting_div">
-            <form action="./admin/change_setting.php" method="post">
+            <form action="./function/change_setting.php" method="post">
               <table class="setting">
                 <tbody>
                   <tr>
@@ -46,12 +46,6 @@ if($now_admin == 1 && $result->num_rows > 0) {
                     type="text" name="description" placeholder="Description" 
                     rows="7" cols="50" maxlength="200">'.$row['web_description'].'</textarea>
                   </td>
-                  </tr>
-                  <tr>
-                    <td>'.$lang_web_email.'</td>
-                    <td>
-                      <input class="setting-input" type="text" name="email" maxlength="20" placeholder="example@gmail.com" value="'.$row['web_email'].'"/>
-                    </td>
                   </tr>
                 </tbody>
               </table>

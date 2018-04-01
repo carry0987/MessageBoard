@@ -17,13 +17,14 @@ $today = date("l F jS, Y");
       <div class="change_language">
         <select class="language" name="change_language" onChange="location = this.options[this.selectedIndex].value;">
           <option selected disabled hidden>Language</option>
-          <option value="./admin/change_language.php?lang=en_US">English</option>
-          <option value="./admin/change_language.php?lang=zh_TW">Chinese</option>
+          <option value="./function/change_language.php?lang=en_US">English</option>
+          <option value="./function/change_language.php?lang=zh_TW">Chinese</option>
         </select>
       </div>
       <div id="footer">
-          <p><img class="rotate" src="./static/icon/logo.png"><br>
-            Made By <a class="developer" href="https://carry0987.github.io/" target="_blank">carry0987</a> <?php echo $version; ?></p>
+          <p>
+            Made By <a class="developer" href="https://carry0987.github.io/" target="_blank">carry0987</a> <?php echo $version; ?>
+          </p>
       </div>
     <script type="text/javascript">
         var degrees = 0;
@@ -39,7 +40,7 @@ $today = date("l F jS, Y");
         });
     </script>
     </footer>
-    </div>
+  </div>
     <script src="./static/js.php?file=menu.js" type="text/javascript"></script>
 </body>
 </html>

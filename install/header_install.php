@@ -1,8 +1,8 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require_once dirname(__FILE__).'/../admin/condb.php';
-require dirname(__FILE__).'/../admin/input_safety.php';
-require dirname(__FILE__).'/../admin/check_language.php';
+require_once dirname(__FILE__).'/../function/condb.php';
+require dirname(__FILE__).'/../function/input_safety.php';
+require dirname(__FILE__).'/../function/check_language.php';
 ?>
 
 <!DOCTYPE html>

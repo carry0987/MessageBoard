@@ -21,15 +21,13 @@ echo '
 <div id="cssmenu">
     <ul>
 ';
-if(!empty($_SESSION['username']))
-{
+if(!empty($_SESSION['username'])) {
   echo $menu_index;
   echo $menu_logout;
-} else {
-  echo $menu_login;
-  echo $menu_signup;
-}
   echo $menu_setting;
+} else {
+  header();
+}
 echo '
     </ul>
 </div>
@@ -41,11 +39,11 @@ if(isset($_GET['action'])) {
   $action = '';
 }
 
-if(!empty($action) && $action == 'message_manager' || $action == 'board_manager') {
-  if($action == 'message_manager') {
-    require dirname(__FILE__).'/admin/admin_message_manager.php';
+if(!empty($action) && $action == 'article_manager' || $action == 'board_manager') {
+  if($action == 'article_manager') {
+    require dirname(__FILE__).'/function/admin_article_manager.php';
   } elseif($action == 'board_manager') {
-    require dirname(__FILE__).'/admin/admin_board_manager.php';
+    require dirname(__FILE__).'/function/admin_board_manager.php';
   }
 } else {
   echo '
@@ -54,7 +52,7 @@ if(!empty($action) && $action == 'message_manager' || $action == 'board_manager'
       <tbody>
         <tr>
           <td>
-            <a href="./admin.php?action=message_manager">'.$lang_message_manager.'</a>
+            <a href="./admin.php?action=article_manager">'.$lang_article_manager.'</a>
           </td>
           <td>
             <a href="./admin.php?action=board_manager">'.$lang_board_manager.'</a>

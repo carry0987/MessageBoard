@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+
 /* Tablet view */
 
 @media screen and (min-width: 700px) and (max-width: 1224px) {
@@ -7,7 +8,7 @@
         width: 15%;
         height: 15%;
     }
-    
+
     .login_div {
         width: 50%;
     }
@@ -25,23 +26,45 @@
         white-space: nowrap;
     }
 
-    /* message */
-    
-    .message_div{
+    /* Article */
+    .article_div {
         width: 90%;
     }
 
-    .message-input {
+    .article-input {
         width: 85%;
     }
 
-    .message-edit {
+    .article-edit {
         width: 85%;
     }
 
+    /* Box */
     .box {
         width: 90%;
         margin-top: 1%;
         margin-bottom: 5%;
+    }
+
+    .box_link {
+        font-size: 15px;
+        word-break: break-all;
+    }
+
+    .box_title span {
+        font-size: small;
+    }
+
+    .box_detail dl {
+        width: 100%;
+    }
+
+    .box_reply {
+        display: none !important;
+    }
+
+    .box_latest_reply {
+        text-align: right;
+        padding-right: 1em;
     }
 }
