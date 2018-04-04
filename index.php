@@ -1,7 +1,7 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/include/header.php';
-require dirname(__FILE__).'/function/check_database.php';
+require dirname(__FILE__).'/source/include/header.php';
+require dirname(__FILE__).'/source/function/check_database.php';
 
 echo '
 <div id="cssmenu">
@@ -24,6 +24,22 @@ echo '
 </div>
 ';
 
+/* Breadcrumb */
+$index_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+echo '
+    <div class="breadcrumbs">
+        <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+            <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+                <a class="fileTrail" href="'.$index_url.'" itemprop="item">
+                    <span class="breadcrumbs_home" itemprop="name">'.$main_name.'</span>
+                    <img class="breadcrumbs_img" src="'.$base_url.'/static/icon/home.svg">
+                    <meta content="1" itemprop="position" />
+                </a>
+            </span>
+        </span>
+    </div>
+    ';
+
 $sort_sql = 'SELECT id,sort_name,sort_description FROM sort ORDER BY id ASC';
 $sort_result = $con->query($sort_sql);
 if($sort_result->num_rows > 0) {
@@ -34,7 +50,7 @@ while($sort_row = $sort_result->fetch_assoc()) {
     echo '
       <li class="sort_index">
       <div class="sort_title">
-        <img class="sort_icon" src="./static/image/folder.svg">
+        <img class="sort_icon" src="./static/icon/folder.svg">
         <span>'.$sort_row['sort_name'].'</span>
         <div class="sort_toggle">
             <span>+</span>
@@ -73,7 +89,7 @@ while($board_row = $board_result->fetch_assoc()) {
     echo '
         <li class="board_list">
             <div class="board_img">
-                <img class="board_icon" src="./static/image/board_icon.svg">
+                <img class="board_icon" src="./static/icon/board_icon.svg">
             </div>
             <div class="board_text">
                 <div class="board_title">
@@ -126,30 +142,12 @@ echo '
 }
 ?>
 
-<?php
-/* Breadcrumb */
-$index_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-echo '
-    <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-        <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-            <a href="'.$index_url.'" itemprop="item">
-                <span itemprop="name">'.$main_name.'</span>
-                <meta content="1" itemprop="position" />
-            </a>
-        </span>
-    </span>
-    ';
+<script>
+$(document).ready(function() {
+    $(".sort_toggle").click(function(){ 
+        $(this).next().slideToggle();
+    })
+});
+</script>
 
-/* Script */
-echo '
-    <script>
-    $(document).ready(function() {
-        $(".sort_toggle").click(function(){ 
-            $(this).next().slideToggle();
-        })
-    });
-    </script>
-    ';
-?>
-
-<?php require dirname(__FILE__).'/include/footer.php'; ?>
+<?php require dirname(__FILE__).'/source/include/footer.php'; ?>

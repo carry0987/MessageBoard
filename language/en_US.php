@@ -116,5 +116,6 @@ $lang = array
     'dear' => 'Dear',
     'this_article' => 'This article was',
     'started_by' => 'started by',
+    'word_left' => 'left',
 );
 ?>

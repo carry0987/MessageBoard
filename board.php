@@ -1,7 +1,7 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/function/check_database.php';
-require dirname(__FILE__).'/include/header.php';
+require dirname(__FILE__).'/source/include/header.php';
+require dirname(__FILE__).'/source/function/check_database.php';
 
 echo '
 <div id="cssmenu">
@@ -24,11 +24,54 @@ echo '
 </div>
 ';
 
+/* Get Board Name */
+$board_sql = 'SELECT board_name,board_description FROM board WHERE id = '.input_safety($_GET['board_id']);
+$board_result = $con->query($board_sql);
+if($board_result) {
+  $board_row = $board_result->fetch_assoc();
+} else {
+  header('Location: '.$base_url.'');
+  exit();
+}
+
+/* Breadcrumb */
+$index_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+$board_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+if ($board_result && $board_result->num_rows > 0) {
+  if(mb_strlen($board_row['board_name'],'utf-8') > 8) {
+      $board_name = mb_substr($board_row['board_name'],0,8,'utf-8').'...';
+    } else {
+      $board_name = mb_substr($board_row['board_name'],0,8,'utf-8');
+    }
+echo '
+    <div class="breadcrumbs">
+      <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+          <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+              <a class="fileTrail" href="'.str_replace("board.php","",$index_url).'" itemprop="item">
+                  <span class="breadcrumbs_home" itemprop="name">'.$main_name.'</span>
+                  <img class="breadcrumbs_img" src="'.$base_url.'/static/icon/home.svg">
+                  <meta content="1" itemprop="position" />
+              </a>
+          </span>
+      </span>
+      <span class="fileTrailDividers">></span>
+      <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+          <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+              <a class="fileTrail" href="'.$board_url.'" itemprop="item">
+                  <span class="fileTrailCurrent" itemprop="name">'.$board_name.'</span>
+                  <meta content="2" itemprop="position" />
+              </a>
+          </span>
+      </span>
+    </div>
+    ';
+}
+
 /* Check URL */
 if(!empty($_GET['board_id']) && ctype_digit($_GET['board_id'])) {
 if(isset($_GET['page'])) {
   if($_GET['page'] == '1' || $_GET['page'] == '' || $_GET['page'] == '0') {
-  header('Location: ./board.php?board_id='.$_GET['board_id'].'');
+  header('Location: '.$base_url.'/board.php?board_id='.$_GET['board_id'].'');
   } else {
   $page = $_GET['page'];
   }
@@ -36,16 +79,7 @@ if(isset($_GET['page'])) {
   $page = 1;
 }
 } else {
-  header('Location: ./');
-}
-
-/* Get Board Name */
-$board_sql = 'SELECT board_name,board_description FROM board WHERE id = '.input_safety($_GET['board_id']);
-$board_result = $con->query($board_sql);
-if($board_result) {
-  $board_row = $board_result->fetch_assoc();
-} else {
-  header('Location: ./');
+  header('Location: '.$base_url.'');
 }
 
 /* Page Script */
@@ -76,9 +110,7 @@ echo '
       <tbody>
         <tr>
           <th><a href="././board.php?board_id='.$_GET['board_id'].'">'.$board_row['board_name'].'</a></th>
-          <td>'.$lang_today_post.':<a class="today_post">'.$today.'</a></td>
           <td>'.$lang_total_post.':<a class="total_post">'.$total.'</a></td>
-          <td><img class="refresh" src="./static/image/refresh.svg"></td>
         </tr>
       </tbody>
     </table>
@@ -91,7 +123,7 @@ echo '
 echo '
   <div class="post">
     <div class="post_button">
-        <a class="post_link" href="./function/article_add.php?board_id='.input_safety($_GET['board_id']).'">
+        <a class="post_link" href="./source/function/article_add.php?board_id='.input_safety($_GET['board_id']).'">
           <span>'.$lang_post_article.'</span>
         </a>
     </div>
@@ -217,7 +249,7 @@ if($result->num_rows > 5) {
   echo '
     <div class="post">
       <div class="post_button">
-          <a class="post_link" href="./function/article_add.php?board_id='.input_safety($_GET['board_id']).'">
+          <a class="post_link" href="./source/function/article_add.php?board_id='.input_safety($_GET['board_id']).'">
             <span>'.$lang_post_article.'</span>
           </a>
       </div>
@@ -286,58 +318,4 @@ echo "
 }
 ?>
 
-<?php
-/* Breadcrumb */
-$index_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]";
-$board_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-echo '
-    <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-        <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-            <a href="'.str_replace("board.php","",$index_url).'" itemprop="item">
-                <span itemprop="name">'.$main_name.'</span>
-                <meta content="1" itemprop="position" />
-            </a>
-        </span>
-    </span>
-    <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-        <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-            <a href="'.$board_url.'" itemprop="item">
-                <span itemprop="name">'.$board_row['board_name'].'</span>
-                <meta content="2" itemprop="position" />
-            </a>
-        </span>
-    </span>
-    ';
-
-/* Script */
-echo '
-  <script>
-    var degrees = 0;
-      $(".refresh").click(function(){
-        degrees += 360;
-        $(this).css({
-          "transform" : "rotate("+degrees+"deg)",
-          "-ms-transform" : "rotate("+degrees+"deg)",
-          "-moz-transform" : "rotate("+degrees+"deg)",
-          "-webkit-transform" : "rotate("+degrees+"deg)",
-          "-o-transform" : "rotate("+degrees+"deg)"
-        });
-        $.ajax({
-            url: "./function/check_new_article.php",
-            type : "GET",
-            dataType : "text",
-            success: function(result) {
-                $(".today_post").text = result;
-                console.log(result);
-            },
-            error: function(result) {
-                console.log(result);
-            }
-        })
-      });
-  </script>
-  ';
-//echo '<h1 style="text-align: center; margin: 0;">'.$lang_article_list.'</h1>';
-?>
-
-<?php require dirname(__FILE__).'/include/footer.php'; ?>
+<?php require dirname(__FILE__).'/source/include/footer.php'; ?>

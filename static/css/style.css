@@ -266,15 +266,16 @@ body {
     display: table-cell;
 }
 
-.box_title span:first-child {
+.box_title .box_username {
     color: #666666;
 }
 
-.box_title span:last-child {
+.box_title .box_date {
     color: #909090;
 }
 
 /* home.php */
+
 .home_box {
     width: 60%;
     margin: auto;
@@ -300,10 +301,45 @@ body {
     text-align: center;
 }
 
+.home_button {
+    display: table-cell;
+    line-height: 20px;
+}
+
+.home_link {
+    height: auto;
+    line-height: inherit;
+    display: inline-block;
+    outline: 0 none;
+    text-decoration: none;
+}
+
+.home_link:hover {
+    background-color: #101010;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.home_link span {
+    font-size: 1em;
+    color: #FFFFFF;
+    background-color: #4993C5;
+    padding: 0 10px;
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+    font-weight: 600;
+}
+
+.home_link:hover span {
+    background-color: rgb(74, 78, 81);
+}
+
 /* Content */
 .content {
-    width: 70%;
-    margin: auto;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 0.5em;
     border-radius: 6px;
     background-color: #FFFFFF;
@@ -489,7 +525,6 @@ body {
 
 .sort {
     width: 60%;
-    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
     padding: 15px;
@@ -528,8 +563,9 @@ body {
 /* Board */
 
 .board {
-    width: 75%;
-    margin: auto;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 1em;
     border-radius: 6px;
     background-color: #FFFFFF;
@@ -923,8 +959,8 @@ body {
 }
 
 .article-input {
-    margin-bottom: 1em;
-    font-size: x-large;
+    margin-bottom: 0.5em;
+    font-size: large;
     white-space: nowrap;
 }
 
@@ -1083,6 +1119,38 @@ footer p {
     border-bottom-width: 2px;
     border-bottom-style: solid;
     border-bottom-color: #0366d6;
+}
+
+/* Breadcrumb */
+.breadcrumbs {
+    padding: 0.5em 1em;
+    background-color: transparent;
+    width: 60%;
+    margin: auto;
+}
+
+.breadcrumbs a,
+.breadcrumbs span {
+    font-size: 1em;
+    font-weight: 600;
+    color: #091f2f;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    line-height: 10.5px;
+}
+
+.breadcrumbs .fileTrailCurrent {
+    color: #d9262c;
+    border-bottom: 0;
+}
+
+.breadcrumbs_home {
+    display: none !important;
+}
+
+.breadcrumbs_img {
+    width: 16px;
 }
 
 /* Checkbox */

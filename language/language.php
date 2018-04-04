@@ -115,4 +115,5 @@ $lang_welcome_to = $lang['welcome_to'];
 $lang_dear = $lang['dear'];
 $lang_this_article = $lang['this_article'];
 $lang_started_by = $lang['started_by'];
+$lang_word_left = $lang['word_left'];
 ?>

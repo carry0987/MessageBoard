@@ -1,8 +1,8 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/../function/session.php';
+require dirname(__FILE__).'/../source/function/session.php';
 ob_start();
-require dirname(__FILE__).'/header_install.php';
+require dirname(__FILE__).'/../source/include/header.php';
 $change_title = ob_get_contents();
 ob_end_clean();
 $page_title = 'Installing';
@@ -47,7 +47,7 @@ VALUES (
     )';
 
 if(!empty($admin_username) && !empty($admin_password) && !empty($user_email) && !empty($web_name) && !empty($recaptcha_site) && !empty($recaptcha_secret)) {
-  $sql = file_get_contents('data.sql');
+  $sql = file_get_contents('./data/data.sql');
   $array = explode(';', $sql);
   foreach ($array as $value) {
       $con->query($value.';');

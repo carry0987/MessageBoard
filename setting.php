@@ -1,7 +1,7 @@
 <?php
 header('content-type:text/html;charset=utf-8');
 ob_start();
-require dirname(__FILE__).'/include/header.php';
+require dirname(__FILE__).'/source/include/header.php';
 $change_title = ob_get_contents();
 ob_end_clean();
 $page_title = 'Setting'.' - '.$main_name;
@@ -30,7 +30,7 @@ if($now_admin == 1 && $result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
           echo '
           <div class="setting_div">
-            <form action="./function/change_setting.php" method="post">
+            <form action="./source/function/change_setting.php" method="post">
               <table class="setting">
                 <tbody>
                   <tr>
@@ -71,4 +71,4 @@ if($now_admin == 1 && $result->num_rows > 0) {
 }
 ?>
 
-<?php require dirname(__FILE__).'/include/footer.php'; ?>
+<?php require dirname(__FILE__).'/source/include/footer.php'; ?>

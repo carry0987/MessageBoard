@@ -1,6 +1,7 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/include/header.php';
+require dirname(__FILE__).'/source/include/header.php';
+require dirname(__FILE__).'/source/function/function_bbcode.php';
 
 if(!empty($_GET['id'])) {
   echo '';
@@ -26,6 +27,7 @@ echo '
 </div>
 ';
 
+/* Get Article Info */
 $sql = 'SELECT id,username,title,content,board_id,sort_id,date FROM article WHERE id = '.$_GET["id"];
 $result = $con->query($sql);
 
@@ -62,6 +64,49 @@ if($result->num_rows > 0) {
     $sort_from = '';
   }
 
+/* Breadcrumb */
+$index_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+$board_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+$article_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+if ($result && $result->num_rows > 0) {
+  if(mb_strlen($row['title'],'utf-8') > 8) {
+      $title = mb_substr($row['title'],0,8,'utf-8').'...';
+    } else {
+      $title = mb_substr($row['title'],0,8,'utf-8');
+    }
+echo '
+    <div class="breadcrumbs">
+        <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+            <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+                <a class="fileTrail" href="'.str_replace("article.php","",$index_url).'" itemprop="item">
+                    <span class="breadcrumbs_home" itemprop="name">'.$main_name.'</span>
+                    <img class="breadcrumbs_img" src="'.$base_url.'/static/icon/home.svg">
+                    <meta content="1" itemprop="position" />
+                </a>
+            </span>
+        </span>
+        <span class="fileTrailDividers">></span>
+        <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+            <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+                <a class="fileTrail" href="'.str_replace("article.php","board.php?board_id=".$row['board_id'],$board_url).'" itemprop="item">
+                    <span itemprop="name">'.$board_row['board_name'].'</span>
+                    <meta content="2" itemprop="position" />
+                </a>
+            </span>
+        </span>
+        <span class="fileTrailDividers">></span>
+        <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+            <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+                <a class="fileTrail" href="'.$article_url.'" itemprop="item">
+                    <span class="fileTrailCurrent"  itemprop="name">'.$title.'</span>
+                    <meta content="3" itemprop="position" />
+                </a>
+            </span>
+        </span>
+    </div>
+    ';
+}
+
   echo "<div class='content'>\n";
   echo "<div class='path'>\n";
   echo "</div>\n";
@@ -74,7 +119,7 @@ if($result->num_rows > 0) {
   echo '<p class="author">'.$lang_author.'：'.$row['username'].'</p>'."\n";
   echo '<p class="date">'.$lang_publish_date.'：'.$row['date'].'</p>'."\n";
   echo "</div>\n";
-  echo "<div class='content_box'>\n".htmlspecialchars_decode($row['content'])."\n</div>\n";
+  echo "<div class='content_box'>\n".bbcode2html($row['content'])."\n</div>\n";
   echo "</div>";
   echo "</div>";
 } else {
@@ -90,39 +135,4 @@ if($result->num_rows > 0) {
 }
 ?>
 
-<?php
-/* Breadcrumb */
-$index_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]";
-$board_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]";
-$article_url = (isset($_SERVER['HTTPS'])?"https":"http")."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-if ($result && $result->num_rows > 0) {
-echo '
-    <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-        <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-            <a href="'.str_replace("article.php","",$index_url).'" itemprop="item">
-                <span itemprop="name">'.$main_name.'</span>
-                <meta content="1" itemprop="position" />
-            </a>
-        </span>
-    </span>
-    <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-        <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-            <a href="'.str_replace("article.php","board.php?board_id=".$row['board_id'],$board_url).'" itemprop="item">
-                <span itemprop="name">'.$board_row['board_name'].'</span>
-                <meta content="2" itemprop="position" />
-            </a>
-        </span>
-    </span>
-    <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-        <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-            <a href="'.$article_url.'" itemprop="item">
-                <span itemprop="name">'.$row['title'].'</span>
-                <meta content="3" itemprop="position" />
-            </a>
-        </span>
-    </span>
-    ';
-}
-?>
-
-<?php require dirname(__FILE__).'/include/footer.php'; ?>
+<?php require dirname(__FILE__).'/source/include/footer.php'; ?>

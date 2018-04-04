@@ -366,6 +366,7 @@ div.sceditor-more-emoticons {
   padding: 0;
   cursor: pointer;
   margin: 2px;
+  width: 25px;
 }
 .sceditor-more {
   border-top: 1px solid #bbb;

@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-
 /* Mobile view */
 @media screen and (min-width: 320px) and (max-width: 700px) {
     #logo {
@@ -154,10 +153,6 @@
         width: auto;
     }
 
-    .article-input {
-        width: 85%;
-    }
-
     .article-edit {
         width: 85%;
     }
@@ -170,6 +165,10 @@
 
 
     /* Content */
+    .content {
+        width: 90%;
+    }
+
     .content_from,
     .content_author,
     .content_date {
@@ -232,7 +231,39 @@
         width: 100%;
     }
 
+    /* Breadcrumb */
+    .breadcrumbs {
+        padding: 0.5em 1em;
+        background-color: transparent;
+        width: auto;
+        margin: auto;
+    }
+
+    .breadcrumbs a,
+    .breadcrumbs span {
+        font-size: 1em;
+        font-weight: 600;
+        color: #091f2f;
+        text-decoration: none;
+        position: relative;
+        display: inline-block;
+        line-height: 10.5px;
+    }
+
+    .breadcrumbs .fileTrailCurrent {
+        color: #d9262c;
+        border-bottom: 0;
+    }
+
+    .breadcrumbs_home {
+        display: none !important;
+    }
+
     /* Other */
+    .word_left {
+        display: none;
+    }
+    
     .submit_edit>button {
         width: 100%;
     }

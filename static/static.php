@@ -1,5 +1,5 @@
 <?php
-require dirname(__FILE__). '/../function/input_safety.php';
+require dirname(__FILE__). '/../source/function/input_safety.php';
 
 $file = pathinfo(input_safety($_GET['file']), PATHINFO_EXTENSION);
 

@@ -1,8 +1,8 @@
 <?php
 header('content-type:text/html;charset=utf-8');
 ob_start();
-require dirname(__FILE__).'/include/header.php';
-require dirname(__FILE__).'/function/check_database.php';
+require dirname(__FILE__).'/source/include/header.php';
+require dirname(__FILE__).'/source/function/check_database.php';
 
 $change_title = ob_get_contents();
 ob_end_clean();
@@ -134,4 +134,4 @@ echo '
   ?>
 </script>
 
-<?php require dirname(__FILE__).'/include/footer.php'; ?>
+<?php require dirname(__FILE__).'/source/include/footer.php'; ?>

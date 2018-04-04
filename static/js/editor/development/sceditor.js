@@ -1163,9 +1163,9 @@
          * @type {string}
          */
         toolbar: 'bold,italic,underline,strike,subscript,superscript,' +
-            'left,center,right,justify,font,size,color,removeformat,' +
-            'cut,copy,pastetext|bulletlist,orderedlist,' +
-            'table,code,quote,horizontalrule,image,email,link,unlink,' +
+            'left,center,right,justify,size,color,removeformat,' +
+            'bulletlist,orderedlist,' +
+            'table,code,quote,horizontalrule,image,link,unlink,' +
             'emoticon,youtube,source',
 
         /**
@@ -1208,97 +1208,44 @@
             '#eeeeee,#FF56FF,#FF30DC,#F012BE,#D900A7,#B20080,#fbb8ec|' +
             '#ffffff,#F551FF,#CF2BE7,#B10DC9,#9A00B2,#9A00B2,#e8b6ef',
 
-        /**
-         * The locale to use.
-         * @type {string}
-         */
         locale: attr(document.documentElement, 'lang') || 'en',
-
-        /**
-         * The Charset to use
-         * @type {string}
-         */
         charset: 'utf-8',
-
-        /**
-         * Compatibility mode for emoticons.
-         *
-         * Helps if you have emoticons such as :/ which would put an emoticon
-         * inside http://
-         *
-         * This mode requires emoticons to be surrounded by whitespace or end of
-         * line chars. This mode has limited As You Type emoticon conversion
-         * support. It will not replace AYT for end of line chars, only
-         * emoticons surrounded by whitespace. They will still be replaced
-         * correctly when loaded just not AYT.
-         *
-         * @type {boolean}
-         */
         emoticonsCompat: false,
-
-        /**
-         * If to enable emoticons. Can be changes at runtime using the
-         * emoticons() method.
-         *
-         * @type {boolean}
-         * @since 1.4.2
-         */
         emoticonsEnabled: true,
-
-        /**
-         * Emoticon root URL
-         *
-         * @type {string}
-         */
         emoticonsRoot: '',
         emoticons: {
             dropdown: {
-                ':)': '../static/js/editor/emoticons/smile.svg',
-                ':scile-cry': '../static/js/editor/emoticons/smile-crying.svg',
-                ':angel:': '../static/js/editor/emoticons/angel.svg',
-                ':angry:': '../static/js/editor/emoticons/angry.svg',
-                '8-)': '../static/js/editor/emoticons/cool.svg',
-                ':\'(': '../static/js/editor/emoticons/cwy.svg',
-                ':ermm:': '../static/js/editor/emoticons/ermm.svg',
-                ':(': '../static/js/editor/emoticons/sad.svg',
-                ':O': '../static/js/editor/emoticons/shocked.svg',
-                ':P': '../static/js/editor/emoticons/tongue.svg',
-                ';)': '../static/js/editor/emoticons/wink.svg'
+                ':)': '../../static/js/editor/emoticons/smile.svg',
+                ':scile-cry': '../../static/js/editor/emoticons/smile-crying.svg',
+                ':angel:': '../../static/js/editor/emoticons/angel.svg',
+                ':angry:': '../../static/js/editor/emoticons/angry.svg',
+                '8-)': '../../static/js/editor/emoticons/cool.svg',
+                ':\'(': '../../static/js/editor/emoticons/cwy.svg',
+                ':ermm:': '../../static/js/editor/emoticons/ermm.svg',
+                ':(': '../../static/js/editor/emoticons/sad.svg',
+                ':O': '../../static/js/editor/emoticons/shocked.svg',
+                ':P': '../../static/js/editor/emoticons/tongue.svg',
+                ';)': '../../static/js/editor/emoticons/wink.svg'
             },
             more: {
-                ':alien:': '../static/js/editor/emoticons/alien.svg',
-                ':devil:': '../static/js/editor/emoticons/devil.svg',
-                ':dizzy:': '../static/js/editor/emoticons/dizzy.svg',
-                ':happy:': '../static/js/editor/emoticons/happy.svg',
-                ':kissing:': '../static/js/editor/emoticons/kissing.svg',
-                ':sick:': '../static/js/editor/emoticons/sick.svg',
-                ':sleeping:': '../static/js/editor/emoticons/sleeping.svg',
-                ':woot:': '../static/js/editor/emoticons/w00t.svg',
-                ':wub:': '../static/js/editor/emoticons/wub.svg'
+                ':alien:': '../../static/js/editor/emoticons/alien.svg',
+                ':devil:': '../../static/js/editor/emoticons/devil.svg',
+                ':dizzy:': '../../static/js/editor/emoticons/dizzy.svg',
+                ':happy:': '../../static/js/editor/emoticons/happy.svg',
+                ':kissing:': '../../static/js/editor/emoticons/kissing.svg',
+                ':sick:': '../../static/js/editor/emoticons/sick.svg',
+                ':sleeping:': '../../static/js/editor/emoticons/sleeping.svg',
+                ':woot:': '../../static/js/editor/emoticons/w00t.svg',
+                ':wub:': '../../static/js/editor/emoticons/wub.svg'
             }
         },
-
-        /**
-         * Width of the editor. Set to null for automatic with
-         *
-         * @type {?number}
-         */
-        width: null,
-
-        /**
-         * Height of the editor including toolbar. Set to null for automatic
-         * height
-         *
-         * @type {?number}
-         */
-        height: null,
 
         /**
          * If to allow the editor to be resized
          *
          * @type {boolean}
          */
-        resizeEnabled: true,
+        resizeEnabled: false,
 
         /**
          * Min resize to width, set to null for half textarea width or -1 for
@@ -2312,10 +2259,14 @@
 
                         if (width$$1) {
                             attrs += ' width="' + width$$1 + '"';
+                        } else {
+                            attrs += ' width="' + '40%' + '"';
                         }
 
                         if (height$$1) {
                             attrs += ' height="' + height$$1 + '"';
+                        } else {
+                            attrs += ' height="' + '40%' + '"';
                         }
 
                         editor.wysiwygEditorInsertHtml(
@@ -4435,10 +4386,12 @@
             appendChild(editorContainer, sourceEditor);
 
             // TODO: make this optional somehow
+            /*
             base.dimensions(
                 options.width || width(original),
                 options.height || height(original)
             );
+            */
 
             // Add IE version class to the HTML element so can apply
             // conditional styling without CSS hacks

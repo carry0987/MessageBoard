@@ -1,9 +1,9 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/static/recaptcha/autoload.php';
+require dirname(__FILE__).'/source/recaptcha/autoload.php';
 ob_start();
-require dirname(__FILE__).'/include/header.php';
-require dirname(__FILE__).'/function/check_database.php';
+require dirname(__FILE__).'/source/include/header.php';
+require dirname(__FILE__).'/source/function/check_database.php';
 $change_title = ob_get_contents();
 ob_end_clean();
 $page_title = 'Signup - '.$main_name;
@@ -63,7 +63,7 @@ if(empty($_SESSION['username'])) {
     };
     </script>
     <div class="signup_div">
-        <form id="signup_form" class="signup_form" name="signup" action="./function/user_add.php" method="post" onsubmit="return signup_check()">
+        <form id="signup_form" class="signup_form" name="signup" action="./source/function/user_add.php" method="post" onsubmit="return signup_check()">
             <table class="alert">
                 <tr>
                     <td>
@@ -176,7 +176,7 @@ function createXHR() {
 function check_username() {
     var username = document.signup.username.value;
     createXHR();
-    XHR.open("GET", "./function/check_username.php?username=" + username, true);
+    XHR.open("GET", "./source/function/check_username.php?username=" + username, true);
     XHR.onreadystatechange = response;
     XHR.send(null);
 }
@@ -184,7 +184,7 @@ function check_username() {
 function check_email() {
     var email = document.signup.email.value;
     createXHR();
-    XHR.open("GET", "./function/check_email.php?email=" + email, true);
+    XHR.open("GET", "./source/function/check_email.php?email=" + email, true);
     XHR.onreadystatechange = response;
     XHR.send(null);
 }
@@ -198,4 +198,4 @@ function response() {
     }
 }
 </script>
-<?php require dirname(__FILE__).'/include/footer.php'; ?>
+<?php require dirname(__FILE__).'/source/include/footer.php'; ?>

@@ -1,7 +1,7 @@
 <?php
 header('content-type:text/html;charset=utf-8');
 ob_start();
-require dirname(__FILE__).'/include/header.php';
+require dirname(__FILE__).'/source/include/header.php';
 if(!empty($_SESSION['username'])) {
   $name = $_SESSION['username'];
 } else {
@@ -70,7 +70,7 @@ if(!empty($_SESSION['username'])) {
   if($row = $result->num_rows > 0) {
     echo '
     <div class="home_box">
-      <form action="./function/article_delete.php?user_id='.$current_user_row['id'].'" method="post">
+      <form action="./source/function/article_delete.php?user_id='.$current_user_row['id'].'" method="post">
         <div class="box">
           <div class="box_detail">
             <dl>
@@ -95,13 +95,18 @@ if(!empty($_SESSION['username'])) {
       echo '
             <li class="box_list"> 
               <div class="delete">
-                <input type="checkbox" name="checkbox[]" value="'.$row["id"].'" id="'.$row["id"].'">
+                <input type="checkbox" name="checkbox[]" value="'.$row['id'].'" id="'.$row["id"].'">
                 <label for="'.$row["id"].'"><span></span></label>
               </div>
               <div class="box_title">
-                <a class="box_link" href=./article.php?id='.$row["id"].'>'.$title.'</a>
-                <span>'.$row['username'].'</span>
-                <span>, '.$date.'</span>
+                <a class="box_link" href="./article.php?id='.$row["id"].'">'.$title.'</a>
+                <span class="box_username">'.$row['username'].'</span>
+                <span class="box_date">, '.$date.'</span>
+                <div class="home_button">
+                  <a class="home_link" href="./source/function/article_edit.php?id='.$row['id'].'">
+                    <span>'.$lang_edit.'</span>
+                  </a>
+                </div>
               </div>
             </li>
            ';
@@ -214,4 +219,4 @@ $(document).ready(function() {
 })
 </script>
 
-<?php require dirname(__FILE__).'/include/footer.php'; ?>
+<?php require dirname(__FILE__).'/source/include/footer.php'; ?>

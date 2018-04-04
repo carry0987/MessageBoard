@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+<style type="text/css">
+    .st0{fill:#000000;}
+</style>
+  <g class="st0" transform="matrix(0.029834, 0, 0, 0.02986, 0.024917, 0.021228)">
+    <path d="M499.1,10C229.5,10,10,229.5,10,499.1C10,770.5,229.5,990,499.1,990C768.8,990,990,770.5,990,499.1C990,229.5,770.5,10,499.1,10z M780.9,682.3H219.1V352.2l280,207.4l280-207.4v330.1H780.9z M499.1,526.8l-280-207.4h560L499.1,526.8z"/>
+  </g>
+</svg>

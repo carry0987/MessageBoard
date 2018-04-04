@@ -1,7 +1,7 @@
 <?php
 header('content-type:text/html;charset=utf-8');
 ob_start();
-require dirname(__FILE__).'/include/header.php';
+require dirname(__FILE__).'/source/include/header.php';
 $change_title = ob_get_contents();
 ob_end_clean();
 $page_title = 'Control Center - '.$main_name;
@@ -41,9 +41,9 @@ if(isset($_GET['action'])) {
 
 if(!empty($action) && $action == 'article_manager' || $action == 'board_manager') {
   if($action == 'article_manager') {
-    require dirname(__FILE__).'/function/admin_article_manager.php';
+    require dirname(__FILE__).'/source/function/admin_article_manager.php';
   } elseif($action == 'board_manager') {
-    require dirname(__FILE__).'/function/admin_board_manager.php';
+    require dirname(__FILE__).'/source/function/admin_board_manager.php';
   }
 } else {
   echo '
@@ -66,4 +66,4 @@ if(!empty($action) && $action == 'article_manager' || $action == 'board_manager'
 
 ?>
 
-<?php require dirname(__FILE__).'/include/footer.php'; ?>
+<?php require dirname(__FILE__).'/source/include/footer.php'; ?>

@@ -116,5 +116,6 @@ $lang = array
     'dear' => '親愛的',
     'this_article' => '本帖',
     'started_by' => '由',
+    'word_left' => '還可輸入',
 );
 ?>
