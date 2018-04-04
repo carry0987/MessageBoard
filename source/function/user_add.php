@@ -1,6 +1,6 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-require dirname(dirname(__FILE__)).'/static/recaptcha/autoload.php';
+require dirname(__FILE__).'/../recaptcha/autoload.php';
 require dirname(__FILE__).'/../include/header.php';
 require dirname(__FILE__).'/check_database.php';
 
@@ -44,7 +44,7 @@ if(empty($_SESSION['username'])) {
         } else {
             echo "
             <script>
-                alert(\"$lang_recaptcha_error\");location.href='../signup.php';\n;
+                alert(\"$lang_recaptcha_error\");location.href='$base_url/signup.php';\n;
             </script>
             ";
             exit();
@@ -112,7 +112,7 @@ if(empty($_SESSION['username'])) {
                 $Permit = 0;
                 echo '
                     <script>
-                        alert("Email System Error !");location.href="../signup.php";
+                        alert("Email System Error !");location.href="'.$base_url.'/signup.php";
                     </script>
                 ';
                 exit();
@@ -129,7 +129,7 @@ if(empty($_SESSION['username'])) {
                 var s = document.getElementById("refresh");
                 s.innerHTML = s.innerHTML - 1;
                 if (s.innerHTML == 0) {
-                    window.location = "../login.php";
+                    window.location = "'.$base_url.'/login.php";
                 } else {
                     document.getElementById("username").readOnly = true;
                     document.getElementById("password").readOnly = true;
@@ -143,16 +143,16 @@ if(empty($_SESSION['username'])) {
             echo '<div class="infomation">';
             echo '<a>'.$lang_signup_info_1.'<span id="refresh">1</span>'.$lang_signup_info_2.'</a>';
             echo '<br />';
-            echo '<a class="ifnorefresh" href="../login.php">'.$lang_no_refresh.'</a>';
+            echo '<a class="ifnorefresh" href="'.$base_url.'/login.php">'.$lang_no_refresh.'</a>';
             echo '</div>';
             }
         }
     } else {
-        echo '<meta http-equiv="refresh" content="0;url=../" />';
+        echo '<meta http-equiv="refresh" content="0;url='.$base_url.'/" />';
         exit();
     }
     } else {
-        echo '<meta http-equiv="refresh" content="0;url=../" />';
+        echo '<meta http-equiv="refresh" content="0;url='.$base_url.'/" />';
         exit();
     }
 ?>
@@ -160,15 +160,15 @@ if(empty($_SESSION['username'])) {
 <script>
 <?php
 if($UsernameErr != '') {
-    echo "alert(\"$UsernameErr\");location.href='../signup.php';\n";
+    echo "alert(\"$UsernameErr\");location.href='$base_url/signup.php';\n";
 }
 
 if($PasswordErr != '') {
-    echo "alert(\"$PasswordErr\");location.href='../signup.php';\n";
+    echo "alert(\"$PasswordErr\");location.href='$base_url/signup.php';\n";
 }
 
 if($EmailErr != '') {
-    echo "alert(\"$EmailErr\");location.href='../signup.php';\n";
+    echo "alert(\"$EmailErr\");location.href='$base_url/signup.php';\n";
 }
 ?>
 </script>
