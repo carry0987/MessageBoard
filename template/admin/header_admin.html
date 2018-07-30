@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="dns-prefetch" href="{$meta['url']}" />
+    <title>Admin</title>
+    <meta name="description" content="{$meta['description']}" />
+    <meta name="author" content="carry0987" />
+    <meta property="og:title" content="Admin | {$meta['title']}" />
+    <meta property="og:site_name" content="{$meta['title']}" />
+    <meta property="og:description" content="{$meta['description']}" />
+    <meta property="og:type" content="blog" />
+    <meta property="og:url" content="{$meta['url']}" />
+    <meta property="og:image" content="{$base_url}/static/icon/logo.png" />
+    <link href="{loadcss admin.css}" rel="stylesheet" type="text/css" />
+    <link href="{loadcss mobile-admin.css}" rel="stylesheet" type="text/css" />
+    <link href="{loadcss tablet-admin.css}" rel="stylesheet" type="text/css" />
+    <link href="{loadcss admin-info.css}" rel="stylesheet" type="text/css" />
+    <link href="{loadcss mobile-info.css}" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+</head>
+
+<body>
+<!--{if $show_admin === true}-->
+    <div class="header">
+        <div class="logo">
+            <a href="{$base_url}">
+                <span>{$meta['name']}</span>
+            </a>
+        </div>
+        <a href="#" class="nav-trigger"><span></span></a>
+    </div>
+    <div class="side-nav">
+        <div class="logo">
+            <a href="{$base_url}">
+                <span>{$meta['name']}</span>
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li class="side-list {$class['index']}">
+                    <a href="{$base_url}/admin.php?mod=index">
+                        <span>{$lang_back_end}</span>
+                    </a>
+                </li>
+                <li class="side-list {$class['user']}">
+                    <a href="{$base_url}/admin.php?mod=user">
+                        <span>{$lang_member}</span>
+                    </a>
+                </li>
+                <li class="side-list {$class['article']}">
+                    <a href="{$base_url}/admin.php?mod=article">
+                        <span>{$lang_article_manager}</span>
+                    </a>
+                </li>
+                <li class="side-list {$class['board']}">
+                    <a href="{$base_url}/admin.php?mod=board">
+                        <span>{$lang_board_manager}</span>
+                    </a>
+                </li>
+                <li class="side-list {$class['category']}">
+                    <a href="{$base_url}/admin.php?mod=category">
+                        <span>{$lang_category_manager}</span>
+                    </a>
+                </li>
+                <li class="side-list {$class['recaptcha']}">
+                    <a href="{$base_url}/admin.php?mod=recaptcha">
+                        <span>ReCaptcha</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+<!--{/if}-->

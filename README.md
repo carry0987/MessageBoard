@@ -1,20 +1,21 @@
 # MessageBoard
 A simple messageboard, use php7, mysqli, js
 
+## Thanks
+Special PHP Instructions **[Will mktsai](https://github.com/mktsai)**
+
+Special PHP Instructions **[Hans00](https://github.com/hans00)**
+
+Thai language with thanks to **[Nathee Hengthong](https://www.facebook.com/Nathee.Hengthong)**
+
+Japanese language with thanks to **[Piggy](https://twitter.com/ja21770684)**
+
+English language with thanks to **[Solrz](https://www.facebook.com/jinchen.guo)**
+
 ## Usage
-You must set your **[config](./function/condb.php#L4-L9)** first :<br />
-```
-define('DB_HOST', 'localhost');           //Your database host
-define('DB_USER', 'root');                //Your database username
-define('DB_PASSWORD', 'root');            //Your database password
-define('DB_NAME', 'messageboard');        //Your database name
-define('DB_PORT', '3306');                //Your database connect port
-date_default_timezone_set('Asia/Taipei'); //Your Timezone
-```
-You must **not** edit :<br />
-```
-$version = 'vx.x.x';                      //Don't edit it !
-```
+Install it
+![](https://i.imgur.com/pxr0pQ9.png)
+
 ## Support
 - PHP ≧ 7
 - Mysqli
@@ -22,7 +23,7 @@ $version = 'vx.x.x';                      //Don't edit it !
 ## Feature
 - You can edit your message which has been sent
 - Support SSL
-- Two Languages : English/Chinese
+- Four Languages : English/Chinese/Japanese/Thai
 - Install automatically
 - Mobile Support
 - Use WYSIWYG Editor
@@ -34,8 +35,6 @@ $version = 'vx.x.x';                      //Don't edit it !
 [Download](https://github.com/carry0987/MessageBoard/releases)
 
 ## Screenshots
-Install
-![](https://i.imgur.com/urfaIYg.jpg)
 Homepage
 ![](http://i.imgur.com/6z82R70.jpg)
 Message

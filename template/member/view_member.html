@@ -1,0 +1,85 @@
+<body>
+    <div id="main">
+        <div class="login_user">
+            <ul>
+                <li>
+                    <a class="login_menu" href="{$base_url}/" rel="nofollow">
+                        <span>{$meta['name']}</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="login_menu login_username" href="{$base_url}/member.php?uid={$_GET['uid']}" rel="nofollow">
+                        <span>{$member_name}</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="notification" href="{$base_url}">
+                        <img class="notification_icon" src="{$base_url}/static/icon/notification.svg" alt="Notification" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="header">
+            <div class="image">
+                <img src="{$base_url}/static/icon/default_avatar.svg" />
+            </div>
+            <div class="name">
+                <span>{$member_name}</span>
+                <br />
+<!--{if $member_admin == true}-->
+                <span>{$lang_admin}</span>
+<!--{elseif $member_admin == false}-->
+                <span>{$lang_member}</span>
+<!--{/if}-->
+            </div>
+            <div class="user_detail">
+                <dl class="user_joined">
+                    <dt>{$lang_join_date}：</dt>
+                    <dd>{$member_join_date}</dd>
+                </dl>
+                <dl class="user_article">
+                    <dt>{$lang_last_login}：</dt>
+                    <dd>{$member_last_login}</dd>
+                </dl>
+            </div>
+        </div>
+        <div id="content">
+            <div class="repo-title">
+<!--{if isset($show_article) && $show_article === true}-->
+                <div class="pages">
+<!--{if $show_prev != 0}-->
+                    <a class="pages_tag" href="./member.php?uid={$_GET['uid']}&amp;page={$show_prev}">{$lang_prev_page}</a>
+<!--{/if}-->
+<!--{loop $page_numbers $pages}-->
+                    <a class="{$pages['class']}" href="./member.php?uid={$_GET['uid']}&amp;page={$pages['page']}">{$pages['page']}</a>
+<!--{/loop}-->
+<!--{if $show_next != 0}-->
+                    <a class="pages_tag" href="./member.php?uid={$_GET['uid']}&amp;page={$show_next}">{$lang_next_page}</a>
+<!--{/if}-->
+                </div>
+<!--{/if}-->
+            </div>
+<!--{if $show_article === true}-->
+            <div class="repo">
+                <ol>
+<!--{loop $article_pages $article_list}-->
+                    <li>
+                        <div class="repositories">
+                            <span>
+                                <a href="{$base_url}/article.php?aid={$article_list['aid']}" target="_blank" rel="noopener">
+                                    <span>{$article_list['title']}</span>
+                                </a>
+                            </span>
+                            <p class="p1">{$article_list['content_preview']}</p>
+                            <p class="p2">
+                                <span>{$article_list['post_date']}</span>
+                            </p>
+                        </div>
+                    </li>
+<!--{/loop}-->
+                </ol>
+            </div>
+<!--{/if}-->
+        </div>
+    </div>
+</body>

@@ -1,0 +1,17 @@
+<script type="text/javascript">
+setTimeout("countdown()", 1000);
+function countdown() {
+    var s = document.getElementById("refresh");
+    s.innerHTML = s.innerHTML - 1;
+    if (s.innerHTML == 0) {
+        window.location = "{$base_url}";
+    } else {
+        setTimeout("countdown()", 1000);
+    }
+}
+</script>
+<div class="infomation" style="height: 200px;">
+    <a>{$lang_logout_info_1}<span id="refresh">1</span>{$lang_logout_info_2}</a>
+    <br />
+    <a class="ifnorefresh" href="{$base_url}">{$lang_no_refresh}</a>
+</div>

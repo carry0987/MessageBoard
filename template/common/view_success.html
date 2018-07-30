@@ -1,0 +1,68 @@
+<!--{if isset($signup_permit)}-->
+        <script type="text/javascript">
+        setTimeout("countdown()", 1000);
+
+        function countdown() {
+            var s = document.getElementById("refresh");
+            s.innerHTML = s.innerHTML - 1;
+            if (s.innerHTML == 0) {
+                window.location = "{$base_url}/login.php";
+            } else {
+                document.getElementById("username").readOnly = true;
+                document.getElementById("password").readOnly = true;
+                document.getElementById("pdr").readOnly = true;
+                document.getElementById("email").readOnly = true;
+                setTimeout("countdown()", 1000);
+            }
+        }
+        </script>
+        <div class="infomation">
+            <a>{$lang_signup_info_1}<span id="refresh">1</span>{$lang_signup_info_2}</a>
+            <br />
+            <a class="ifnorefresh" href="{$base_url}/login.php">{$lang_no_refresh}</a>
+        </div>
+<!--{/if}-->
+
+<!--{if isset($login_permit)}-->
+        <script type="text/javascript">
+        setTimeout("countdown()", 1000);
+
+        function countdown() {
+            var s = document.getElementById("refresh");
+            s.innerHTML = s.innerHTML - 1;
+            if (s.innerHTML == 0) {
+                window.location = "{$base_url}";
+            } else {
+                document.getElementById("username").readOnly = true;
+                document.getElementById("password").readOnly = true;
+                setTimeout("countdown()", 1000);
+            }
+        }
+        </script>
+        <div class="infomation">
+            <a>{$lang_login_info_1}<span id="refresh">1</span>{$lang_login_info_2}</a>
+            <br />
+            <a class="ifnorefresh" href="./">{$lang_no_refresh}</a>
+        </div>
+<!--{/if}-->
+
+<!--{if isset($create_permit) && $create_permit === true && isset($board_id)}-->
+        <script type="text/javascript">
+        setTimeout("countdown()", 1000);
+
+        function countdown() {
+            var s = document.getElementById("refresh");
+            s.innerHTML = s.innerHTML - 1;
+            if (s.innerHTML == 0) {
+                window.location = "{$base_url}/board.php?bid={$board_id}";
+            } else {
+                setTimeout("countdown()", 1000);
+            }
+        }
+        </script>
+        <div class="infomation">
+            <a>{$lang_send_article_1}<span id="refresh">1</span>{$lang_send_article_2}</a>
+            <br />
+            <a class="ifnorefresh" href="{$base_url}/board.php?bid={$board_id}">{$lang_no_refresh}</a>
+        </div>
+<!--{/if}-->

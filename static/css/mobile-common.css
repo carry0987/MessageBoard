@@ -1,0 +1,359 @@
+@charset "UTF-8";
+
+/* Mobile view */
+@media screen and (min-width: 320px) and (max-width: 700px) {
+    #logo {
+        width: 40%;
+        height: 40%;
+    }
+
+    /* Login Information */
+
+    .login_user>ul>li>.login_menu {
+        padding: 15px 15px 17px 15px;
+        font-size: 1em;
+        font-weight: 700;
+    }
+
+    .login_user>ul>li>.login_username {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    /* Error */
+
+    .create_empty {
+        width: 90%;
+        padding: 0.5em;
+    }
+
+    .error_icon>img {
+        width: 25px;
+    }
+
+    .create_empty>.error_info {
+        font-size: 1em;
+        font-weight: normal;
+    }
+
+    .create_empty>.error_back {
+        padding-left: 2em;
+        font-size: 1em;
+        font-weight: normal;
+    }
+
+    /* Signup */
+    
+    .signup_link>span {
+        font-size: medium;
+    }
+
+    .signup_link>a {
+        padding: .8em 1em;
+    }
+
+    .admin {
+        width: auto;
+    }
+
+    .admin>table a {
+        font-size: 1em;
+        font-weight: bold;
+        color: #0366d6;
+        text-decoration: none;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .language {
+        width: 70%;
+    }
+
+    .change_language {
+        width: 100%;
+    }
+
+    .setting_div {
+        width: 100%;
+    }
+
+    .setting-input {
+        width: 85%;
+        font-size: medium;
+    }
+
+    .setting-textarea {
+        width: 93%;
+    }
+
+    .novalue>a {
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    /* Pages */
+    .pages {
+        width: 100%;
+        margin: auto;
+        float: none;
+    }
+
+    .pages>.pages_tag {
+        padding: 2px 5px;
+        font-size: medium;
+        white-space: nowrap;
+    }
+
+    .pages>.active {
+        padding: 2px 5px;
+    }
+
+    .pages>.pages_first {
+        padding: 2px 5px;
+        font-size: medium;
+    }
+
+    .pages>.pages_final {
+        padding: 2px 5px;
+        font-size: medium;
+    }
+
+    /* category */
+    .category {
+        width: 90%;
+    }
+
+    .category_title {
+        font-size: large;
+    }
+
+    /* Board */
+    .board {
+        width: auto;
+        padding: 0.25em;
+    }
+
+    .board_title {
+        width: 230px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .add_board {
+        width: 100%;
+    }
+
+    .board_name {
+        width: 100%;
+        padding: 1em 0em 0em;
+    }
+
+    .board_img {
+        margin: 0.5em 0em 0em 0.5em;
+    }
+
+    .board_text {
+        margin-bottom: 0em;
+    }
+
+    .board_latest {
+        display: block;
+        color: #666666;
+        margin: 0px;
+        float: none;
+        font-size: 16px;
+        margin-left: 48px;
+    }
+
+    .board_latest_info {
+        display: none;
+    }
+
+    /* Post */
+    .post {
+        width: 95%;
+    }
+
+    .post_button {
+        display: initial;
+    }
+
+    .post_link {
+        display: initial;
+    }
+
+    /* Article */
+    .article_div {
+        width: auto;
+    }
+
+    .article-edit {
+        width: 85%;
+    }
+
+    .article-text-n {
+        resize: none;
+        word-break: break-all;
+        font-size: 1.5em;
+    }
+
+    .article_submit>button {
+        width: 100%;
+    }
+
+
+    /* Content */
+    .content {
+        width: 90%;
+    }
+
+    .content_from,
+    .content_author,
+    .content_date {
+        font-size: medium;
+    }
+
+    .content_main {
+        display: block;
+        padding: 0em;
+    }
+
+    .content_box {
+        margin-left: 0em;
+        word-break: break-word;
+    }
+
+    .content_author_info {
+        display: block;
+        border: 0px solid #e9e9e9;
+        border-radius: 6px;
+        -webkit-flex: 0 0 auto;
+        flex: 0 0 auto;
+    }
+
+    .content_author_info>.author {
+        display: table-cell;
+        width: 100%;
+        vertical-align: middle;
+        border-top-width: 0px;
+        border-bottom-width: 0px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+
+    .content_author_info>.author>.author_name>a {
+        margin: 0px;
+        color: #656565;
+        background-color: #d5d5d5;
+        text-decoration: none;
+        display: block;
+        overflow: hidden;
+    }
+
+    .content_author_info>.author>.author_name>a:hover {
+        text-decoration: underline;
+    }
+
+    .content_author_info>.author_detail {
+        display: none;
+    }
+
+    .content_author_info .author_avatar {
+        display: table-cell;
+    }
+
+    .content_author_info .avatar_board a {
+        display: block;
+        font-size: medium;
+    }
+
+    .content_author_info .avatar_board img {
+        height: 48px;
+        width: 48px;
+        vertical-align: middle;
+    }
+
+    .content>p {
+        margin: 0em;
+    }
+
+    .content>p:first-child {
+        margin-top: 5px;
+    }
+
+    /* Box */
+    .box {
+        width: 95%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+    }
+
+    .box_title {
+        display: block;
+        width: 230px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .box_link {
+        display: contents;
+        font-size: 16px;
+        word-break: break-all;
+    }
+
+    .box_title span {
+        font-size: medium;
+    }
+
+    .box_detail dl {
+        width: 100%;
+    }
+
+    .box_reply {
+        display: none !important;
+    }
+
+    .box_latest_reply {
+        text-align: right;
+        padding-right: 1em;
+    }
+
+    /* Home */
+    .home_box {
+        width: 100%;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        width: 95%;
+    }
+    
+    .breadcrumb .crust a.crumb>.crumb_board {
+        max-width: 200px;
+    }
+
+    .breadcrumb .crust a.crumb>.crumb_article {
+        max-width: 80px;
+    }
+
+    /* Other */
+    .word_left {
+        display: none;
+    }
+    
+    .submit_edit>button {
+        width: 100%;
+    }
+
+    .not_login {
+        width: 98%;
+    }
+
+    .novalue {
+        margin-top: 10px;
+    }
+}

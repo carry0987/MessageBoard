@@ -3,7 +3,7 @@ header('content-type:text/html;charset=utf-8');
 require dirname(__FILE__).'/../include/header.php';
 
 /* Check login */
-if($now_admin == 1) {
+if($login['admin'] == 1) {
 if(!empty($_SESSION['username'])) {
   echo '';
 } else {
@@ -24,8 +24,8 @@ if(!empty($_SESSION['username'])) {
 }
 
 if(isset($_POST['add_board'])) {
-    $Board_name = input_safety($_POST['board_name']);
-    $Board_description = input_safety($_POST['board_description']);
+    $Board_name = input_filter($_POST['board_name']);
+    $Board_description = input_filter($_POST['board_description']);
     $Time = date('Y-m-d H:i:s');
     $success = '1';
     $Board_name_error = $Board_description_error = '';
@@ -41,7 +41,7 @@ if(isset($_POST['add_board'])) {
 
     if($success == '1') {
     $sql = 'INSERT INTO board (board_name,board_description,date) VALUES (\''.$Board_name.'\',\''.$Board_description.'\',\''.$Time.'\')';
-    $result = $con->query($sql);
+    $result = $conn->query($sql);
     echo '
     <script type="text/javascript">
     setTimeout("countdown()", 1000);

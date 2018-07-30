@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+/* Tablet view */
+
+@media screen and (min-width: 700px) {
+    .header {
+        background-color: #35475e;
+        z-index: 3;
+    }
+    .header .logo {
+        display: none;
+    }
+    .nav-trigger {
+        display: none;
+    }
+    .nav-trigger span,
+    .nav-trigger span:before,
+    span:after {
+        background-color: #fff;
+    }
+    .side-nav {
+        display: block;
+        width: 200px;
+        z-index: 3;
+    }
+    .side-nav ul li span:nth-child(2) {
+        display: none;
+    }
+    .side-nav .logo i {
+        padding-left: 12px;
+    }
+    .side-nav .logo span {
+        display: block;
+    }
+    .side-nav ul li i {
+        font-size: 26px;
+    }
+    .side-nav ul li a {
+        text-align: center;
+    }
+    .main-content {
+        margin-left: 200px;
+    }
+}

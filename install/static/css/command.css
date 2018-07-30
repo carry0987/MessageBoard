@@ -1,0 +1,238 @@
+@charset "UTF-8";
+
+/* Main Style */
+body {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    margin: 0px;
+    background-color: #EFEFEF;
+}
+
+h1,h2,h3 {
+    text-align: center;
+}
+
+h4 {
+    margin: 0.5em 1em 0.5em 1em;
+    text-align: left;
+}
+
+#mainwrapper {
+    background-color: #EFEFEF;
+    overflow: auto;
+    font-style: normal;
+    font-weight: 400;
+    height: auto;
+    width: auto;
+    float: none;
+}
+
+#header {
+    text-align: center;
+    padding: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: auto;
+    color: #929292;
+    background-color: #EFEFEF;
+}
+
+#logo {
+    margin-left: auto;
+    margin-right: auto;
+    width: 10%;
+    height: 10%;
+    color: #929292;
+}
+
+#logo-img {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    color: #929292;
+}
+
+/* install */
+.install {
+    padding: 1em;
+}
+
+.install_div {
+    margin: 0 auto;
+    background: #fff;
+    max-width: 400px;
+    padding: 0.5em 0em 2em;
+    text-align: center;
+}
+
+.install_input {
+    outline: none;
+    font-size: .9em;
+    letter-spacing: 1px;
+    color: #666;
+    padding: 0.5em 0.5em;
+    margin: auto;
+    width: 90%;
+    box-sizing: border-box;
+    margin-bottom: 1em;
+    display: block;
+    border: 1px solid #dde0df;
+    background: #e4eae7;
+}
+
+.install_submit>button {
+    font-size: 1em;
+    color: #ffffff;
+    background: #0f9d58;
+    border: 1px solid #0f9d58;
+    outline: none;
+    cursor: pointer;
+    padding: .8em 1em;
+    margin-top: 1em;
+    letter-spacing: 1px;
+    width: 95%;
+}
+
+.install_submit>button:hover {
+    background: #333;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+.install_link {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.install_link>span {
+    display: table-row;
+    font-size: large;
+}
+
+.install_link>a {
+    display: table-cell;
+    font-size: 1em;
+    width: 100%;
+    color: #ffffff;
+    background: #0f9d58;
+    border: 1px solid #0f9d58;
+    outline: none;
+    cursor: pointer;
+    padding: .8em 5em;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.install_link>a:hover {
+    background: #333;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+.horizon {
+    border-top: 1px solid #ccc;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+/* Language */
+
+.language {
+    width: 70%;
+    background-color: transparent;
+    border-color: #000000;
+    border-style: solid;
+    border-width: 2px;
+    outline: none;
+}
+
+.change_language {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.delete {
+    display: table-cell;
+    text-align: center;
+    width: 50px;
+}
+
+.alert {
+    height: 28px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Error */
+
+.error {
+    text-align: center;
+    font-style: inherit;
+    color: red;
+}
+
+/* footer */
+
+footer {
+    margin-top: 0%;
+    text-align: center;
+    width: auto;
+    height: auto;
+    background-color: #EFEFEF;
+    border: 0px;
+}
+
+footer p {
+    text-align: center;
+    color: black;
+}
+
+#footer {
+    /* Footer articles */
+    width: 100%;
+    float: none;
+    text-align: justify;
+    font-style: normal;
+    font-weight: 400;
+    color: #000000;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+#footericon {
+    width: 144px;
+    height: 30px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: default;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#footer .developer {
+    color: #0366d6;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#footer .developer:hover {
+    cursor: pointer;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: #0366d6;
+}
+
+/* Other */
+.rotate {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+}

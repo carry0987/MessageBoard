@@ -9,12 +9,12 @@ if(!empty($_GET['id'])) {
 
 /* Check if not author */
 $check_edit_sql = 'SELECT username FROM article WHERE id = '.$_GET['id'];
-$check_edit_result = $con->query($check_edit_sql);
+$check_edit_result = $conn->query($check_edit_sql);
 $check_edit_row = $check_edit_result->fetch_assoc();
 
 if (isset($_POST['edit_article']) && $_SESSION['username'] == $check_edit_row['username']) {
-  $Title = input_safety($_POST['title']);
-  $Content = input_safety($_POST['article']);
+  $Title = input_filter($_POST['title']);
+  $Content = input_filter($_POST['article']);
   $success = '1';
   $Title_Error = $Content_Error = '';
 

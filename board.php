@@ -1,321 +1,176 @@
 <?php
-header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/source/include/header.php';
-require dirname(__FILE__).'/source/function/check_database.php';
+require dirname(__FILE__).'/source/class/class_core.php';
+require dirname(__FILE__).'/source/class/class_load.php';
+$load = new Load;
+$load->loadClass('template', 'page', 'data_create');
+$load->loadFunction('filter');
 
-echo '
-<div id="cssmenu">
-    <ul>
-';
-  echo $menu_index;
-if(!empty($_SESSION['username']))
-{
-  if($now_admin == 1) {
-    echo $menu_admin;
-  }
-  echo $menu_home;
-  echo $menu_logout;
-} else {
-  echo $menu_login;
-  echo $menu_signup;
-}
-echo '
-    </ul>
-</div>
-';
+//Template setting
+$options = array(
+    'template_dir' => 'template/common/',
+    'css_dir' => 'static/css/',
+    'js_dir' => 'static/js/',
+    'cache_dir' => 'data/cache/',
+    'auto_update' => true,
+    'cache_lifetime' => 0,
+);
 
-/* Get Board Name */
-$board_sql = 'SELECT board_name,board_description FROM board WHERE id = '.input_safety($_GET['board_id']);
-$board_result = $con->query($board_sql);
-if($board_result) {
-  $board_row = $board_result->fetch_assoc();
-} else {
-  header('Location: '.$base_url.'');
-  exit();
-}
+$template = Template::getInstance();
+$template->setOptions($options);
 
-/* Breadcrumb */
-$index_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-$board_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-if ($board_result && $board_result->num_rows > 0) {
-  if(mb_strlen($board_row['board_name'],'utf-8') > 8) {
-      $board_name = mb_substr($board_row['board_name'],0,8,'utf-8').'...';
-    } else {
-      $board_name = mb_substr($board_row['board_name'],0,8,'utf-8');
-    }
-echo '
-    <div class="breadcrumbs">
-      <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-          <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-              <a class="fileTrail" href="'.str_replace("board.php","",$index_url).'" itemprop="item">
-                  <span class="breadcrumbs_home" itemprop="name">'.$main_name.'</span>
-                  <img class="breadcrumbs_img" src="'.$base_url.'/static/icon/home.svg">
-                  <meta content="1" itemprop="position" />
-              </a>
-          </span>
-      </span>
-      <span class="fileTrailDividers">></span>
-      <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-          <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-              <a class="fileTrail" href="'.$board_url.'" itemprop="item">
-                  <span class="fileTrailCurrent" itemprop="name">'.$board_name.'</span>
-                  <meta content="2" itemprop="position" />
-              </a>
-          </span>
-      </span>
-    </div>
-    ';
-}
+//Get url for breadcrumb
+$board_url = (isset($_SERVER['HTTPS'])?'https':'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
-/* Check URL */
-if(!empty($_GET['board_id']) && ctype_digit($_GET['board_id'])) {
-if(isset($_GET['page'])) {
-  if($_GET['page'] == '1' || $_GET['page'] == '' || $_GET['page'] == '0') {
-  header('Location: '.$base_url.'/board.php?board_id='.$_GET['board_id'].'');
-  } else {
-  $page = $_GET['page'];
-  }
-} else {
-  $page = 1;
-}
-} else {
-  header('Location: '.$base_url.'');
-}
+//Check URL
+if (!empty($_GET['bid']) && ctype_digit($_GET['bid'])) {
+    $board_id = input_filter($_GET['bid']);
 
-/* Page Script */
-$results_per_page = 7;
-$showpage = 3;
-$this_page_first_result = ($page-1)*$results_per_page;
-$sql = 'SELECT id,username,title,board_id,date FROM article WHERE board_id = '.input_safety($_GET['board_id']).' 
-ORDER BY id DESC LIMIT '.$this_page_first_result.','.$results_per_page;
-$result = $con->query($sql);
-
-$total_sql = 'SELECT board_id FROM article WHERE board_id = '.input_safety($_GET['board_id']).'';
-$total_result = $con->query($total_sql);
-$total = $total_result->num_rows;
-$total_pages = ceil($total/$results_per_page);
-$pageoffset = ($showpage-1)/2;
-
-/* Today Post */
-$today_string = date("Y-m-d");
-$today_sql = 'SELECT id FROM article WHERE DATE(date) = '."\"$today_string\"";
-$today_result = $con->query($today_sql);
-$today = $today_result->num_rows;
-
-echo '<div class="board">';
-
-echo '
-  <div class="board_name">
-    <table>
-      <tbody>
-        <tr>
-          <th><a href="././board.php?board_id='.$_GET['board_id'].'">'.$board_row['board_name'].'</a></th>
-          <td>'.$lang_total_post.':<a class="total_post">'.$total.'</a></td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="board_description">
-      <span>'.$board_row['board_description'].'</span>
-    </div>
-  </div>
-  ';
-
-echo '
-  <div class="post">
-    <div class="post_button">
-        <a class="post_link" href="./source/function/article_add.php?board_id='.input_safety($_GET['board_id']).'">
-          <span>'.$lang_post_article.'</span>
-        </a>
-    </div>
-  ';
-
-/* Pages Top */
-if($result->num_rows > 0) {
-  echo "\t<div class=\"pages\">\n";
-if($page > 1) {
-  echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.($page-1).'">'.$lang_pre_page.'</a>';
-}
-
-$start = 1;
-$end = $total_pages;
-if($total_pages > $showpage) {
-    if($page > $pageoffset + 2) {
-      echo '<a class="pages_first" href="board.php?board_id='.$_GET['board_id'].'&page=1">1...</a>';
-    } elseif($page == $pageoffset + 2) {
-      echo '<a class="pages_first" href="board.php?board_id='.$_GET['board_id'].'&page=1">1</a>';
-    }
-
-    if($page > $pageoffset) {
-      $start = $page - $pageoffset;
-        if($end = $total_pages > $page + $pageoffset) {
-          $end = $page + $pageoffset;
+    //Create article
+    if (isset($_GET['action']) && $_GET['action'] === 'create_article') {
+        if (!empty($login['username'])) {
+            $create_post = true;
+            $display = 'view_create';
         } else {
-          $end = $total_pages;
+            $create_post = false;
+            $display = 'view_login';
         }
     } else {
-       $start = 1;
-       if($end = $total_pages > $showpage) {
-        $end = $showpage;
-      } else {
-        $end = $total_pages;
-    }
-  }
-    if($page + $pageoffset > $total_pages) {
-       $start = $start - ($page + $pageoffset - $end);
-    }
-} 
-
-for($i = $start; $i <= $end; $i++){
-    if($page == $i){ 
-      echo "\t\t<a class=\"active\">".$i."</a>\n";
-  } else {  
-     echo "\t\t<a class=\"pages_tag\" href=\"board.php?board_id=".$_GET['board_id']."&page=".$i."\">".$i."</a>\n";
-  }
-}
-
-if($total_pages > $showpage && $total_pages > $page + $pageoffset + 1){
-  echo '<a class="pages_final" href="board.php?board_id='.$_GET['board_id'].'&page='.$total_pages.'">...'.$total_pages.'</a>';
-} elseif($total_pages > $showpage && $total_pages == $page + $pageoffset + 1) {
-  echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.$total_pages.'">'.$total_pages.'</a>';
-}
-
-if($page < $total_pages){
-  echo "\t\t<a class=\"pages_tag\" href=\"board.php?board_id=".$_GET['board_id']."&page=".($page+1)."\">".$lang_next_page."</a>";
-}
-
-echo "
-  \t</div>
-  </div>
-  ";
-} else {
-echo "
-  </div>
-  ";
-}
-
-/* Box */
-if($result->num_rows > 0) {
-    echo '
-    <div class="box">
-      <div class="box_detail">
-        <dl>
-          <dt><span>'.$lang_title.'</span></dt>
-          <dd class="box_reply">'.$lang_reply.'</dd>
-          <dd class="box_latest_reply">'.$lang_final_reply.'</dd>
-        </dl>
-        <ol class="box_ol">
-      ';
-while($row = $result->fetch_assoc()) {
-  if(mb_strlen($row['title'],'utf-8') > 20) {
-      $title = mb_substr($row['title'],0,20,'utf-8').'...';
-    } else {
-      $title = mb_substr($row['title'],0,20,'utf-8');
-    }
-  $format = 'Y-m-d';
-  $date = date($format, strtotime($row['date']));
-    echo '
-          <li class="box_list">
-            <div class="box_title">
-              <a class="box_link" href=./article.php?id='.$row['id'].' target="_blank">'.$title.'</a>
-              <span>'.$row['username'].'</span>
-              <span>, '.$date.'</span>
-            </div>
-          </li>
-         ';
-}
-echo '
-        </ol>
-      </div>
-    </div>
-    ';
-} elseif ($total_result->num_rows > 0) {
-  echo '
-        <div class="novalue">
-          <a>'.$lang_page_not_found.'</a>
-        </div>
-      </div>
-      ';
-} else {
-  echo '
-        <div class="novalue">
-          <a>'.$lang_index_content_empty.'</a>
-        </div>
-      </div>
-      ';
-}
-
-/* Pages Bottom */
-if($result->num_rows > 5) {
-  echo '
-    <div class="post">
-      <div class="post_button">
-          <a class="post_link" href="./source/function/article_add.php?board_id='.input_safety($_GET['board_id']).'">
-            <span>'.$lang_post_article.'</span>
-          </a>
-      </div>
-    ';
-  echo "\t<div class=\"pages\">\n";
-if($page > 1) {
-  echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.($page-1).'">'.$lang_pre_page.'</a>';
-}
-
-$start = 1;
-$end = $total_pages;
-if($total_pages > $showpage) {
-    if($page > $pageoffset + 2) {
-      echo '<a class="pages_first" href="board.php?board_id='.$_GET['board_id'].'&page=1">1...</a>';
-    } elseif($page == $pageoffset + 2) {
-      echo '<a class="pages_first" href="board.php?board_id='.$_GET['board_id'].'&page=1">1</a>';
+        $create_post = false;
+        $display = 'view_board';
     }
 
-    if($page > $pageoffset) {
-      $start = $page - $pageoffset;
-        if($end = $total_pages > $page + $pageoffset) {
-          $end = $page + $pageoffset;
+    //Check create article
+    if ($create_post === true && isset($_POST['submit'])) {
+        $create_permit = true;
+
+        if (empty($_POST['title']) || empty($_POST['content'])) {
+            $create_permit = false;
+            $display = 'view_error';
+        }
+
+        if ($create_permit !== false) {
+            $create_time = date('Y-m-d H:i:s');
+            $article_info = array(
+                'user_id' => $login['uid'],
+                'title' => $_POST['title'],
+                'content' => $_POST['content'],
+                'board_id' => $board_id,
+                'set_sitemap' => 'true',
+                'last_edit' => $create_time,
+                'post_date' => $create_time
+            );
+            $create_article = new DataCreate($conn);
+            $create_article->createArticle($article_info);
+            $display = 'view_success';
         } else {
-          $end = $total_pages;
+            $display = 'view_error';
+        }
+    }
+
+    //Prepare to get board name
+    $board_query = 'SELECT board_name,board_description FROM board WHERE id = ?';
+    $board_stmt = $conn->stmt_init();
+
+    //Board info
+    if ($board_stmt->prepare($board_query)) {
+        $board_stmt->bind_param('i', $board_id);
+        $board_stmt->execute();
+        $board_stmt->bind_result($board_name, $board_description);
+        $board_result = $board_stmt->get_result();
+        if ($board_result->num_rows != 0) {
+            $show_board = true;
+            while ($board_row = $board_result->fetch_assoc()) {
+                $board_name = $board_row['board_name'];
+                $board_description = $board_row['board_description'];
+            }
+        } else {
+            $show_board = false;
         }
     } else {
-       $start = 1;
-       if($end = $total_pages > $showpage) {
-        $end = $showpage;
-      } else {
-        $end = $total_pages;
+        header('Location: '.$base_url.'');
+        exit();
     }
-  }
-    if($page + $pageoffset > $total_pages) {
-       $start = $start - ($page + $pageoffset - $end);
+
+    if (!empty($_GET['page']) && ctype_digit($_GET['page'])) {
+        if ($_GET['page'] == '1' || $_GET['page'] == '' || $_GET['page'] == '0') {
+            header('Location: '.$base_url.'/board.php?bid='.$board_id.'');
+        } else {
+            $current_page = input_filter($_GET['page']);
+        }
+    } else {
+        $current_page = 1;
     }
-} 
-
-for($i = $start; $i <= $end; $i++){
-    if($page == $i){ 
-      echo "\t\t<a class=\"active\">".$i."</a>\n";
-  } else {  
-     echo "\t\t<a class=\"pages_tag\" href=\"board.php?board_id=".$_GET['board_id']."&page=".$i."\">".$i."</a>\n";
-  }
-}
-
-if($total_pages > $showpage && $total_pages > $page + $pageoffset + 1){
-  echo '<a class="pages_final" href="board.php?board_id='.$_GET['board_id'].'&page='.$total_pages.'">...'.$total_pages.'</a>';
-} elseif($total_pages > $showpage && $total_pages == $page + $pageoffset + 1) {
-  echo '<a class="pages_tag" href="board.php?board_id='.$_GET['board_id'].'&page='.$total_pages.'">'.$total_pages.'</a>';
-}
-
-if($page < $total_pages){
-  echo "\t\t<a class=\"pages_tag\" href=\"board.php?board_id=".$_GET['board_id']."&page=".($page+1)."\">".$lang_next_page."</a>";
-}
-
-echo "
-  \t</div>
-  </div>
-</div>
-  ";
 } else {
-echo "
-  </div>
-  ";
+    header('Location: '.$base_url.'');
 }
-?>
 
-<?php require dirname(__FILE__).'/source/include/footer.php'; ?>
+//Page Script
+$page_query = 'SELECT id,user_id,title,board_id,post_date FROM article WHERE board_id = ? ORDER BY id DESC';
+$page_stmt = $conn->stmt_init();
+$rows = array();
+//Check page result
+$page_stmt->prepare($page_query);
+$page_stmt->bind_param('i', $board_id);
+$page_stmt->execute();
+$page_stmt->bind_result($id, $user_id, $title, $board_id, $post_date);
+$page_result = $page_stmt->get_result();
+if ($page_result->num_rows != 0) {
+    $show_page = true;
+    //Get page info
+    while ($page_row = $page_result->fetch_assoc()) {
+        $user_query = 'SELECT username FROM user WHERE id = ?';
+        $user_stmt = $conn->stmt_init();
+        //Get user info
+        $user_stmt->prepare($user_query);
+        $user_stmt->bind_param('i', $page_row['user_id']);
+        $user_stmt->execute();
+        $user_stmt->bind_result($username);
+        $user_result = $user_stmt->get_result();
+        if ($user_result->num_rows != 0) {
+            $show_user = true;
+            while ($user_row = $user_result->fetch_assoc()) {
+                $article[] = array(
+                    'id' => $page_row['id'],
+                    'user_id' => $page_row['user_id'],
+                    'title' => $page_row['title'],
+                    'date' => $page_row['post_date'],
+                    'username' => $user_row['username'],
+                );
+            }
+        } else {
+            $show_user = false;
+        }
+    }
+} else {
+    $show_page = false;
+}
+
+if (isset($article) && count($article) != 0) {
+    $pagination = new Pagination($article, $current_page, 10);
+    $pagination->setShowFirstAndLast(false);
+    $article_pages = $pagination->getResults();
+    $total_pages = $pagination->getTotalPages();
+    $total_article = count($article);
+} else {
+    $total_article = '';
+    $total_pages = '';
+}
+
+//Check result
+if (isset($article_pages) && count($article_pages) != 0) {
+    $page_numbers = $pagination->getLinks();
+    $show_prev = $pagination->showPrev();
+    $show_next = $pagination->showNext();
+} else {
+    $page_numbers = '';
+    $show_prev = '';
+    $show_next = '';
+}
+
+include($template->loadTemplate('header_common.html'));
+include($template->loadTemplate($display.'.html'));
+include($template->loadTemplate('footer_common.html'));
+
+//Close database connect
+$board_stmt->free_result();
+$conn->close();

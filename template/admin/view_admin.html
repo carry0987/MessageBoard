@@ -1,0 +1,27 @@
+    <div class="main-content">
+        <div class="title">
+            <span>{$lang_back_end}</span>
+        </div>
+        <div class="main">
+            <div class="widget">
+                <div class="title">
+                    <span>{$lang_setting}</span>
+                </div>
+                <div class="chart">
+                    <div class="admin_setting">
+                        <form action="admin.php?update=setting" method="post">
+                            <label>{$lang_web_name}</label>
+                            <textarea class="setting_input" type="text" name="web_name" rows="6" cols="50" maxlength="20">{$admin['name']}</textarea>
+                            <label>{$lang_web_description}</label>
+                            <textarea class="setting_input" type="text" name="web_description" rows="6" cols="50" maxlength="300">{$admin['description']}</textarea>
+                            <div class="setting_submit">
+                                <button type="submit" name="submit">{$lang_submit}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{loadjs jquery.min.js}" type="text/javascript"></script>
+    <script src="{loadjs admin.js}" type="text/javascript"></script>

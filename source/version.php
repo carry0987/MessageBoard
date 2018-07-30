@@ -1,2 +1,2 @@
 <?php
-$system_version = '1.0.4';
+define('PROGRAM_VERSION', '2.0.0');

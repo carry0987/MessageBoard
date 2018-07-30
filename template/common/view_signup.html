@@ -1,0 +1,145 @@
+<script src="https://www.google.com/recaptcha/api.js?hl={$current_language}&onload=onloadCallback&render=explicit" type="text/javascript" async defer></script>
+<script type="text/javascript">
+var onloadCallback = function() {
+    grecaptcha.render("html_element", {
+        "sitekey": "{$siteKey}",
+        "theme": "white"
+    });
+};
+</script>
+<div class="signup_div">
+    <div class="alert">
+        <span id="checkbox"></span>
+    </div>
+    <form id="signup_form" action="./signup.php" method="post">
+        <input type="text" class="signup_input" name="username" id="username" placeholder="{$lang_username}" maxlength="20" />
+        <input type="password" class="signup_input" name="password" id="password" placeholder="{$lang_password}" maxlength="20" />
+        <input type="password" class="signup_input" name="pdr" id="pdr" placeholder="{$lang_confirm}" maxlength="20" />
+        <input type="text" class="signup_input" name="email" id="email" placeholder="{$lang_email}" maxlength="30" />
+        <div id="html_element"></div>
+        <div class="signup_submit">
+          <button type="submit" name="submit">{$lang_signup}</button>
+        </div>
+    </form>
+    <div class="horizon"></div>
+    <div class="signup_link">
+        <span>{$lang_have_account} </span>
+        <a href="./login.php">{$lang_login}</a>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#signup_form").submit(function() {
+        var username = $('#username').val();
+        var password1 = $('#password').val();
+        var password2 = $('#pdr').val();
+        var email_input = $('#email').val();
+        var regex = new RegExp("^[A-Za-z0-9]+$");
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (username == '') {
+            alert('{$lang_username_empty}');
+            return false;
+        } else if (username.length < 2) {
+            alert('{$lang_username_length}');
+            return false;
+        }else if (password1 == '' || password2 == '') {
+            alert('{$lang_password_empty}');
+            return false;
+        } else if (password1 != password2) {
+            alert('{$lang_repassword_error}');
+            return false;
+        } else if (password1.length < 8 || password2.length < 8 || !regex.test(password1) || !regex.test(password2)) {
+            alert('{$lang_password_rule}');
+            document.getElementById('password').value = "";
+            document.getElementById('pdr').value = "";
+            return false;
+        } else if (email == '') {
+            alert('{$lang_email_empty}');
+            return false;
+        } else if (!re.test(email_input)) {
+            alert('{$lang_email_format_error}');
+            return false;
+        }
+        return true;
+    });
+
+    $('#username').blur(function() {
+        var username = $('#username').val();
+        $.get("./signup.php", {check_username: username}, function(data) {
+            if (data == 1) {
+                $('#checkbox').html("<span style='color: red'>{$lang_duplicate_username}</span>");
+                return false;
+            } else if (username == '') {
+                $('#checkbox').html("<span style='color: red'>{$lang_username_empty}</span>");
+                return false;
+            } else if (username.length < 2) {
+                $('#checkbox').html("<span style='color: red'>{$lang_username_length}</span>");
+                return false;
+            } else {
+                $('#checkbox').html("");
+                return true;
+            }
+        });
+    });
+
+    $("#password").blur(function() {
+        var password = $('#password').val();
+        var password_max = $('#password').val().length;
+        if (password_max > 20) {
+            $('#checkbox').html("<span style='color: red'>Word Count : 20</span>");
+            return false;
+        } else if (password == '') {
+            $('#checkbox').html("<span style='color: red'>{$lang_password_empty}</span>");
+            return false;
+        } else {
+            $('#checkbox').html("");
+            return true;
+        }
+    });
+
+    $("#admin_psw_confirm").blur(function() {
+        var password1 = $('#admin_psw').val();
+        var password2 = $('#admin_psw_confirm').val();
+        if (password1 !== password2) {
+            $('#checkbox').html("<span style='color: red'>{$lang_repassword_error}</span>");
+            return false;
+        } else {
+            $('#checkbox').html("");
+            return true;
+        }
+    });
+
+    function isValidEmailAddress(emailAddress) {
+        var pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(emailAddress);
+    }
+
+    $('#email').blur(function() {
+        var email = $('#email').val();
+        $.get("./signup.php", {check_email: email}, function(data) {
+            if (data == 1) {
+                $('#checkbox').html("<span style='color: red'>{$lang_duplicate_email}</span>");
+                return false;
+            } else if (email == '') {
+                $('#checkbox').html("<span style='color: red'>{$lang_email_empty}</span>");
+                return false;
+            } else if (!isValidEmailAddress(email)) {
+                $('#checkbox').html("<span style='color: red'>{$lang_email_format_error}</span>");
+                return false;
+            } else {
+                $('#checkbox').html("");
+                return true;
+            }
+        });
+    });
+});
+<!--{if $username_error != ''}-->
+  alert('{$username_error}');location.href='{$base_url}/signup.php';
+<!--{/if}-->
+<!--{if $password_error != ''}-->
+  alert('{$password_error}');location.href='{$base_url}/signup.php';
+<!--{/if}-->
+<!--{if $email_error != ''}-->
+  alert('{$email_error}');location.href='{$base_url}/signup.php';
+<!--{/if}-->
+</script>

@@ -2,13 +2,13 @@
 header('content-type:text/html;charset=utf-8');
 require dirname(__FILE__).'/../include/header.php';
 
-if($now_admin == 1) {
+if($login['admin'] == 1) {
 if (isset($_POST['delete_article'])) {
     if(!empty($_POST['checkbox'])) {
-        $delete = input_safety($_POST['checkbox']);
+        $delete = input_filter($_POST['checkbox']);
         foreach($delete as $selected_article) {
             $delete_sql = 'DELETE FROM article WHERE id = '.$selected_article;
-            $con->query($delete_sql);
+            $conn->query($delete_sql);
         }
         echo '
         <script>

@@ -1,16 +1,16 @@
 <?php
-require dirname(__FILE__). '/../source/function/input_safety.php';
+require dirname(__FILE__). '/../source/function/function_filter.php';
 
-$editor = pathinfo(input_safety($_GET['editor']), PATHINFO_EXTENSION);
+$editor = pathinfo(input_filter($_GET['editor']), PATHINFO_EXTENSION);
 
 switch ($editor) {
     case ($editor === 'js'):
         header('content-type:text/javascript;charset=utf-8');
-        readfile('./js/editor/development/'.input_safety($_GET['editor']));
+        readfile('./editor/'.input_filter($_GET['editor']));
         break;
     case ($editor === 'css'):
         header('content-type:text/css;charset=utf-8');
-        readfile('./js/editor/development/themes/'.input_safety($_GET['editor']));
+        readfile('./editor/themes/'.input_filter($_GET['editor']));
         break;
     default:
         echo 'Access Denied !';

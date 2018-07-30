@@ -1,69 +1,96 @@
 <?php
-header('content-type:text/html;charset=utf-8');
-ob_start();
-require dirname(__FILE__).'/source/include/header.php';
-$change_title = ob_get_contents();
-ob_end_clean();
-$page_title = 'Control Center - '.$main_name;
-$change_title = preg_replace('/(<title>)(.*?)(<\/title>)/i', '$1'.$page_title.'$3', $change_title);
-echo $change_title;
+require dirname(__FILE__).'/source/class/class_core.php';
+require dirname(__FILE__).'/source/class/class_load.php';
+$load = new Load;
+$load->loadClass('template', 'page', 'data_create', 'data_update', 'data_delete', 'admin');
+$load->loadFunction('filter');
 
-if($now_admin != 1) {
-  echo '
-    <script>
-      alert("'.$lang_not_admin.'");location.href="./";
-    </script>
-  ';
-  exit();
-}
+//Template setting
+$options = array(
+    'template_dir' => 'template/admin/',
+    'css_dir' => 'static/css/admin/',
+    'js_dir' => 'static/js/',
+    'cache_dir' => 'data/cache/admin/',
+    'auto_update' => true,
+    'cache_lifetime' => 0,
+);
 
-echo '
-<div id="cssmenu">
-    <ul>
-';
-if(!empty($_SESSION['username'])) {
-  echo $menu_index;
-  echo $menu_logout;
-  echo $menu_setting;
+$template = Template::getInstance();
+$template->setOptions($options);
+
+//Breadcrumb
+$admin_url = (isset($_SERVER['HTTPS'])?'https':'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+//Check mod
+$class['index'] = '';
+$class['user'] = '';
+$class['article'] = '';
+$class['board'] = '';
+$class['category'] = '';
+$class['recaptcha'] = '';
+
+if (!empty($login['username']) && $login['admin'] === true) {
+    $show_admin = true;
+    if (isset($_GET['mod'])) {
+        switch ($_GET['mod']) {
+            case ($_GET['mod'] === 'index'):
+                $class['index'] = 'active';
+                $display = 'view_admin';
+                $admin_config = new Admin($conn);
+                $admin = $admin_config->showConfig();
+                break;
+            case ($_GET['mod'] === 'user'):
+                $class['user'] = 'active';
+                $display = 'manager_user';
+                break;
+            case ($_GET['mod'] === 'article'):
+                $class['article'] = 'active';
+                $display = 'manager_article';
+                break;
+            case ($_GET['mod'] === 'board'):
+                $class['board'] = 'active';
+                $display = 'manager_board';
+                break;
+            case ($_GET['mod'] === 'category'):
+                $class['category'] = 'active';
+                $display = 'manager_category';
+                break;
+            case ($_GET['mod'] === 'recaptcha'):
+                $class['recaptcha'] = 'active';
+                $display = 'manager_recaptcha';
+                break;
+            default:
+                $class['index'] = 'active';
+                $display = 'view_admin';
+                break;
+        }
+    } else {
+        $class['index'] = 'active';
+        $display = 'view_admin';
+        $admin_config = new Admin($conn);
+        $admin = $admin_config->showConfig();
+    }
 } else {
-  header();
-}
-echo '
-    </ul>
-</div>
-';
-
-if(isset($_GET['action'])) {
-  $action = $_GET['action'];
-} else {
-  $action = '';
+    $show_admin = false;
+    $display = 'view_denied';
 }
 
-if(!empty($action) && $action == 'article_manager' || $action == 'board_manager') {
-  if($action == 'article_manager') {
-    require dirname(__FILE__).'/source/function/admin_article_manager.php';
-  } elseif($action == 'board_manager') {
-    require dirname(__FILE__).'/source/function/admin_board_manager.php';
-  }
-} else {
-  echo '
-  <div class="admin">
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <a href="./admin.php?action=article_manager">'.$lang_article_manager.'</a>
-          </td>
-          <td>
-            <a href="./admin.php?action=board_manager">'.$lang_board_manager.'</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-      ';
+//Check change setting
+if (isset($_GET['update'])) {
+    switch ($_GET['update']) {
+        case ($_GET['update'] === 'setting'):
+            if (isset($_POST['web_name']) && isset($_POST['web_description'])) {
+                $update['config'] = new DataUpdate($conn);
+                $update['config']->updateConfig($_POST['web_name'], $_POST['web_description']);
+                sleep(1);
+                $display = 'view_success';
+            }
+            break;
+        default:
+            break;
+    }
 }
 
-?>
-
-<?php require dirname(__FILE__).'/source/include/footer.php'; ?>
+include($template->loadTemplate('header_admin.html'));
+include($template->loadTemplate($display.'.html'));
+include($template->loadTemplate('footer_admin.html'));

@@ -1,153 +1,100 @@
 <?php
-header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/source/include/header.php';
-require dirname(__FILE__).'/source/function/check_database.php';
+require dirname(__FILE__).'/source/class/class_core.php';
+require dirname(__FILE__).'/source/class/class_load.php';
+$load = new Load;
+$load->loadClass('template');
+$load->loadFunction('filter');
 
-echo '
-<div id="cssmenu">
-    <ul>
-';
-  echo $menu_index;
-if(!empty($_SESSION['username']))
-{
-  if($now_admin == 1) {
-    echo $menu_admin;
-  }
-  echo $menu_home;
-  echo $menu_logout;
-} else {
-  echo $menu_login;
-  echo $menu_signup;
-}
-echo '
-    </ul>
-</div>
-';
+//Template setting
+$options = array(
+    'template_dir' => 'template/common/',
+    'css_dir' => 'static/css/',
+    'js_dir' => 'static/js/',
+    'cache_dir' => 'data/cache/',
+    'auto_update' => true,
+    'cache_lifetime' => 0,
+);
 
-/* Breadcrumb */
-$index_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-echo '
-    <div class="breadcrumbs">
-        <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-            <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-                <a class="fileTrail" href="'.$index_url.'" itemprop="item">
-                    <span class="breadcrumbs_home" itemprop="name">'.$main_name.'</span>
-                    <img class="breadcrumbs_img" src="'.$base_url.'/static/icon/home.svg">
-                    <meta content="1" itemprop="position" />
-                </a>
-            </span>
-        </span>
-    </div>
-    ';
+$template = Template::getInstance();
+$template->setOptions($options);
 
-$sort_sql = 'SELECT id,sort_name,sort_description FROM sort ORDER BY id ASC';
-$sort_result = $con->query($sort_sql);
-if($sort_result->num_rows > 0) {
-    echo '
-      <div class="sort">
-      ';
-while($sort_row = $sort_result->fetch_assoc()) {
-    echo '
-      <li class="sort_index">
-      <div class="sort_title">
-        <img class="sort_icon" src="./static/icon/folder.svg">
-        <span>'.$sort_row['sort_name'].'</span>
-        <div class="sort_toggle">
-            <span>+</span>
-        </div>
-      </div>
-      ';
+//Breadcrumb
+$index_url = (isset($_SERVER['HTTPS'])?'https':'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
-$board_sql = 'SELECT id,board_name,board_description,date FROM board WHERE sort_id = '.$sort_row['id'].' ORDER BY id ASC';
-$board_result = $con->query($board_sql);
-//echo '<h1 style="text-align: center; margin: 0;">'.$lang_board_list.'</h1>';
-if($board_result->num_rows > 0) {
-    echo '
-        <ol class="board_ol">
-      ';
-while($board_row = $board_result->fetch_assoc()) {
-  $total_article_sql = 'SELECT id FROM article WHERE board_id = '.$board_row['id'].'';
-  $total_article_result = $con->query($total_article_sql);
-  $total_article = $total_article_result->num_rows;
+//Category list
+$category_query = 'SELECT id,category_name,category_description FROM category ORDER BY id ASC';
+$category_stmt = $conn->stmt_init();
+$categorys = array();
 
-  $total_reply_sql = 'SELECT id FROM reply WHERE board_id = '.$board_row['id'].'';
-  $total_reply_result = $con->query($total_reply_sql);
-  $total_reply = $total_reply_result->num_rows;
-
-  $latest_post_sql = 'SELECT id,username,title,date FROM article WHERE board_id = '.$board_row['id'].' ORDER BY id DESC LIMIT 1';
-  $latest_post_result = $con->query($latest_post_sql);
-  if($latest_post_result->num_rows > 0) {
-    $latest_post_row = $latest_post_result->fetch_assoc();
-    $format = 'Y-m-d';
-    $date = date($format, strtotime($latest_post_row['date']));
-    if(mb_strlen($latest_post_row['title'],'utf-8') > 8) {
-    $latest_post_title = mb_substr($latest_post_row['title'],0,8,'utf-8').'...';
-  } else {
-    $latest_post_title = mb_substr($latest_post_row['title'],0,8,'utf-8');
-  }
-  }
-    echo '
-        <li class="board_list">
-            <div class="board_img">
-                <img class="board_icon" src="./static/icon/board_icon.svg">
-            </div>
-            <div class="board_text">
-                <div class="board_title">
-                  <span>
-                    <a href=./board.php?board_id='.$board_row['id'].'>
-                      <span>'.$board_row['board_name'].'</span>
-                    </a>
-                  </span>
-                </div>
-                <div class="board_info">
-                  <p class="p1">'.$lang_article.':'.$total_article.'</p>
-                  <p class="p1">'.$lang_reply.':'.$total_reply.'</p>
-                </div>
-            </div>
-        ';
-
-        if($latest_post_result->num_rows > 0) {
-            echo '
-                <div class="board_latest">
-                    <div class="board_latest_title">
-                        <span>'.$lang_board_latest_post.':</span>
-                        <a href=./article.php?id='.$latest_post_row['id'].' title="'.$latest_post_row['title'].'">'.$latest_post_title.'</a>
-                    </div>
-                    <div class="board_latest_info">
-                        <span>'.$latest_post_row['username'].'</span>
-                        <span>'.$date.'</span>
-                    </div>
-                </div>
-                ';
+if ($category_stmt->prepare($category_query)) {
+    $category_stmt->execute();
+    $category_stmt->bind_result($id, $category_name, $category_description);
+    $category_result = $category_stmt->get_result();
+    if ($category_result->num_rows != 0) {
+        while ($category_row = $category_result->fetch_assoc()) {
+            $category_row['boards'] = array();
+            $board_query = 'SELECT id,board_name FROM board WHERE category_id = ? ORDER BY id ASC';
+            $board_stmt = $conn->stmt_init();
+            if ($board_stmt->prepare($board_query)) {
+                $board_stmt->bind_param('i', $category_row['id']);
+                $board_stmt->execute();
+                $board_stmt->bind_result($id, $board_name);
+                $board_result = $board_stmt->get_result();
+                if ($board_result->num_rows != 0) {
+                    $show_board_list = true;
+                    while ($board_row = $board_result->fetch_assoc()) {
+                        $total_article_query = 'SELECT id,user_id,title,post_date FROM article WHERE board_id = ?';
+                        $total_article_stmt = $conn->stmt_init();
+                        if ($total_article_stmt->prepare($total_article_query)) {
+                            $total_article_stmt->bind_param('i', $board_row['id']);
+                            $total_article_stmt->execute();
+                            $total_article_stmt->bind_result($id, $user_id, $title ,$post_date);
+                            $total_article_result = $total_article_stmt->get_result();
+                            if ($total_article_result->num_rows != 0) {
+                                $board_row['articles'] = array();
+                                while ($total_article_row = $total_article_result->fetch_assoc()) {
+                                    $board_row['articles'][] = $total_article_row;
+                                }
+                            }
+                            //Get latest article
+                            $latest_query = 'SELECT id,user_id,title,post_date FROM article WHERE board_id = ? ORDER BY id DESC LIMIT 1';
+                            $latest_stmt = $conn->stmt_init();
+                            if ($latest_stmt->prepare($latest_query)) {
+                                $latest_stmt->bind_param('i', $board_row['id']);
+                                $latest_stmt->execute();
+                                $latest_stmt->bind_result($id, $user_id, $title ,$post_date);
+                                $latest_result = $latest_stmt->get_result();
+                                if ($latest_result->num_rows != 0) {
+                                    $board_row['latest'] = array();
+                                    while ($latest_row = $latest_result->fetch_assoc()) {
+                                        $board_row['latest'] = $latest_row;
+                                        $date_format = 'Y-m-d';
+                                        $latest_username_query = 'SELECT username FROM user WHERE id = ?';
+                                        $latest_username_stmt = $conn->stmt_init();
+                                        if ($latest_username_stmt->prepare($latest_username_query)) {
+                                            $latest_username_stmt->bind_param('i', $board_row['latest']['user_id']);
+                                            $latest_username_stmt->execute();
+                                            $latest_username_stmt->bind_result($username);
+                                            $latest_username_result = $latest_username_stmt->get_result();
+                                            if ($latest_username_result->num_rows != 0) {
+                                                while ($latest_username_row = $latest_username_result->fetch_assoc()) {
+                                                    $board_row['latest_user'] = $latest_username_row;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                $category_row['boards'][] = $board_row;
+                            }
+                        }
+                    }
+                }
+                $categorys[] = $category_row;
+            }
         }
-echo '
-    </li>
-     ';
+    }
 }
-echo '
-    </ol>
-    ';
-}
-}
-echo '
-        </li>
-    </div>
-    ';
-} else {
-  echo '
-        <div class="novalue">
-          <a>'.$lang_index_content_empty.'</a>
-        </div>
-      ';
-}
-?>
 
-<script>
-$(document).ready(function() {
-    $(".sort_toggle").click(function(){ 
-        $(this).next().slideToggle();
-    })
-});
-</script>
-
-<?php require dirname(__FILE__).'/source/include/footer.php'; ?>
+include($template->loadTemplate('header_common.html'));
+include($template->loadTemplate('view_index.html'));
+include($template->loadTemplate('footer_common.html'));

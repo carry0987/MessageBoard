@@ -1,0 +1,39 @@
+        <div class="login_div">
+            <form action="login.php" id="login_form" method="post">
+                <input type="text" class="login_input" name="account" id="account" placeholder="{$lang_username_or_email}" maxlength="30" />
+                <input type="password" class="login_input" name="password" id="password" placeholder="{$lang_password}" maxlength="20" />
+                <div class="forgot_password">
+                    <a href="./source/function/function_forgot.php">{$lang_forgot_password}</a>
+                </div>
+                <div class="login_submit">
+                    <button type="submit" name="submit">{$lang_login}</button>
+                </div>
+            </form>
+            <div class="horizon"></div>
+            <div class="signup_link">
+                <span>{$lang_no_account} </span>
+                <a href="./signup.php">{$lang_signup}</a>
+            </div>
+        </div>
+        <script type="text/javascript">
+        $('#login_form').submit(function() {
+            if ($('#account').val() == '') {
+                alert('{$lang_login_empty}');
+                $('#account').focus();
+                return false;
+            } else if ($('#password').val() == '') {
+                alert('{$lang_password_empty}');
+                $('#password').focus();
+                return false;
+            }
+            return true;
+        });
+        <!--{if $account_error != ''}-->
+        alert('{$account_error}');
+        location.href = '{$base_url}/login.php';
+        <!--{/if}-->
+        <!--{if $password_error != ''}-->
+        alert('{$password_error}');
+        location.href = '{$base_url}/login.php';
+        <!--{/if}-->
+        </script>

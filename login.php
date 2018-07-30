@@ -1,137 +1,72 @@
 <?php
-header('content-type:text/html;charset=utf-8');
-ob_start();
-require dirname(__FILE__).'/source/include/header.php';
-require dirname(__FILE__).'/source/function/check_database.php';
+require dirname(__FILE__).'/source/class/class_core.php';
+require dirname(__FILE__).'/source/class/class_load.php';
+$load = new Load;
+$load->loadClass('template', 'data_update');
+$load->loadFunction('filter');
 
-$change_title = ob_get_contents();
-ob_end_clean();
-$page_title = $lang_login.' - '.$main_name;
-$change_title = preg_replace('/(<title>)(.*?)(<\/title>)/i', '$1'.$page_title.'$3', $change_title);
-echo $change_title;
+//Template setting
+$options = array(
+    'template_dir' => 'template/common/',
+    'css_dir' => 'static/css/',
+    'js_dir' => 'static/js/',
+    'cache_dir' => 'data/cache/',
+    'auto_update' => true,
+    'cache_lifetime' => 0,
+);
+
+$template = Template::getInstance();
+$template->setOptions($options);
 
 //Check login
-if (!empty($_SESSION['username'])) {
-  echo '<script>';
-  echo 'alert("'.$lang_already_login.'");location.href="./"';
-  echo '</script>';
+if (!empty($login['username'])) {
+    header('Location: '.$base_url.'');
 }
 
-  echo '
-  <div id="cssmenu">
-      <ul>
-  ';
-  echo $menu_index;
-  echo $menu_signup;
-  echo '
-      </ul>
-  </div>
-  ';
+$account_error = $password_error = '';
+if (isset($_POST['submit'])) {
+    $login_permit = true;
+    $account = $_POST['account'];
+    $get_password = input_filter($_POST['password']);
+    $login_query = 'SELECT id,username,password FROM user WHERE username = ? OR email = ?';
+    $login_stmt = $conn->stmt_init();
 
-echo '<div class="login_div">';
-$Online = 1;
-$Username_Err = $Password_Err = '';
-if(isset($_POST['submit'])){
-  $Username = input_safety($_POST['username']);
-  $Password = input_safety($_POST['password']);
-
-  if($Online){
-    $OK = 1;
-    $sql = 'SELECT username,password FROM user WHERE username = '."\"$Username\"";
-    $result = $con->query($sql);
-    $row = $result->fetch_assoc();
-    if($result->num_rows == 0){
-      $Username_Err = $lang_username_not_exist;
-      $OK = 0;
-    }
-
-    elseif(!password_verify($Password, $row['password'])) {
-      $Password_Err = $lang_wrong_password;
-      $OK = 0;
-    }
-    if($OK) {
-      echo '
-        <script type="text/javascript">
-        setTimeout("countdown()", 1000);
-        function countdown() {
-            var s = document.getElementById("refresh");
-            s.innerHTML = s.innerHTML - 1;
-            if (s.innerHTML == 0) {
-                window.location = "./";
-            } else {
-                document.getElementById("username").readOnly = true;
-                document.getElementById("password").readOnly = true;
-                setTimeout("countdown()", 1000);
-            }
+    if ($login_stmt->prepare($login_query)) {
+        $login_stmt->bind_param('ss', $account, $account);
+        $login_stmt->execute();
+        $login_stmt->bind_result($id, $username, $password);
+        $login_result = $login_stmt->get_result();
+        while ($login_row = $login_result->fetch_assoc()) {
+            $login_id = $login_row['id'];
+            $login_username = input_filter($login_row['username']);
+            $check_password = $login_row['password'];
         }
-        </script>
-          ';
-
-      $_SESSION['username'] = $row['username'];
-
-      echo '<div class="infomation">';
-      echo '<a>'.$lang_login_info_1.'<span id="refresh">1</span>'.$lang_login_info_2.'</a>';
-      echo '<br />';
-      echo '<a class="ifnorefresh" href="./">'.$lang_no_refresh.'</a>';
-      echo '</div>';
+    } else {
+        header('Location: '.$base_url);
+        exit();
     }
-  }
+
+    if ($login_result->num_rows == 0) {
+        $account_error = $lang_account_not_exist;
+        $login_permit = false;
+    } elseif (!password_verify($get_password, $check_password)) {
+        $password_error = $lang_wrong_password;
+        $login_permit = false;
+    }
+
+    if ($login_result->num_rows != 0 && $login_permit === true) {
+        $_SESSION['username'] = $login_username;
+        $get_time = date('Y-m-d H:i:s');
+        $update_user = new DataUpdate($conn);
+        $update_user->updateLastlogin($get_time, $login_id);
+        $display = 'view_success';
+    } else {
+        $display = 'view_login';
+    }
+} else {
+    $display = 'view_login';
 }
-?>
 
-<?php
-if(!isset($_POST['submit'])) {
-echo '
-  <form class="login_form" onsubmit="return login_check();" action="login.php" method="post">
-    <table class="login">
-      <tr>
-        <td class="login-a">'.$lang_username.'：</td>
-        <td class="login-a">
-          <input class="login-input" type="text" name="username" id="username" placeholder="Username" maxlength="10">
-        </td>
-      </tr>
-      <tr>
-        <td class="login-a">'.$lang_password.'：</td>
-        <td class="login-a">
-          <input class="login-input" type="password" name="password" id="password" placeholder="Password" maxlength="20">
-        </td>
-      </tr>
-    </table>
-    <br />
-    <div class="submit">
-      <button type="submit" name="submit">'.$lang_login.'</button>
-    </div>
-  </form>
-</div>';
-}
-?>
-<script>
-  function login_check(){
-  if(document.getElementById("username").value == '')
-    {
-      <?php echo "alert(\"$lang_username_empty\");"; ?>
-      document.getElementById("username").focus();
-      return false;
-    }
-    else if(document.getElementById("password").value == '')
-    {
-      <?php echo "alert(\"$lang_password_empty\");"; ?>
-      document.getElementById("password").focus();
-      return false;
-    }
-    return true;
-  }
-  <?php
-  if($Username_Err != '')
-  {
-    echo "alert(\"$Username_Err\");location.href='./login.php';";
-  }
-
-  if($Password_Err != '')
-  {
-    echo "alert(\"$Password_Err\");location.href='./login.php';";
-  }
-  ?>
-</script>
-
-<?php require dirname(__FILE__).'/source/include/footer.php'; ?>
+include($template->loadTemplate('header_common.html'));
+include($template->loadTemplate($display.'.html'));
+include($template->loadTemplate('footer_common.html'));

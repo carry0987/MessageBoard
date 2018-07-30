@@ -1,0 +1,23 @@
+        <div id="cssmenu">
+            <ul>
+<!--{if !empty($login['username'])}-->
+                <li>
+                    <a href="{$base_url}/member.php?uid={$login['uid']}">{$login['username']}</a>
+                </li>
+<!--{/if}-->
+<!--{if $login['admin'] === true}-->
+                <li>
+                    <a href="{$base_url}/admin.php">{$lang_admin}</a>
+                </li>
+<!--{/if}-->
+<!--{if empty($login['username'])}-->
+                <li>
+                    <a href="{$base_url}/login.php">{$lang_login}</a>
+                </li>
+<!--{else}-->
+                <li>
+                    <a href="{$base_url}/logout.php">{$lang_logout}</a>
+                </li>
+<!--{/if}-->
+            </ul>
+        </div>

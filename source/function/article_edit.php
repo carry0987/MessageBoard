@@ -13,7 +13,7 @@ if(!empty($_GET['id'])) {
 }
 
 $edit_title = 'SELECT title FROM article WHERE id='.$_GET['id'];
-$edit_result = $con->query($edit_title);
+$edit_result = $conn->query($edit_title);
 
 if($edit_result) {
 if($edit_result->num_rows > 0) {
@@ -35,7 +35,7 @@ echo '
   echo $menu_index;
 if(!empty($_SESSION['username']))
 {
-  if($now_admin == 1) {
+  if($login['admin'] == 1) {
     echo $menu_admin;
   }
   echo $menu_home;
@@ -63,11 +63,11 @@ if (!empty($_SESSION['username'])) {
 
 /* Check if not author */
 $check_user_sql = 'SELECT username FROM article WHERE id='.$_GET['id'];
-$check_user_result = $con->query($check_user_sql);
+$check_user_result = $conn->query($check_user_sql);
 if($check_user_result) {
 if($check_user_result->num_rows > 0) {
   while($check_user_row = $check_user_result->fetch_assoc()) {
-  if($_SESSION['username'] == $check_user_row['username'] || $now_admin == 1) {
+  if($_SESSION['username'] == $check_user_row['username'] || $login['admin'] == 1) {
     echo '';
   } else {
     echo '
@@ -88,7 +88,7 @@ if($check_user_result->num_rows > 0) {
 
 /* Select Content */
 $sql = 'SELECT username,title,content,date FROM article WHERE id='.$_GET['id'];
-$result = $con->query($sql);
+$result = $conn->query($sql);
 
 /* Show Edit Board */
 if($result) {

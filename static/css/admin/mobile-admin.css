@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+/* Mobile view */
+
+@media screen and (min-width: 280px) and (max-width: 450px) {
+    .logo span {
+        color: #233245;
+        margin-left: 5px;
+    }
+}

@@ -1,7 +1,7 @@
 <?php
 header('content-type:text/html;charset=utf-8');
 
-if($now_admin != 1) {
+if($login['admin'] != 1) {
   echo '
     <script>
       alert("'.$lang_not_admin.'");location.href="./";
@@ -24,10 +24,10 @@ $results_per_page = 7;
 $showpage = 3;
 $this_page_first_result = ($page-1)*$results_per_page;
 $sql = 'SELECT id,username,title,date FROM article ORDER BY id DESC LIMIT '.$this_page_first_result.','.$results_per_page;
-$result = $con->query($sql);
+$result = $conn->query($sql);
 
 $total_sql = 'SELECT id FROM article';
-$total_result = $con->query($total_sql);
+$total_result = $conn->query($total_sql);
 $total = $total_result->num_rows;
 $total_pages = ceil($total/$results_per_page);
 $pageoffset = ($showpage-1)/2;

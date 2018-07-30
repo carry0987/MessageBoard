@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+@media screen and (min-width: 700px) and (max-width: 1024px) {
+    .install input {
+        font-size: 1em;
+    }
+
+    .change_language {
+        width: 40%;
+    }
+
+    #logo {
+        width: 15%;
+    }
+}

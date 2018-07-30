@@ -1,7 +1,7 @@
 <?php
 header('content-type:text/html;charset=utf-8');
 
-if($now_admin != 1) {
+if($login['admin'] != 1) {
   echo '
     <script>
       alert("'.$lang_not_admin.'");location.href="./";
@@ -14,7 +14,7 @@ echo '<h1 style="text-align: center; margin: 0;">'.$lang_board_manager.'</h1>';
 
 /* Show Boards */
 $sql = 'SELECT id,board_name,date FROM board';
-$result = $con->query($sql);
+$result = $conn->query($sql);
 
 if($result) {
 if($result->num_rows > 0) {

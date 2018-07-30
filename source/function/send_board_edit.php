@@ -7,9 +7,9 @@ if(!empty($_GET['board_id'])) {
   header('Location: ../');
 }
 
-if (isset($_POST['board_edit']) && $now_admin == 1) {
-  $board_name = input_safety($_POST['board_name']);
-  $board_description = input_safety($_POST['board_description']);
+if (isset($_POST['board_edit']) && $login['admin'] == 1) {
+  $board_name = input_filter($_POST['board_name']);
+  $board_description = input_filter($_POST['board_description']);
   $success = '1';
   $Board_Name_Error = $Board_Description_Error = '';
 

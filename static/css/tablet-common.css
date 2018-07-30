@@ -1,0 +1,147 @@
+@charset "UTF-8";
+
+
+/* Tablet view */
+
+@media screen and (min-width: 700px) and (max-width: 1224px) {
+    #logo {
+        width: 15%;
+        height: 15%;
+    }
+
+    /* Error */
+    .create_empty {
+        width: auto;
+    }
+
+    .create_empty>.error_back {
+        padding-left: 2.5em;
+        font-size: 1em;
+    }
+
+    /* Login */
+    .login_div {
+        width: 50%;
+    }
+
+    .signup_link>a {
+        padding: .8em 4em;
+    }
+
+    .change_language {
+        width: 60%;
+    }
+
+    .novalue>a {
+        font-size: 2em;
+        white-space: nowrap;
+    }
+
+    /* Article */
+    .article_div {
+        width: 90%;
+    }
+
+    .article-input {
+        width: 85%;
+    }
+
+    .article-edit {
+        width: 85%;
+    }
+
+    .article_submit>button {
+        width: 50%;
+    }
+
+    /* Board */
+    .board {
+        width: 90%;
+    }
+
+    .board_title {
+        width: 200px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .board_latest>.board_latest_title {
+        width: 175px;
+    }
+
+    /* Article */
+    .content {
+        width: 90%;
+    }
+
+    /* Category */
+    .category {
+        width: 90%;
+    }
+
+    /* Box */
+    .box {
+        width: 90%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+    }
+
+    .box_link {
+        font-size: 16px;
+        word-break: break-all;
+    }
+
+    .box_title span {
+        font-size: medium;
+    }
+
+    .box_detail dl {
+        width: 100%;
+    }
+
+    .box_reply {
+        display: none !important;
+    }
+
+    .box_latest_reply {
+        text-align: right;
+        padding-right: 1em;
+    }
+
+    /* Breadcrumb */
+    fieldset {
+        margin: 0.5em auto;
+        padding: 0px;
+    }
+
+    .breadcrumb {
+        color: #d4d4d4;
+        background-color: #fcfcfc;
+        border: 1px solid #e3e3e3;
+        border-radius: 6px;
+        overflow: hidden;
+        zoom: 1;
+        max-width: 100%;
+        box-sizing: border-box;
+        height: 40px;
+        width: 90%;
+    }
+
+    .breadcrumb .crust {
+        line-height: 38px;
+        display: block;
+        float: left;
+        position: relative;
+        zoom: 1;
+        max-width: 50%;
+    }
+
+    .breadcrumb .crust a.crumb>.crumb_board {
+        max-width: 200px;
+    }
+
+    .breadcrumb .crust a.crumb>.crumb_article {
+        max-width: 200px;
+    }
+}

@@ -1,0 +1,69 @@
+<!--{if isset($show_article) && $show_article === true}-->
+    <fieldset class="breadcrumb">
+        <span class="crumbs">
+            <span class="crust" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="{$base_url}" class="crumb" rel="up" itemprop="url">
+                    <span class="crumb_img" itemprop="title">
+                        <img class="breadcrumb_img" src="{$base_url}/static/icon/home.svg" alt="Home">
+                    </span>
+                </a>
+                <span class="arrow"><span></span></span>
+            </span>
+            <span class="crust" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="{$base_url}/board.php?bid={$board_link}" class="crumb" rel="up" itemprop="url">
+                    <span class="crumb_board" itemprop="title">{$board_from}</span>
+                </a>
+                <span class="arrow"><span>&gt;</span></span>
+            </span>
+            <span class="crust" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="{$article_url}" class="crumb" rel="up" itemprop="url">
+                    <span class="crumb_article" itemprop="title">{$article_title}</span>
+                </a>
+            </span>
+        </span>
+    </fieldset>
+    <div class="content">
+        <h1>{$article_title}</h1>
+        <p class="content_from">{$lang_board_from} '{$board_from}',</p>
+        <p class="content_author">{$lang_started_by} {$article_author},</p>
+        <p class="content_date">{$post_date}</p>
+        <div class="content_main">
+            <div class="content_author_info">
+                <div class="author_avatar">
+                    <div class="avatar_board">
+                        <a href="{$base_url}/member.php?uid={$article_author_id}">
+                            <img src="{$base_url}/static/icon/default_avatar.svg" />
+                        </a>
+                    </div>
+                </div>
+                <h3 class="author">
+                    <div class="author_name">
+                        <a href="{$base_url}/member.php?uid={$article_author_id}">{$article_author}</a>
+<!--{if $article_admin === 'true'}-->
+                        <span>{$lang_admin}</span>
+<!--{else}-->
+                        <span>{$lang_member}</span>
+<!--{/if}-->
+                    </div>
+                </h3>
+                <div class="author_detail">
+                    <dl class="author_joined">
+                        <dt>{$lang_join_date}：</dt>
+                        <dd>{$author_join_date}</dd>
+                    </dl>
+                    <dl class="author_article">
+                        <dt>{$lang_article}：</dt>
+                        <dd>{$author_total_article}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="content_box">
+                <article>{$article_content}</article>
+            </div>
+        </div>
+    </div>
+<!--{else}-->
+    <div class="novalue" style="margin-top: 1em;">
+        <a>{$lang_content_not_found}</a>
+    </div>
+<!--{/if}-->

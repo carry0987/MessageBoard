@@ -1,0 +1,78 @@
+        <fieldset class="breadcrumb">
+            <span class="crumbs">
+                <span class="crust" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a href="{$base_url}" class="crumb" rel="up" itemprop="url">
+                        <span class="crumb_img" itemprop="title">
+                            <img class="breadcrumb_img" src="{$base_url}/static/icon/home.svg" alt="Home">
+                        </span>
+                    </a>
+                </span>
+            </span>
+        </fieldset>
+<!--{if !empty($categorys)}-->
+        <div class="category">
+<!--{loop $categorys $key1 $category}-->
+            <ul class="category_index" data-node="#{$category['id']}">
+                <li>
+                    <div class="category_title">
+                        <img class="category_icon" src="./static/icon/folder.svg" alt="category icon">
+                        <span>{$category['category_name']}</span>
+                        <div class="plusminus"><img src="./static/icon/minus.svg" alt="Toggle Minus"></div>
+                    </div>
+                </li>
+            </ul>
+<!--{if isset($show_board_list) && $show_board_list === true}-->
+            <ol class="board_ol">
+<!--{if !empty($category['boards'])}-->
+<!--{loop $category['boards'] $key2 $board}-->
+<!--{if !empty($board['articles'])}-->
+<!--{eval $total_articles = count($board['articles'])}-->
+<!--{else}-->
+<!--{eval $total_articles = 0}-->
+<!--{/if}-->
+                <li class="board_list">
+                    <div class="board_img">
+                        <img class="board_icon" src="./static/icon/board_icon.svg" alt="board icon">
+                    </div>
+                    <div class="board_text">
+                        <div class="board_title">
+                          <span>
+                            <a href="./board.php?bid={$board['id']}">
+                              <span>{$board['board_name']}</span>
+                            </a>
+                          </span>
+                        </div>
+                        <div class="board_info">
+                          <p class="p1">{$lang_article}:{$total_articles}</p>
+                        </div>
+                    </div>
+                    <div class="board_latest">
+                        <div class="board_latest_title">
+                            <span>{$lang_board_latest_post}:</span>
+<!--{if !empty($board['latest'])}-->
+<!--{eval $latest_date = date($date_format, strtotime($board['latest']['post_date']))}-->
+                            <a href="./article.php?aid={$board['latest']['id']}" title="{$board['latest']['title']}">{$board['latest']['title']}</a>
+                        </div>
+                        <div class="board_latest_info">
+                            <span>{$latest_date},&nbsp;</span>
+                            <a href="./member.php?uid={$board['latest']['user_id']}" title="{$board['latest_user']['username']}">
+                                <span>{$board['latest_user']['username']}</span>
+                            </a>
+                        </div>
+                    </div>
+<!--{/if}-->
+                    <div style="clear: both;"></div>
+                </li>
+<!--{/loop}-->
+<!--{/if}-->
+            </ol>
+<!--{/if}-->
+<!--{/loop}-->
+        </div>
+<!--{else}-->
+        <div class="novalue">
+            <a>{$lang_index_content_empty}</a>
+        </div>
+<!--{/if}-->
+<script src="{loadjs cookie.min.js}" type="text/javascript"></script>
+<script src="{loadjs toggle.js}" type="text/javascript"></script>

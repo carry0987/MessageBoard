@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0 ,maximum-scale=1.0, initial-scale=1" user-scalable="no">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <link rel="dns-prefetch" href="{$base_url}/">
+    <title>{$meta['title']}</title>
+    <meta name="author" content="carry0987">
+    <meta name="description" content="{$meta['description']}">
+    <meta property="fb:admins" content="carry0987"/>
+    <meta property="fb:app_id" content="1455782504488287">
+    <meta property="og:title" content="{$meta['title']}">
+    <meta property="og:description" content="{$meta['description']}">
+    <meta property="og:url" content="{$meta['url']}">
+    <meta property="og:site_name" content="{$meta['name']}">
+    <meta property="og:image" content="{$base_url}/static/icon/logo.png">
+    <meta property="og:type" content="blog">
+    <link rel="stylesheet" type="text/css" href="{loadcss common.css}">
+    <link rel="stylesheet" type="text/css" href="{loadcss mobile-common.css}">
+    <link rel="stylesheet" type="text/css" href="{loadcss tablet-common.css}">
+    <link rel="stylesheet" type="text/css" href="{loadcss menu.css}">
+    <link rel="stylesheet" type="text/css" href="{loadcss mobile-menu.css}">
+    <link href="{$base_url}/favicon.ico" rel="shortcut icon" />
+    <link href="{$base_url}/static/icon/logo.png" rel="apple-touch-icon" />
+    <script src="{loadjs jquery.min.js}" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="mainwrapper">
+        <div class="login_information">
+            <div class="login_user">
+                <ul>
+                    <li>
+                        <a class="login_menu" href="{$base_url}/" rel="nofollow">
+                            <span>{$meta['name']}</span>
+                        </a>
+                    </li>
+<!--{if !empty($login['username'])}-->
+                    <li>
+                        <a class="login_menu login_username" href="{$base_url}/member.php?uid={$login['uid']}" rel="nofollow">
+                            <span>{$login['username']}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="notification" href="{$base_url}">
+                            <img class="notification_icon" src="{$base_url}/static/icon/notification.svg" alt="Notification" />
+                        </a>
+                    </li>
+<!--{else}-->
+                    <li>
+                        <a class="login_menu login_username" href="{$base_url}/login.php">
+                            <span>{$lang_login}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="login_menu login_username" href="{$base_url}/signup.php">
+                            <span>{$lang_signup}</span>
+                        </a>
+                    </li>
+<!--{/if}-->
+                </ul>
+            </div>
+        </div>
+        <header id="header">
+            <div id="logo">
+                <a href="{$base_url}"><img id="logo-img" src="{$base_url}/static/icon/logo.png" alt="logo" /></a>
+            </div>
+        </header>
+<!--{template menu}-->

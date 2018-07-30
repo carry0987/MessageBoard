@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+/* Mobile view */
+
+@media screen and (min-width: 280px) and (max-width: 450px) {
+    .info_success {
+        margin-left: 0px;
+    }
+}

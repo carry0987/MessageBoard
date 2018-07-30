@@ -22,11 +22,11 @@ echo '
 
 /* Select Config */
 $sql = 'SELECT board_name,board_description FROM board WHERE id = '.$_GET['board_id'];
-$result = $con->query($sql);
+$result = $conn->query($sql);
 
 /* Show Edit Board */
 if($result) {
-if($now_admin == 1 && $result->num_rows > 0) {
+if($login['admin'] == 1 && $result->num_rows > 0) {
 $row = $result->fetch_assoc();
     echo '
     <div class="setting_div">
@@ -56,7 +56,7 @@ $row = $result->fetch_assoc();
       </form>
     </div>
 ';
-} elseif($now_admin == 0) {
+} elseif($login['admin'] == 0) {
   echo '
     <script>
       alert("'.$lang_not_admin.'");location.href="login.php";

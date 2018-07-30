@@ -1,138 +1,115 @@
 <?php
-header('content-type:text/html;charset=utf-8');
-require dirname(__FILE__).'/source/include/header.php';
-require dirname(__FILE__).'/source/function/function_bbcode.php';
+require dirname(__FILE__).'/source/class/class_core.php';
+require dirname(__FILE__).'/source/class/class_load.php';
+$load = new Load;
+$load->loadClass('template');
+$load->loadFunction('filter', 'bbcode');
 
-if(!empty($_GET['id'])) {
-  echo '';
-} else {
-  header('Location: ./');
-}
+//Template setting
+$options = array(
+    'template_dir' => 'template/common/',
+    'css_dir' => 'static/css/',
+    'js_dir' => 'static/js/',
+    'cache_dir' => 'data/cache/',
+    'auto_update' => true,
+    'cache_lifetime' => 0,
+);
 
-echo '
-<div id="cssmenu">
-    <ul>
-';
-  echo $menu_index;
-if(!empty($_SESSION['username']))
-{
-  echo $menu_home;
-  echo $menu_logout;
-} else {
-  echo $menu_login;
-  echo $menu_signup;
-}
-echo '
-    </ul>
-</div>
-';
+$template = Template::getInstance();
+$template->setOptions($options);
 
-/* Get Article Info */
-$sql = 'SELECT id,username,title,content,board_id,sort_id,date FROM article WHERE id = '.$_GET["id"];
-$result = $con->query($sql);
-
-if(isset($_GET['id'])) {
-  if($_GET['id'] == '') {
-  header('Location: ./');
-  } else {
-  $id = $_GET['id'];
-  }
-} else {
-  $id = 1;
-}
-
-if($result) {
-if($result->num_rows > 0) {
-  $row = $result->fetch_assoc();
-  $format = 'Y-m-d';
-  $publish_date = date($format, strtotime($row['date']));
-  $board_sql = 'SELECT board_name FROM board WHERE id = '.$row['board_id'];
-  $board_result = $con->query($board_sql);
-  if($board_result) {
-    $board_row = $board_result->fetch_assoc();
-    $board_from = $board_row['board_name'];
-  } else {
-    $board_from = '';
-  }
-
-  $sort_sql = 'SELECT sort_name FROM sort WHERE id = '.$row['sort_id'];
-  $sort_result = $con->query($sort_sql);
-  if($sort_result) {
-    $sort_row = $sort_result->fetch_assoc();
-    $sort_from = $sort_row['sort_name'];
-  } else {
-    $sort_from = '';
-  }
-
-/* Breadcrumb */
-$index_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-$board_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-$article_url = (isset($_SERVER['HTTPS'])?"https":"http").'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-if ($result && $result->num_rows > 0) {
-  if(mb_strlen($row['title'],'utf-8') > 8) {
-      $title = mb_substr($row['title'],0,8,'utf-8').'...';
+if (isset($_GET['aid'])) {
+    if ($_GET['aid'] == '') {
+        header('Location: ./');
+        exit();
     } else {
-      $title = mb_substr($row['title'],0,8,'utf-8');
+        $article_id = input_filter($_GET['aid']);
     }
-echo '
-    <div class="breadcrumbs">
-        <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-            <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-                <a class="fileTrail" href="'.str_replace("article.php","",$index_url).'" itemprop="item">
-                    <span class="breadcrumbs_home" itemprop="name">'.$main_name.'</span>
-                    <img class="breadcrumbs_img" src="'.$base_url.'/static/icon/home.svg">
-                    <meta content="1" itemprop="position" />
-                </a>
-            </span>
-        </span>
-        <span class="fileTrailDividers">></span>
-        <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-            <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-                <a class="fileTrail" href="'.str_replace("article.php","board.php?board_id=".$row['board_id'],$board_url).'" itemprop="item">
-                    <span itemprop="name">'.$board_row['board_name'].'</span>
-                    <meta content="2" itemprop="position" />
-                </a>
-            </span>
-        </span>
-        <span class="fileTrailDividers">></span>
-        <span itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
-            <span itemscope="itemscope" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-                <a class="fileTrail" href="'.$article_url.'" itemprop="item">
-                    <span class="fileTrailCurrent"  itemprop="name">'.$title.'</span>
-                    <meta content="3" itemprop="position" />
-                </a>
-            </span>
-        </span>
-    </div>
-    ';
+} else {
+    $article_id = 1;
 }
 
-  echo "<div class='content'>\n";
-  echo "<div class='path'>\n";
-  echo "</div>\n";
-  echo "<h1>".$row["title"]."</h1>\n";
-  echo '<p class="content_from">'.$lang_board_from.' '.$sort_from.', '.$board_from.',</p>';
-  echo '<p class="content_author">'.$lang_started_by.' '.$row['username'].',</p>';
-  echo '<p class="content_date">'.$publish_date.'</p>';
-  echo "<div class='content_main'>\n";
-  echo "<div class='content_author_info'>\n";
-  echo '<p class="author">'.$lang_author.'：'.$row['username'].'</p>'."\n";
-  echo '<p class="date">'.$lang_publish_date.'：'.$row['date'].'</p>'."\n";
-  echo "</div>\n";
-  echo "<div class='content_box'>\n".bbcode2html($row['content'])."\n</div>\n";
-  echo "</div>";
-  echo "</div>";
-} else {
-  echo '
-      <div class="novalue">
-        <a>'.$lang_content_not_found.'</a>
-      </div>
-      ';
-}
-} else {
-  echo '<h1>'.$lang_system_error.'</h1>';
-  exit();
-}
-?>
 
-<?php require dirname(__FILE__).'/source/include/footer.php'; ?>
+//Prepare Article Info
+$query = 'SELECT id,user_id,title,content,board_id,post_date FROM article WHERE id = ?';
+$stmt = $conn->stmt_init();
+
+//Prepare author total article
+$author_article_query = 'SELECT id FROM article WHERE user_id = ?';
+$author_article_stmt = $conn->stmt_init();
+
+//Prepare author information
+$author_info_query = 'SELECT username,is_admin,join_date FROM user WHERE id = ?';
+$author_info_stmt = $conn->stmt_init();
+
+//Get category, board, article result
+if ($stmt->prepare($query)) {
+    $stmt->bind_param('i', $article_id);
+    $stmt->execute();
+    $stmt->bind_result($id, $user_id, $title, $content, $board_id, $post_date);
+    $result = $stmt->get_result();
+    if ($result->num_rows != 0) {
+        $show_article = true;
+        while ($row = $result->fetch_assoc()) {
+            $date_format = 'Y-m-d';
+            $post_date = date($date_format, strtotime($row['post_date']));
+            //Get author total article
+            if ($author_article_stmt->prepare($author_article_query)) {
+                $author_article_stmt->bind_param('i', $row['user_id']);
+                $author_article_stmt->execute();
+                $author_article_stmt->store_result();
+                if ($author_article_stmt->num_rows != 0) {
+                    $author_total_article = $author_article_stmt->num_rows;
+                } else {
+                    $author_total_article = 0;
+                }
+                $author_article_stmt->free_result();
+            }
+            //Get author informarion
+            if ($author_info_stmt->prepare($author_info_query)) {
+                $author_info_stmt->bind_param('i', $row['user_id']);
+                $author_info_stmt->execute();
+                $author_info_stmt->bind_result($username, $is_admin, $join_date);
+                $author_info_result = $author_info_stmt->get_result();
+                $author_info_row = $author_info_result->fetch_assoc();
+                $author_join_date = date($date_format, strtotime($author_info_row['join_date']));
+                $author_info_stmt->free_result();
+            }
+            $article_title = $row['title'];
+            $article_author_id = $row['user_id'];
+            $article_author = $author_info_row['username'];
+            $article_admin = $author_info_row['is_admin'];
+            $article_content = bbcode2html($row['content']);
+            $board_query = 'SELECT id,board_name,category_id FROM board WHERE id = ?';
+            $board_stmt = $conn->stmt_init();
+        if ($board_stmt->prepare($board_query)) {
+            $board_stmt->bind_param('i', $row['board_id']);
+            $board_stmt->execute();
+            $board_stmt->bind_result($id, $board_name,$category_id);
+            $board_result = $board_stmt->get_result();
+            while ($board_row = $board_result->fetch_assoc()) {
+                $board_link = $board_row['id'];
+                $board_from = $board_row['board_name'];
+                $category_query = 'SELECT category_name FROM category WHERE id = ?';
+                $category_stmt = $conn->stmt_init();
+                if ($category_stmt->prepare($category_query)) {
+                    $category_stmt->bind_param('i', $board_row['category_id']);
+                    $category_stmt->execute();
+                    $category_stmt->bind_result($category_name);
+                    $category_result = $category_stmt->get_result();
+                    while ($category_row = $category_result->fetch_assoc()) {
+                        $category_from = $category_row['category_name'];
+                    }
+                }
+            }
+        }
+        }
+        //Breadcrumb
+        $article_url = (isset($_SERVER['HTTPS'])?'https':'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    }
+}
+
+//Load Template
+include($template->loadTemplate('header_common.html'));
+include($template->loadTemplate('view_article.html'));
+include($template->loadTemplate('footer_common.html'));

@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+/* Mobile view */
+
+@media screen and (min-width: 280px) and (max-width: 1024px) {
+
+    #header {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Login Information */
+
+    .login_user>ul>li>.login_menu {
+        padding: 15px 15px 17px 15px;
+        font-size: 1em;
+        font-weight: 700;
+    }
+
+    .login_user>ul>li>.login_username {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    /* User Info */
+
+    .user_detail {
+        font-size: 15px;
+        padding: 5px 55px;
+    }
+
+    .repo {
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #content {
+        width: 100%;
+        padding-left: 0px;
+    }
+}
