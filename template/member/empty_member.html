@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0 ,maximum-scale=1.0, initial-scale=1" user-scalable="no">
+    <title>{$LANG['404']['page_not_found']} | {$meta['title']}</title>
+    <meta name="author" content="carry0987">
+    <meta name="description" content="{$meta['description']}">
+    <meta property="og:title" content="{$LANG['404']['page_not_found']}">
+    <meta property="og:description" content="{$meta['description']}">
+    <meta property="og:url" content="{$meta['url']}">
+    <meta property="og:site_name" content="{$meta['name']}">
+    <meta property="og:image" content="{$base_url}/static/icon/logo.png">
+    <meta property="og:type" content="blog">
+    <link rel="stylesheet" type="text/css" href="{loadcss ../common.css}">
+    <link rel="stylesheet" type="text/css" href="{loadcss ../mobile-common.css}">
+    <link rel="stylesheet" type="text/css" href="{loadcss ../menu.css}">
+    <link rel="stylesheet" type="text/css" href="{loadcss ../mobile-menu.css}">
+    <link href="{$base_url}/favicon.ico" rel="shortcut icon">
+    <link href="{$base_url}/static/icon/logo.png" rel="apple-touch-icon">
+    <script src="{loadjs jquery.min.js}" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="mainwrapper">
+        <div class="login-information">
+            <div class="login-user">
+                <ul>
+                    <li>
+                        <a class="login-menu web-name" href="{$base_url}/" rel="noopener noreferrer">
+                            <span>{$meta['name']}</span>
+                        </a>
+                    </li>
+<!--{if !empty($login['username'])}-->
+                    <li class="login-username">
+                        <a class="login-menu" href="{$base_url}/member.php?uid={$login['uid']}" rel="nofollow">
+                            <span>{$login['username']}</span>
+                            <img class="user-icon" src="{$base_url}/static/icon/user.svg" alt="User Icon" />
+                        </a>
+                    </li>
+                    <li class="notification">
+                        <a class="notification-link" href="{$base_url}">
+                            <img class="notification-icon" src="{$base_url}/static/icon/notification-envelope.svg" alt="Notification" />
+                        </a>
+                    </li>
+<!--{else}-->
+                    <li>
+                        <a class="login-menu menu-button" href="{$base_url}/signup.php">
+                            <span>{$LANG['common']['signup']}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="login-menu menu-button" href="{$base_url}/login.php">
+                            <span>{$LANG['common']['login']}</span>
+                        </a>
+                    </li>
+<!--{/if}-->
+                </ul>
+            </div>
+        </div>
+        <header id="header">
+            <div id="logo">
+                <a href="{$base_url}"><img id="logo-img" src="{$base_url}/static/icon/logo.png" alt="logo" /></a>
+            </div>
+        </header>
+        <div id="cssmenu">
+            <ul>
+<!--{if !empty($login['username'])}-->
+                <li>
+                    <a href="{$base_url}/member.php?uid={$login['uid']}" rel="nofollow">{$login['username']}</a>
+                </li>
+<!--{/if}-->
+<!--{if $login['admin'] === true}-->
+                <li>
+                    <a href="{$base_url}/admin.php" rel="nofollow">{$LANG['admin']['control_panel']}</a>
+                </li>
+<!--{/if}-->
+<!--{if empty($login['username'])}-->
+                <li>
+                    <a href="{$base_url}/login.php">{$LANG['common']['login']}</a>
+                </li>
+<!--{else}-->
+                <li>
+                    <a href="{$base_url}/logout.php" rel="nofollow">{$LANG['common']['logout']}</a>
+                </li>
+<!--{/if}-->
+            </ul>
+        </div>
+<!--{if isset($show_member) && $show_member === false}-->
+        <br />
+        <div class="novalue">
+            <a>{$LANG['member']['member_not_found']}</a>
+        </div>
+<!--{/if}-->
+<!--{eval $today = date("l F jS, Y")}-->
+        <footer>
+            <div class="footer_icon">
+                <a href="" title="carry0987 Email" target="_blank" rel="noopener noreferrer">
+                    <img class="imgspace" src="{$base_url}/static/icon/email.svg" width="30px" alt="Email" />
+                </a>
+                <a href="https://github.com/carry0987/" title="carry0987 GitHub" target="_blank" rel="noopener noreferrer">
+                    <img class="imgspace" src="{$base_url}/static/icon/github.svg" width="30px" alt="Github" />
+                </a>
+            </div>
+            <p>{$today}</p>
+            <div class="change_language">
+                <form action="" method="POST">
+                    <select class="language" name="lang">
+                        <option selected="selected" disabled="disabled" hidden="hidden">Language : {$LANG['common']['display_language']}</option>
+                        <option value="en_US">English</option>
+                        <option value="zh_TW">繁體中文</option>
+                        <option value="ja_JP">日本語</option>
+                        <option value="th_TH">Thai</option>
+                    </select>
+                </form>
+            </div>
+            <script type="text/javascript">
+            $(document).ready(function() {
+                $('select.language').change(function() {
+                    $.ajax({
+                            type: 'POST',
+                            url: '{$base_url}/member.php',
+                            data: {lang: $('select.language').val()},
+                            success: function(data) {
+                                console.log('Language: ' + $('select.language').children('option:selected').text());
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 100);
+                            },
+                            dataType: 'html'
+                    });
+                });
+            });
+            </script>
+            <div id="footer">
+                <p>Made By <a class="developer" href="https://github.com/carry0987/" target="_blank" rel="noopener noreferrer">carry0987</a> v{PROGRAM_VERSION}</p>
+            </div>
+        </footer>
+    </div>
+    <script src="{loadjs menu.js}" type="text/javascript"></script>
+</body>
+
+</html>

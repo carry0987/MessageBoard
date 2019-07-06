@@ -1,0 +1,394 @@
+    <link href="{loadcss tingle.min.css}" rel="stylesheet" type="text/css">
+    <link href="{loadcss rwd-table.css}" rel="stylesheet" type="text/css">
+    <link href="{loadcss ../component/checkbox.css}" rel="stylesheet" type="text/css">
+    <link href="{loadcss ../component/radio.css}" rel="stylesheet" type="text/css">
+    <div class="main-content">
+        <div class="title">
+            <span>{$LANG['common']['article']}</span>
+        </div>
+        <div class="main">
+            <div class="mode">
+                <div class="mode-button">
+                    <a href="admin.php?mod=article">{$LANG['common']['all']}</a>
+                </div>
+                <div class="mode-button">
+                    <a href="admin.php?mod=article&amp;show_pinned=yes">{$LANG['common']['pinned_article']}</a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="widget widget-mode">
+                <div class="title">
+                    <span>{$LANG['common']['article_list']}</span>
+                </div>
+                <div class="chart">
+                    <div class="data-manage">
+                        <!--{if !isset($_GET['show_pinned'])}-->
+                        <div class="search-bar">
+                            <input type="text" id="keyword" placeholder="{$LANG['common']['keyword']}" onkeyup="searchFilter()" />
+                            <div class="sort-select">
+                                <label>{$LANG['common']['sort_by']}</label>
+                                <select id="sortBy" class="sort-by" onchange="searchFilter()">
+                                    <option value="DESC">{$LANG['common']['descending']}</option>
+                                    <option value="ASC">{$LANG['common']['ascending']}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="action-bar">
+                            <div class="action-bar-box">
+                                <div class="btn btn-edit" onclick="actionEditMulti(this)">
+                                    <img class="button-icon" src="static/icon/multi-edit.svg" alt="Multi-Edit Icon">
+                                    <a href="javascript:void(0);" data-set="" id="edit-multi-data">
+                                        <span>{$LANG['common']['edit']}</span>
+                                    </a>
+                                </div>
+                                <div class="btn btn-danger" onclick="actionDeleteMulti(this)">
+                                    <img class="button-icon" src="static/icon/delete.svg" alt="Delete Icon">
+                                    <a href="javascript:void(0);" data-set="" id="delete-multi-data">
+                                        <span>{$LANG['common']['delete']}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--{/if}-->
+                    </div>
+                    <div class="data-list" onchange="checkSelect()">
+                        <div class="data-list-box">
+                            <table class="data-block">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            <div class="checkbox">
+                                                <input type="checkbox" name="checkall" id="checkall" />
+                                            </div>
+                                        </th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">{$LANG['common']['title']}</th>
+                                        <th scope="col">{$LANG['common']['description']}</th>
+                                        <th scope="col">{$LANG['common']['author']}</th>
+                                        <th scope="col">{$LANG['common']['board']}</th>
+                                        <th scope="col">{$LANG['common']['property']}</th>
+                                        <th scope="col">{$LANG['common']['last_edit']}</th>
+                                        <th scope="col">{$LANG['common']['action']}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--{loop $article_result $dataList}-->
+                                    <tr>
+                                        <td class="data-check-td table-block">
+                                            <div class="checkbox checkbox-node">
+                                                <input type="checkbox" name="dataID[]" value="{$dataList['aid']}" onchange="enableDeleteMulti(this)" />
+                                            </div>
+                                        </td>
+                                        <td scope="row" data-label="ID" class="table-block">
+                                            <div class="table-list-style">{$dataList['aid']}</div>
+                                        </td>
+                                        <td data-label="{$LANG['common']['title']}" class="table-block">
+                                            <div class="table-list-style">
+                                                <div class="list-block">
+                                                    <a href="article.php?aid={$dataList['aid']}" target="_blank" rel="noopener noreferrer" title="{$dataList['title']}">{$dataList['title']}</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-label="{$LANG['common']['description']}" class="table-block">
+                                            <div class="table-list-style">
+                                                <div class="description">
+                                                    <span>{$dataList['description']}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-label="{$LANG['common']['author']}" class="table-block">
+                                            <div class="table-list-style">
+                                                <div class="list-block">
+                                                    <a href="member.php?uid={$dataList['user_id']}" target="_blank" rel="noopener noreferrer" title="{$dataList['display_name']} (&commat;{$dataList['username']})">
+                                                        <span>&commat;{$dataList['username']}</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-label="{$LANG['common']['board']}" class="table-block">
+                                            <div class="table-list-style">
+                                                <div class="list-block">
+                                                    <a href="board.php?bid={$dataList['board_id']}" target="_blank" rel="noopener noreferrer" title="{$dataList['name']}">{$dataList['name']}</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-label="{$LANG['common']['property']}" class="table-block">
+                                            <div class="table-list-style">
+                                                <div class="list-block">
+                                                    <span>{$LANG['common'][$articleProperty[$dataList['property']]]}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-label="{$LANG['common']['last_edit']}" class="table-block table-date">
+                                            <div class="table-list-style">
+                                                <div class="date">
+                                                    <div class="date-display">
+                                                        <div class="list-block-date">
+                                                            <span>{$dataList['last_edit']}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-label="{$LANG['common']['action']}" class="table-block">
+                                            <div class="data-list-action">
+                                                <a href="article.php?aid={$dataList['aid']}&amp;action=edit_article" class="edit-data" data-id="{$dataList['aid']}" title="{$LANG['common']['edit']}" target="_blank" rel="noopener noreferrer">
+                                                    <i><img class="button-icon" src="static/icon/edit.svg" alt="Edit Icon" /></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class="delete-data" data-id="{$dataList['aid']}" onclick="actionDelete(this)" title="{$LANG['common']['delete']}">
+                                                    <i><img class="button-icon" src="static/icon/trashcan.svg" alt="Trashcan Icon" /></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!--{/loop}-->
+                                </tbody>
+                            </table>
+                            <div class="search-result">
+                                <!--{eval $langParam['limit'] = count($article_result);}-->
+                                <!--{eval $langParam['total'] = (is_array($articles)) ? count($articles) : 0;}-->
+                                <div class="result-info">
+                                    <span>{lang $LANG['common']['search_result_info'] $langParam}</span>
+                                </div>
+                                <!--{if ($paginator->getNumPages() > 1)}-->
+                                <div class="pagination">
+                                    <ul class="pagination-list">
+                                        <!--{if ($paginator->getPrevUrl())}-->
+                                        <li class="page-item">
+                                            <a class="page-link" href="{echo $paginator->getPrevUrl()}">{$LANG['common']['prev_page']}</a>
+                                        </li>
+                                        <!--{/if}-->
+                                        <!--{loop $paginator->getPages() $page}-->
+                                        <!--{if $page['url']}-->
+                                        <!--{eval $pages['class'] = $page['isCurrent'] ? 'active' : '';}-->
+                                        <li class="page-item {$pages['class']}">
+                                            <a class="page-link" href="{$page['url']}">{$page['num']}</a>
+                                        </li>
+                                        <!--{else}-->
+                                        <li class="page-item-disable"><a class="link-disable">{$page['num']}</a></li>
+                                        <!--{/if}-->
+                                        <!--{/loop}-->
+                                        <!--{if ($paginator->getNextUrl())}-->
+                                        <li class="page-item">
+                                            <a class="page-link" href="{echo $paginator->getNextUrl()}">{$LANG['common']['next_page']}</a>
+                                        </li>
+                                        <!--{/if}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" id="get_edit" name="get_edit" hidden="hidden" value="" />
+                    <input type="text" id="get_delete" name="get_delete" hidden="hidden" value="" />
+                    <input type="text" id="search_page" name="search_page" hidden="hidden" value="" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tingle-tiny-delete" style="display: none;">
+        <span>{$LANG['common']['delete_info']}</span>
+    </div>
+    <div id="tingle-multi-edit" style="display: none;">
+        <div class="data-edit-box">
+            <label class="select-title">{$LANG['common']['category']}:</label>
+            <div class="setting-select">
+                <select id="category">
+                    <option value="" selected="selected" disabled="disabled" hidden="hidden"></option>
+                    <!--{if isset($categoryList) && $categoryList !== false}-->
+                    <!--{loop $categoryList $value}-->
+                    <option value="{$value['cid']}">{$value['name']}</option>
+                    <!--{/loop}-->
+                    <!--{/if}-->
+                </select>
+            </div>
+            <label class="select-title">{$LANG['common']['board']}:</label>
+            <div class="setting-select board-list">
+                <select id="board">
+                    <option value="" selected="selected" disabled="disabled" hidden="hidden"></option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="tingle-tiny-error" style="display: none;">
+        <div class="data-error-box">
+            <span id="error-info"></span>
+        </div>
+    </div>
+    <script src="{loadjs tingle.min.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+    $('#search_page').attr('value', '');
+    $('.data-list').on('change', '#checkall', function() {
+        var checked = $('#checkall').prop('checked');
+        $('.checkbox-node').find('input:checkbox').prop('checked', checked);
+    });
+    $('.data-list').on('change', '.checkbox', function() {
+        if ($('.checkbox input').prop('checked')) {
+            $('#delete-multi-data').attr('data-set', '#deleteMultiData');
+        }
+    });
+    </script>
+    <script type="text/javascript">
+    var mod = 'article';
+    var resultCount = $('.data-list tbody tr').length;
+    function actionEditMulti() {
+        if ($('.data-list input[type=checkbox]:checked').length > 0) {
+            var checkedArray = [];
+            $("input[name='dataID[]']:checked").each(function() {
+                checkedArray.push(parseInt($(this).val()));
+            });
+            var modalTinyBtn = new tingle.modal({
+                onClose: function() {
+                    $('.tingle-modal').remove();
+                },
+                footer: true
+            });
+            modalTinyBtn.setContent(document.getElementById('tingle-multi-edit').innerHTML);
+            modalTinyBtn.open();
+            $('.tingle-modal-box #board').html('<option value=""></option>');
+            $('.tingle-modal-box #category').on('click', function() {
+                showList();
+            });
+            modalTinyBtn.addFooterBtn("{$LANG['common']['save']}", 'tingle-btn tingle-btn--primary tingle-btn--pull-right',
+                function() {
+                    var editMultiValue = {};
+                    editMultiValue['board_id'] = $('.tingle-modal-box #board option:selected').val();
+                    editMultiValue['set_sitemap'] = $('.tingle-modal-box #board option:selected').attr('sitemap');
+                    if ($('#search_page').val() >= 1 && {$currentPage} <= $('.page-item:last-child a').text()) {
+                        var getPage = $('#search_page').val();
+                    } else if ({$currentPage} >= $('.page-item:last-child a').text()) {
+                        var getPage = $('.page-item:last-child a').text();
+                    } else {
+                        var getPage = {$currentPage};
+                    }
+                    modalTinyBtn.close();
+                    updateMultiData(checkedArray, editMultiValue, mod, getPage);
+                });
+            modalTinyBtn.addFooterBtn("{$LANG['common']['cancel']}", 'tingle-btn tingle-btn--default tingle-btn--pull-right',
+                function() {
+                    modalTinyBtn.close();
+                });
+        }
+    };
+
+    function actionDelete(event) {
+        var modalTinyBtn = new tingle.modal({
+            onClose: function() {
+                $('.tingle-modal').remove();
+            },
+            footer: true
+        });
+        modalTinyBtn.open();
+        $('#get_delete').attr('value', event.getAttribute('data-id'));
+        modalTinyBtn.setContent(document.getElementById('tingle-tiny-delete').innerHTML);
+        modalTinyBtn.addFooterBtn("{$LANG['common']['delete']}", 'tingle-btn tingle-btn--danger tingle-btn--pull-right',
+            function() {
+                var article_select = $('#get_delete').val();
+                var resultCount = $('.data-list tbody tr').length;
+                if ($('#search_page').val() >= 1 && {$currentPage} <= $('.page-item:last-child a').text()) {
+                    var getPage = $('#search_page').val();
+                } else if ({$currentPage} >= $('.page-item:last-child a').text()) {
+                    var getPage = $('.page-item:last-child a').text();
+                } else {
+                    var getPage = {$currentPage};
+                }
+                if (resultCount == 1 || resultCount == 0) {
+                    var page = getPage -1;
+                } else {
+                    var page = getPage;
+                }
+                modalTinyBtn.close();
+                deleteData(article_select, mod, page);
+            });
+        modalTinyBtn.addFooterBtn("{$LANG['common']['cancel']}", 'tingle-btn tingle-btn--default tingle-btn--pull-right',
+            function() {
+                modalTinyBtn.close();
+            });
+    };
+
+    function actionDeleteMulti() {
+        if ($('#delete-multi-data').attr('data-set') === '#deleteMultiData') {
+            var checkedArray = [];
+            $("input[name='dataID[]']:checked").each(function() {
+                checkedArray.push(parseInt($(this).val()));
+            });
+            var modalTinyBtn = new tingle.modal({
+                onClose: function() {
+                    $('.tingle-modal').remove();
+                },
+                footer: true
+            });
+            modalTinyBtn.setContent(document.getElementById('tingle-tiny-delete').innerHTML);
+            modalTinyBtn.open();
+            modalTinyBtn.addFooterBtn("{$LANG['common']['delete']}", 'tingle-btn tingle-btn--danger tingle-btn--pull-right',
+                function() {
+                    if ($('#search_page').val() >= 1 && {$currentPage} <= $('.page-item:last-child a').text()) {
+                        var getPage = $('#search_page').val();
+                    } else if ({$currentPage} >= $('.page-item:last-child a').text()) {
+                        var getPage = $('.page-item:last-child a').text();
+                    } else {
+                        var getPage = {$currentPage};
+                    }
+                    modalTinyBtn.close();
+                    deleteMultiData(checkedArray, mod, getPage);
+                });
+            modalTinyBtn.addFooterBtn("{$LANG['common']['cancel']}", 'tingle-btn tingle-btn--default tingle-btn--pull-right',
+                function() {
+                    modalTinyBtn.close();
+                });
+        }
+    };
+
+    function showError(errorInfo) {
+        var modalTinyBtn = new tingle.modal({
+            onClose: function() {
+                $('.tingle-modal').remove();
+            },
+            footer: true
+        });
+        modalTinyBtn.open();
+        $('#error-info').text(errorInfo);
+        modalTinyBtn.setContent(document.getElementById('tingle-tiny-error').innerHTML);
+        modalTinyBtn.addFooterBtn("{$LANG['common']['close']}", 'tingle-btn tingle-btn--danger tingle-btn--pull-right',
+            function() {
+                modalTinyBtn.close();
+                searchFilter(1);
+            });
+    }
+    </script>
+    <script type="text/javascript">
+    function searchFilter(page_num) {
+        page_num = page_num ? page_num : 1;
+        var uri = window.location.toString();
+        if (uri.indexOf('&page') > 0) {
+            var clean_uri = uri.substring(0, uri.indexOf('&page'));
+            window.history.replaceState({}, document.title, clean_uri);
+        }
+        var keywords = $('#keyword').val();
+        var sortBy = $('#sortBy').val();
+        $('#search_page').attr('value', page_num);
+        $.ajax({
+            type: 'POST',
+            url: 'admin.php?mod=article',
+            data: { 'page': page_num, 'keyword': keywords, 'sortBy': sortBy },
+            success: function(html) {
+                $('.data-list').html(html);
+            }
+        });
+    }
+
+    function showList() {
+        var categoryID = $('.tingle-modal-box #category').val();
+        if (categoryID) {
+            $.ajax({
+                type: 'POST',
+                url: 'admin.php?mod=article',
+                data: 'category_id='+categoryID,
+                success: function(result) {
+                    $('.tingle-modal-box #board').html(result);
+                }
+            });
+        }
+    };
+    </script>

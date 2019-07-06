@@ -1,0 +1,39 @@
+    <link href="{loadcss ../component/radio.css}" rel="stylesheet" type="text/css">
+    <div class="main-content">
+        <div class="title">
+            <span>{$LANG['common']['seo']}</span>
+        </div>
+        <div class="main-admin">
+            <div class="widget">
+                <div class="title">
+                    <span>{$LANG['admin-seo']['seo_type']}</span>
+                </div>
+                <div class="chart">
+                    <div class="type-list">
+                        <div class="type-list-box type-select">
+                            <div class="radio">
+                                <input id="sitemap" name="type_select" type="radio" value="sitemap" checked="checked" />
+                                <label for="sitemap" class="select-label radio-label">{$LANG['admin-seo']['sitemap']}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget" id="show-setting">
+            </div>
+            <div class="widget setting-loading">
+                <div class="title loading-title">
+                    <span>{$LANG['common']['setting']}</span>
+                </div>
+                <div class="chart-loading-box">
+                    <div class="loading-overlay">
+                        <div class="overlay-content">
+                            <span style="display: block;">{$LANG['common']['loading']}</span>
+                            <img src="static/icon/loading_spin.svg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{loadjs admin-seo.js}" type="text/javascript"></script>

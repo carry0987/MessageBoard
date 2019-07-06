@@ -4,15 +4,15 @@ $(document).ready(function() {
         var checkCollapsed = getCollapsed.split('|');
         var arrayLength = checkCollapsed.length;
         for (var i = 0; i < arrayLength; i++) {
-            $('[data-node="#' + checkCollapsed[i] + '"]').next('.board_ol').addClass('toggle_hide');
+            $('[data-node="#' + checkCollapsed[i] + '"]').next('.board-ol').addClass('toggle-hide');
             $('[data-node="#' + checkCollapsed[i] + '"]').find('.plusminus').children('img').attr('src', './static/icon/plus.svg');
         }
     }
 
     var adjustCookie = function() {
         var tags = [];
-        $('.category .toggle_hide').each(function() {
-            var tag = $(this).prev('.category_index').data('node');
+        $('.category .toggle-hide').each(function() {
+            var tag = $(this).prev('.index-category').data('node');
             tags.push(tag.replace('#', ''));
         });
 
@@ -25,14 +25,14 @@ $(document).ready(function() {
         }
     }
 
-    $('.category_index').click(function() {
-        if ($(this).next('.board_ol').is(':visible')) {
-            $(this).next('.board_ol').slideUp(300);
-            $(this).next('.board_ol').addClass('toggle_hide');
+    $('.toggle-category').click(function() {
+        if ($(this).closest('.index-category').next('.board-ol').is(':visible')) {
+            $(this).closest('.index-category').next('.board-ol').slideUp(300);
+            $(this).closest('.index-category').next('.board-ol').addClass('toggle-hide');
             $(this).find('.plusminus').children('img').attr('src', './static/icon/plus.svg');
         } else {
-            $(this).next('.board_ol').slideDown(300);
-            $(this).next('.board_ol').removeClass('toggle_hide');
+            $(this).closest('.index-category').next('.board-ol').slideDown(300);
+            $(this).closest('.index-category').next('.board-ol').removeClass('toggle-hide');
             $(this).find('.plusminus').children('img').attr('src', './static/icon/minus.svg');
         }
         adjustCookie();

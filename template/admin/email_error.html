@@ -1,0 +1,30 @@
+    <div class="main-content">
+        <div class="title">
+            <span>{$LANG['common']['error']}</span>
+        </div>
+        <div class="main-admin">
+            <div class="widget">
+                <div class="info-message">
+                    <div class="title">
+                        <span>{$LANG['common']['send']}</span>
+                    </div>
+                    <div class="chart">
+                        <div class="info-box">
+                            <!--{if isset($emailValid) && $emailValid === false}-->
+                            <span>{$LANG['common']['email_format_error']}</span>
+                            <!--{else}-->
+                            <span>{$LANG['common']['email_error']}:</span>
+                            <br />
+                            <span>{$mail->ErrorInfo}</span>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                    <div class="common-button">
+                        <a href="{$base_url}/admin.php?mod=email">
+                            <span>{$LANG['common']['back']}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

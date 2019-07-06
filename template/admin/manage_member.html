@@ -1,0 +1,527 @@
+    <link href="{loadcss tingle.min.css}" rel="stylesheet" type="text/css">
+    <link href="{loadcss rwd-table.css}" rel="stylesheet" type="text/css">
+    <link href="{loadcss ../component/checkbox.css}" rel="stylesheet" type="text/css">
+    <link href="{loadcss ../component/radio.css}" rel="stylesheet" type="text/css">
+    <div class="main-content">
+        <div class="title">
+            <span>{$LANG['common']['member']}</span>
+        </div>
+        <div class="main">
+            <div class="mode">
+                <div class="mode-button">
+                    <a href="admin.php?mod=member">{$LANG['common']['all']}</a>
+                </div>
+                <div class="mode-button">
+                    <a href="admin.php?mod=member&amp;show_admin=yes">{$LANG['common']['admin']}</a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="widget widget-mode">
+                <div class="title">
+                    <span>{$LANG['admin']['member_list']}</span>
+                </div>
+                <div class="chart">
+                    <div class="data-manage">
+                        <!--{if !isset($_GET['show_admin'])}-->
+                        <div class="search-bar">
+                            <input type="text" id="keyword" placeholder="{$LANG['common']['keyword']}" onkeyup="searchFilter()" />
+                            <div class="sort-select">
+                                <label>{$LANG['common']['sort_by']}</label>
+                                <select id="sortBy" class="sort-by" onchange="searchFilter()">
+                                    <option value="ASC">{$LANG['common']['ascending']}</option>
+                                    <option value="DESC">{$LANG['common']['descending']}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="action-bar">
+                            <div class="action-bar-box">
+                                <div class="btn btn-success" onclick="actionAdd(this)">
+                                    <img class="button-icon" src="static/icon/add.svg" alt="Add Icon">
+                                    <a href="javascript:void(0);" id="add-data">
+                                        <span>{$LANG['common']['add']}</span>
+                                    </a>
+                                </div>
+                                <div class="btn btn-edit" onclick="actionEditMulti(this)">
+                                    <img class="button-icon" src="static/icon/multi-edit.svg" alt="Multi-Edit Icon">
+                                    <a href="javascript:void(0);" data-set="" id="edit-multi-data">
+                                        <span>{$LANG['common']['edit']}</span>
+                                    </a>
+                                </div>
+                                <div class="btn btn-danger" onclick="actionDeleteMulti(this)">
+                                    <img class="button-icon" src="static/icon/delete.svg" alt="Delete Icon">
+                                    <a href="javascript:void(0);" data-set="" id="delete-multi-data">
+                                        <span>{$LANG['common']['delete']}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-bar-mobile">
+                            <div class="btn btn-success" onclick="actionAdd(this)">
+                                <img class="button-icon" src="static/icon/add.svg" alt="Add Icon">
+                                <a href="javascript:void(0);" id="add-data">
+                                    <span>{$LANG['common']['add']}</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!--{/if}-->
+                    </div>
+                    <div class="data-list" onchange="checkSelect()">
+                        <div class="data-list-box">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            <div class="checkbox">
+                                                <input type="checkbox" name="checkall" id="checkall" />
+                                            </div>
+                                        </th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">{$LANG['common']['display_name']}</th>
+                                        <th scope="col">{$LANG['common']['username']}</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">{$LANG['common']['user_identity']}</th>
+                                        <th scope="col">{$LANG['common']['status']}</th>
+                                        <th scope="col">{$LANG['common']['action']}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--{loop $member_result $member_list}-->
+                                    <tr>
+                                        <td class="data-check-td">
+                                            <div class="checkbox checkbox-node">
+                                                <input type="checkbox" name="dataID[]" value="{$member_list['uid']}" onchange="enableDeleteMulti(this)" />
+                                            </div>
+                                        </td>
+                                        <td scope="row" data-label="ID">{$member_list['uid']}</td>
+                                        <td display-name-id="{$member_list['uid']}" data-label="{$LANG['common']['display_name']}">
+                                            <div class="table-list-style">
+                                                <div class="list-block">
+                                                    <span>{$member_list['display_name']}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td username-id="{$member_list['uid']}" data-label="{$LANG['common']['username']}">
+                                            <div class="table-list-style">
+                                                <div class="list-block">
+                                                    <a href="member.php?uid={$member_list['uid']}" target="_blank" rel="noopener noreferrer" title="{$member_list['display_name']} (&commat;{$member_list['username']})">
+                                                        <span>&commat;{$member_list['username']}</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td bio-id="{$member_list['uid']}" style="display: none;">{$member_list['bio']}</td>
+                                        <td email-id="{$member_list['uid']}" data-label="Email">
+                                            <div class="table-list-style">
+                                                <div class="list-block" title="{$member_list['email']}">
+                                                    <span>{$member_list['email']}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-label="{$LANG['common']['user_identity']}">{echo isAdmin($member_list['is_admin'], $LANG['common']['admin'], $LANG['common']['member'])}</td>
+                                        <input identity-id="{$member_list['uid']}" hidden="hidden" value="{$member_list['is_admin']}" />
+                                        <td data-label="{$LANG['common']['status']}">{echo isBanned($member_list['banned'], $LANG['common']['banned'], $LANG['common']['normal'])}</td>
+                                        <input status-id="{$member_list['uid']}" hidden="hidden" value="{$member_list['banned']}" />
+                                        <td data-label="{$LANG['common']['action']}">
+                                            <div class="data-list-action">
+                                                <a href="javascript:void(0);" class="edit-data" data-id="{$member_list['uid']}" onclick="actionEdit(this)" title="{$LANG['common']['edit']}">
+                                                    <i><img class="button-icon" src="static/icon/edit.svg" alt="Edit Icon" /></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class="delete-data" data-id="{$member_list['uid']}" onclick="actionDelete(this)" title="{$LANG['common']['delete']}">
+                                                    <i><img class="button-icon" src="static/icon/trashcan.svg" alt="Trashcan Icon" /></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!--{/loop}-->
+                                </tbody>
+                            </table>
+                            <div class="search-result">
+                                <!--{eval $langParam['limit'] = count($member_result);}-->
+                                <!--{eval $langParam['total'] = count($members);}-->
+                                <div class="result-info">
+                                    <span>{lang $LANG['common']['search_result_info'] $langParam}</span>
+                                </div>
+                                <!--{if ($paginator->getNumPages() > 1)}-->
+                                <div class="pagination">
+                                    <ul class="pagination-list">
+                                        <!--{if ($paginator->getPrevUrl())}-->
+                                        <li class="page-item">
+                                            <a class="page-link" href="{echo $paginator->getPrevUrl()}">{$LANG['common']['prev_page']}</a>
+                                        </li>
+                                        <!--{/if}-->
+                                        <!--{loop $paginator->getPages() $page}-->
+                                        <!--{if $page['url']}-->
+                                        <!--{eval $pages['class'] = $page['isCurrent'] ? 'active' : '';}-->
+                                        <li class="page-item {$pages['class']}">
+                                            <a class="page-link" href="{$page['url']}">{$page['num']}</a>
+                                        </li>
+                                        <!--{else}-->
+                                        <li class="page-item-disable"><a class="link-disable">{$page['num']}</a></li>
+                                        <!--{/if}-->
+                                        <!--{/loop}-->
+                                        <!--{if ($paginator->getNextUrl())}-->
+                                        <li class="page-item">
+                                            <a class="page-link" href="{echo $paginator->getNextUrl()}">{$LANG['common']['next_page']}</a>
+                                        </li>
+                                        <!--{/if}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" id="get_edit" name="get_edit" hidden="hidden" value="" />
+                    <input type="text" id="get_delete" name="get_delete" hidden="hidden" value="" />
+                    <input type="text" id="search_page" name="search_page" hidden="hidden" value="" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tingle-tiny-edit" style="display: none;">
+        <div class="data-edit-box">
+            <label for="display_name">{$LANG['common']['display_name']}</label>
+            <input type="text" id="display_name" name="display_name" maxlength="20" value="" />
+            <label for="username">{$LANG['common']['username']}</label>
+            <input type="text" id="username" name="username" maxlength="20" value="" />
+            <label for="show_email">{$LANG['common']['email']}</label>
+            <input type="email" id="show_email" name="show_email" value="" disabled="disabled" />
+            <label for="bio">{$LANG['common']['user_bio']}</label>
+            <textarea type="text" name="bio" id="bio" rows="3" cols="50" maxlength="160"></textarea>
+            <label class="radio-title">{$LANG['common']['status']}:</label>
+            <div class="radio">
+                <input id="normal" name="status" type="radio" value="0" />
+                <label for="normal" class="set-label radio-label">{$LANG['common']['normal']}</label>
+            </div>
+            <div class="radio">
+                <input id="banned" name="status" type="radio" value="1" />
+                <label for="banned" class="set-label radio-label">{$LANG['common']['banned']}</label>
+            </div>
+            <label class="radio-title">{$LANG['common']['user_identity']}:</label>
+            <div class="radio">
+                <input id="admin_true" name="is_admin" type="radio" value="1" />
+                <label for="admin_true" class="set-label radio-label">{$LANG['common']['admin']}</label>
+            </div>
+            <div class="radio">
+                <input id="admin_false" name="is_admin" type="radio" value="0" />
+                <label for="admin_false" class="set-label radio-label">{$LANG['common']['member']}</label>
+            </div>
+        </div>
+    </div>
+    <div id="tingle-tiny-delete" style="display: none;">
+        <span>{$LANG['common']['delete_info']}</span>
+    </div>
+    <div id="tingle-multi-edit" style="display: none;">
+        <div class="data-edit-box">
+            <label class="radio-title">{$LANG['common']['status']}:</label>
+            <div class="radio">
+                <input id="normal" name="status" type="radio" value="0" checked="checked" />
+                <label for="normal" class="set-label radio-label">{$LANG['common']['normal']}</label>
+            </div>
+            <div class="radio">
+                <input id="banned" name="status" type="radio" value="1" />
+                <label for="banned" class="set-label radio-label">{$LANG['common']['banned']}</label>
+            </div>
+            <label class="radio-title">{$LANG['common']['user_identity']}:</label>
+            <div class="radio">
+                <input id="admin_false" name="is_admin" type="radio" value="0" checked="checked" />
+                <label for="admin_false" class="set-label radio-label">{$LANG['common']['member']}</label>
+            </div>
+            <div class="radio">
+                <input id="admin_true" name="is_admin" type="radio" value="1" />
+                <label for="admin_true" class="set-label radio-label">{$LANG['common']['admin']}</label>
+            </div>
+        </div>
+    </div>
+    <div id="tingle-tiny-add" style="display: none;">
+        <div class="data-add-box">
+            <label for="display_name">{$LANG['common']['display_name']}</label>
+            <input type="text" id="display_name" name="display_name" maxlength="20" value="" autocomplete="off" />
+            <label for="username">{$LANG['common']['username']}</label>
+            <input type="text" id="username" name="username" maxlength="20" value="" autocomplete="off" />
+            <label for="email">{$LANG['common']['email']}</label>
+            <input type="email" id="email" name="email" value="" placeholder="example&commat;gmail.com" autocomplete="off" maxlength="80" />
+            <label for="bio">{$LANG['common']['user_bio']}</label>
+            <textarea type="text" name="bio" id="bio" rows="3" cols="50" maxlength="160"></textarea>
+            <label class="radio-title">{$LANG['common']['user_identity']}:</label>
+            <div class="radio">
+                <input id="admin_true" name="is_admin" type="radio" value="1" />
+                <label for="admin_true" class="set-label radio-label">{$LANG['common']['admin']}</label>
+            </div>
+            <div class="radio">
+                <input id="admin_false" name="is_admin" type="radio" value="0" checked="checked" />
+                <label for="admin_false" class="set-label radio-label">{$LANG['common']['member']}</label>
+            </div>
+        </div>
+    </div>
+    <div id="tingle-tiny-info" style="display: none;">
+        <div class="data-info-box">
+            <label for="randomPW">{$LANG['common']['random_pw']}</label>
+            <input type="text" id="randomPW" name="randomPW" value="" />
+        </div>
+    </div>
+    <div id="tingle-tiny-error" style="display: none;">
+        <div class="data-error-box">
+            <span id="error-info"></span>
+        </div>
+    </div>
+    <script src="{loadjs tingle.min.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+    $('#search_page').attr('value', '');
+    $('.data-list').on('change', '#checkall', function() {
+        var checked = $('#checkall').prop('checked');
+        $('.checkbox-node').find('input:checkbox').prop('checked', checked);
+    });
+    $('.data-list').on('change', '.checkbox', function() {
+        if ($('.checkbox input').prop('checked')) {
+            $('#delete-multi-data').attr('data-set', '#deleteMultiData');
+        }
+    });
+    </script>
+    <script type="text/javascript">
+    var mod = 'member';
+    var resultCount = $('.data-list tbody tr').length;
+    function actionEdit(event) {
+        var modalTinyBtn = new tingle.modal({
+            closeLabel: "{$LANG['common']['close']}",
+            cssClass: ['tingle-modal-long'],
+            onClose: function() {
+                $('.tingle-modal').remove();
+            },
+            footer: true
+        });
+        modalTinyBtn.open();
+        $('#get_edit').attr('value', event.getAttribute('data-id'));
+        var member = {};
+        member['display_name'] = $('td[display-name-id='+event.getAttribute('data-id')+'] span').text();
+        member['username'] = $('td[username-id='+event.getAttribute('data-id')+']').text();
+        member['username'] = member['username'].replace('@', '', member['username']).trim();
+        member['email'] = $('td[email-id='+event.getAttribute('data-id')+'] span').text();
+        member['bio'] = $('td[bio-id='+event.getAttribute('data-id')+']').text();
+        $('#tingle-tiny-edit #display_name').attr('value', member['display_name']);
+        $('#tingle-tiny-edit #username').attr('value', member['username']);
+        $('#tingle-tiny-edit #show_email').attr('value', member['email']);
+        $('#tingle-tiny-edit #bio').text(member['bio']);
+        member['identity'] = $('input[identity-id='+event.getAttribute('data-id')+']').val();
+        if (member['identity'] == 1) {
+            $('#tingle-tiny-edit #admin_true').attr('checked', true);
+            $('#tingle-tiny-edit #admin_false').attr('checked', false);
+        } else {
+            $('#tingle-tiny-edit #admin_false').attr('checked', true);
+            $('#tingle-tiny-edit #admin_true').attr('checked', false);
+        }
+        member['status'] = $('input[status-id='+event.getAttribute('data-id')+']').val();
+        if (member['status'] == 1) {
+            $('#tingle-tiny-edit #banned').attr('checked', true);
+            $('#tingle-tiny-edit #normal').attr('checked', false);
+        } else {
+            $('#tingle-tiny-edit #normal').attr('checked', true);
+            $('#tingle-tiny-edit #banned').attr('checked', false);
+        }
+        modalTinyBtn.setContent(document.getElementById('tingle-tiny-edit').innerHTML);
+        modalTinyBtn.addFooterBtn("{$LANG['common']['save']}", 'tingle-btn tingle-btn--primary tingle-btn--pull-right',
+            function() {
+                var member_select = $('#get_edit').val();
+                var editValue = {};
+                $('.tingle-modal-box input, .tingle-modal-box input:checked, .tingle-modal-box textarea').each(function() {
+                    editValue[$(this).attr('name')] = $(this).val();
+                });
+                editValue['is_admin'] = $('.tingle-modal-box input[name=is_admin]:checked').val();
+                editValue['banned'] = $('.tingle-modal-box input[name=status]:checked').val();
+                if ($('#search_page').val() >= 1) {
+                    var getPage = $('#search_page').val();
+                } else {
+                    var getPage = {$currentPage};
+                }
+                modalTinyBtn.close();
+                updateData(member_select, editValue, mod, getPage);
+            });
+        modalTinyBtn.addFooterBtn("{$LANG['common']['cancel']}", 'tingle-btn tingle-btn--default tingle-btn--pull-right',
+            function() {
+                modalTinyBtn.close();
+            });
+    };
+
+    function actionEditMulti() {
+        if ($('.data-list input[type=checkbox]:checked').length > 0) {
+            var checkedArray = [];
+            $("input[name='dataID[]']:checked").each(function() {
+                checkedArray.push(parseInt($(this).val()));
+            });
+            var modalTinyBtn = new tingle.modal({
+                onClose: function() {
+                    $('.tingle-modal').remove();
+                },
+                footer: true
+            });
+            modalTinyBtn.setContent(document.getElementById('tingle-multi-edit').innerHTML);
+            modalTinyBtn.open();
+            modalTinyBtn.addFooterBtn("{$LANG['common']['save']}", 'tingle-btn tingle-btn--primary tingle-btn--pull-right',
+                function() {
+                    var editMultiValue = {};
+                    editMultiValue['is_admin'] = $('.tingle-modal-box input[name=is_admin]:checked').val();
+                    editMultiValue['banned'] = $('.tingle-modal-box input[name=status]:checked').val();
+                    if ($('#search_page').val() >= 1) {
+                        var getPage = $('#search_page').val();
+                    } else {
+                        var getPage = {$currentPage};
+                    }
+                    modalTinyBtn.close();
+                    updateMultiData(checkedArray, editMultiValue, mod, getPage);
+                });
+            modalTinyBtn.addFooterBtn("{$LANG['common']['cancel']}", 'tingle-btn tingle-btn--default tingle-btn--pull-right',
+                function() {
+                    modalTinyBtn.close();
+                });
+        }
+    };
+
+    function actionDelete(event) {
+        var modalTinyBtn = new tingle.modal({
+            onClose: function() {
+                $('.tingle-modal').remove();
+            },
+            footer: true
+        });
+        modalTinyBtn.open();
+        $('#get_delete').attr('value', event.getAttribute('data-id'));
+        modalTinyBtn.setContent(document.getElementById('tingle-tiny-delete').innerHTML);
+        modalTinyBtn.addFooterBtn("{$LANG['common']['delete']}", 'tingle-btn tingle-btn--danger tingle-btn--pull-right',
+            function() {
+                var member_select = $('#get_delete').val();
+                var resultCount = $('.data-list tbody tr').length;
+                if ($('#search_page').val() >= 1 && {$currentPage} <= $('.page-item:last-child a').text()) {
+                    var getPage = $('#search_page').val();
+                } else if ({$currentPage} >= $('.page-item:last-child a').text()) {
+                    var getPage = $('.page-item:last-child a').text();
+                } else {
+                    var getPage = {$currentPage};
+                }
+                if (resultCount == 1 || resultCount == 0) {
+                    var page = getPage -1;
+                } else {
+                    var page = getPage;
+                }
+                modalTinyBtn.close();
+                deleteData(member_select, mod, page);
+            });
+        modalTinyBtn.addFooterBtn("{$LANG['common']['cancel']}", 'tingle-btn tingle-btn--default tingle-btn--pull-right',
+            function() {
+                modalTinyBtn.close();
+            });
+    };
+
+    function actionDeleteMulti() {
+        if ($('#delete-multi-data').attr('data-set') === '#deleteMultiData') {
+            var checkedArray = [];
+            $("input[name='dataID[]']:checked").each(function() {
+                checkedArray.push(parseInt($(this).val()));
+            });
+            var modalTinyBtn = new tingle.modal({
+                onClose: function() {
+                    $('.tingle-modal').remove();
+                },
+                footer: true
+            });
+            modalTinyBtn.setContent(document.getElementById('tingle-tiny-delete').innerHTML);
+            modalTinyBtn.open();
+            modalTinyBtn.addFooterBtn("{$LANG['common']['delete']}", 'tingle-btn tingle-btn--danger tingle-btn--pull-right',
+                function() {
+                    if ($('#search_page').val() >= 1 && {$currentPage} <= $('.page-item:last-child a').text()) {
+                        var getPage = $('#search_page').val();
+                    } else if ({$currentPage} >= $('.page-item:last-child a').text()) {
+                        var getPage = $('.page-item:last-child a').text();
+                    } else {
+                        var getPage = {$currentPage};
+                    }
+                    modalTinyBtn.close();
+                    deleteMultiData(checkedArray, mod, getPage);
+                });
+            modalTinyBtn.addFooterBtn("{$LANG['common']['cancel']}", 'tingle-btn tingle-btn--default tingle-btn--pull-right',
+                function() {
+                    modalTinyBtn.close();
+                });
+        }
+    };
+
+    function actionAdd(event) {
+        var modalTinyBtn = new tingle.modal({
+            closeLabel: "{$LANG['common']['close']}",
+            cssClass: ['tingle-modal-long'],
+            onClose: function() {
+                $('.tingle-modal').remove();
+            },
+            footer: true
+        });
+        modalTinyBtn.open();
+        modalTinyBtn.setContent(document.getElementById('tingle-tiny-add').innerHTML);
+        modalTinyBtn.addFooterBtn("{$LANG['common']['add']}", 'tingle-btn tingle-btn--primary tingle-btn--pull-right',
+            function() {
+                var addValue = {};
+                $('.tingle-modal-box input, .tingle-modal-box textarea').each(function() {
+                    addValue[$(this).attr('name')] = $(this).val();
+                });
+                addValue['is_admin'] = $('.tingle-modal-box input[name=is_admin]:checked').val();
+                modalTinyBtn.close();
+                createData(addValue, mod);
+            });
+        modalTinyBtn.addFooterBtn("{$LANG['common']['cancel']}", 'tingle-btn tingle-btn--default tingle-btn--pull-right',
+            function() {
+                modalTinyBtn.close();
+            });
+    };
+
+    function getRandom(string) {
+        var modalTinyBtn = new tingle.modal({
+            onClose: function() {
+                $('.tingle-modal').remove();
+            },
+            footer: true
+        });
+        modalTinyBtn.open();
+        $('#randomPW').attr('value', string);
+        modalTinyBtn.setContent(document.getElementById('tingle-tiny-info').innerHTML);
+        modalTinyBtn.addFooterBtn("{$LANG['common']['close']}", 'tingle-btn tingle-btn--primary tingle-btn--pull-right',
+            function() {
+                modalTinyBtn.close();
+            });
+    };
+
+    function showError(errorInfo) {
+        var modalTinyBtn = new tingle.modal({
+            onClose: function() {
+                $('.tingle-modal').remove();
+            },
+            footer: true
+        });
+        modalTinyBtn.open();
+        $('#error-info').text(errorInfo);
+        modalTinyBtn.setContent(document.getElementById('tingle-tiny-error').innerHTML);
+        modalTinyBtn.addFooterBtn("{$LANG['common']['close']}", 'tingle-btn tingle-btn--danger tingle-btn--pull-right',
+            function() {
+                modalTinyBtn.close();
+                searchFilter(1);
+            });
+    }
+    </script>
+    <script type="text/javascript">
+    function searchFilter(page_num) {
+        page_num = page_num ? page_num : 1;
+        var uri = window.location.toString();
+        if (uri.indexOf('&page') > 0) {
+            var clean_uri = uri.substring(0, uri.indexOf('&page'));
+            window.history.replaceState({}, document.title, clean_uri);
+        }
+        var keywords = $('#keyword').val();
+        var sortBy = $('#sortBy').val();
+        $('#search_page').attr('value', page_num);
+        $.ajax({
+            type: 'POST',
+            url: 'admin.php?mod=member',
+            data: {'page': page_num, 'keyword': keywords, 'sortBy': sortBy},
+            success: function(html) {
+                $('.data-list').html(html);
+            }
+        });
+    }
+    </script>

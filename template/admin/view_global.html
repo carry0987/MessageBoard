@@ -1,0 +1,96 @@
+    <div class="main-content">
+        <div class="title">
+            <span>{$LANG['common']['global']}</span>
+        </div>
+        <div class="main-admin">
+            <div class="widget">
+                <div class="title">
+                    <span>{$LANG['common']['version']}</span>
+                </div>
+                <div class="chart">
+                    <div class="version">
+                        <div id="latest_version" class="latest_version">
+                            <span>{$LANG['admin']['latest_version']}:</span>
+                            <span id="repo_list">{$LANG['common']['loading']}...</span>
+                            <div class="button">
+                                <div class="button-font">
+                                    <a class="button-link" href="https://github.com/carry0987/MessageBoard/releases" target="_blank" rel="noopener noreferrer">
+                                        <span>{$LANG['common']['download']}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="version">
+                        <div class="program_version">
+                            <span>{$LANG['admin']['current_version']}:</span>
+                            <span>{PROGRAM_VERSION}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget">
+                <div class="title">
+                    <span>{$LANG['common']['setting']}</span>
+                </div>
+                <div class="chart">
+                    <div class="admin-setting">
+                        <form action="admin.php?update=global_setting" method="post">
+                            <label>{$LANG['admin']['web_name']}</label>
+                            <input class="setting-input" type="text" name="web_name" maxlength="20" value="{$globalConfig['web_name']}" />
+                            <div class="default-language">
+                                <div class="language-select">
+                                    <label class="web-language">
+                                        <span>{$LANG['common']['default_language']} : </span>
+                                    </label>
+                                    <select class="web-lang" name="web_lang">
+<!--{loop $web_lang_list $lang_list['key'] $lang_list['value']}-->
+<!--{eval $current_lang_select = ($lang_list['key'] === $LANG['common']['current_language']) ? 'selected="selected"' : '';}-->
+                                        <option value="{$lang_list['key']}" {$current_lang_select}>{$lang_list['value']}</option>
+<!--{/loop}-->
+                                    </select>
+                                </div>
+                            </div>
+                            <label>{$LANG['admin']['web_description']}</label>
+                            <textarea class="setting-input" type="text" name="web_description" rows="6" cols="50" maxlength="300">{$globalConfig['web_description']}</textarea>
+                            <div class="setting-save-global">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#latest_version').ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.github.com/repos/carry0987/Messageboard/releases/latest',
+                dataType: 'json',
+                success: function(result) {
+                    $('#repo_list').html(
+                        result.name
+                    );
+                }
+            });
+        });
+    });
+    </script>
+    <script type="text/javascript">
+    $('select.web-lang').change(function() {
+        $.ajax({
+                type: 'POST',
+                url: '{$meta['url']}',
+                data: {lang: $('select.web-lang').val()},
+                success: function(data) {
+                    return true;
+                },
+                error: function(data) {
+                    return false;
+                },
+                dataType: 'html'
+        });
+    });
+    </script>

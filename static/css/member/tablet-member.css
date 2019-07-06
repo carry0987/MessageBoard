@@ -1,0 +1,200 @@
+@charset "UTF-8";
+
+/* Tablet view */
+@media screen and (min-width: 625px) and (max-width: 960px) {
+    /* User Info */
+    .profile-header {
+        line-height: 1.5;
+        min-height: 125px;
+        overflow: visible;
+        padding: 15px 15px 0px 10px;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile-header .avatar {
+        width: 130px;
+        height: 130px;
+        border-radius: 3px;
+        line-height: 1;
+        overflow: hidden;
+        vertical-align: middle;
+        position: initial;
+        top: 15px;
+    }
+
+    .profile-header .name {
+        margin-top: 0.5em;
+    }
+
+    .profile-header .display-name {
+        color: #24292e;
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .profile-header .username {
+        color: #586069;
+        font-size: 15px;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .user-identity {
+        font-size: 14px;
+        margin-top: 0px;
+        margin-bottom: 2px;
+        overflow: hidden;
+    }
+
+    .user-identity>dt {
+        float: none;
+        color: #7D7D7D;
+        max-width: 100%;
+        margin-right: 0px;
+    }
+
+    .user-identity>dd {
+        float: right;
+        margin-left: 0px;
+        text-align: right;
+        max-width: 100%;
+    }
+
+    .user-detail {
+        font-size: 12px;
+        padding: 2px 15px;
+        width: max-content;
+        margin-bottom: 5px;
+    }
+
+    .user-detail-box {
+        display: block;
+    }
+
+    .user-bio {
+        font-size: 12px;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 2px;
+        border-color: #c5c5c5;
+        padding: 2px;
+        max-width: 130px;
+        color: #24292e;
+        margin-bottom: 5px;
+    }
+
+    .user-status {
+        font-size: 12px;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 2px;
+        border-color: #c5c5c5;
+        padding: 2px;
+        max-width: 130px;
+        color: #24292e;
+    }
+
+    .user-joined {
+        display: table;
+        margin-top: 0px;
+        margin-bottom: 2px;
+        overflow: hidden;
+    }
+
+    .user-joined>dt {
+        float: initial;
+        max-width: 100%;
+        margin-right: 0px;
+    }
+
+    .user-joined>dd {
+        float: right;
+        margin-left: 0px;
+        text-align: right;
+        max-width: 100%;
+    }
+
+    .user-last-login {
+        display: table;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        overflow: hidden;
+    }
+
+    .user-last-login>dt {
+        float: initial;
+        max-width: 100%;
+        margin-right: 0px;
+    }
+
+    .user-last-login>dd {
+        float: right;
+        margin-left: 0px;
+        text-align: right;
+        max-width: 100%;
+    }
+
+    /* Notification */
+    .notification {
+        display: block;
+    }
+
+    .notification-link:hover {
+        color: #FFFFFF;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .notification-icon {
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+    }
+
+    #notif_wrapper {
+        margin-left: -180px;
+        width: 320px;
+    }
+
+    #notif_wrapper:before {
+        margin-left: 204px;
+    }
+
+    /* Article List */
+    .member-article li {
+        padding: 10px;
+        margin-bottom: 5px;
+    }
+
+    .member-article {
+        width: 75%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .member-article-list {
+        width: 75%;
+        padding-left: 0px;
+    }
+
+    /* Article Empty */
+    .novalue {
+        margin: 1em auto;
+        padding: 5px;
+    }
+
+    .novalue>a {
+        font-size: 1.25em;
+        padding: 0px;
+    }
+
+    /* Other */
+    .change-language {
+        width: 50%;
+    }
+
+    .language {
+        width: 70%;
+    }
+}

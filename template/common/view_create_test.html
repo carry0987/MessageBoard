@@ -1,0 +1,140 @@
+        <link rel="stylesheet" type="text/css" href="{loadcss component/radio.css}">
+        <link rel="stylesheet" type="text/css" href="{loadcss component/checkbox.css}">
+        <link rel="stylesheet" href="{loadcss ../editor/jodit/jodit.min.css}" id="theme-style">
+        <script src="{loadjs ../editor/jodit/jodit.min.js}" type="text/javascript"></script>
+        <div class="article-div">
+            <form class="article-form" action="./board.php?bid={$board_id}&amp;action=create_article" method="post">
+                <span>
+                    <label for="title">{$LANG['common']['title']}: </label>
+                    <input class="article-input" id="title" type="text" name="title" placeholder="Title" maxlength="150" autocomplete="off" />
+                </span>
+                <span class="word_left">{$LANG['common']['word_left']}：<span id="display">50</span></span>
+                <div class="action-box">
+                    <div class="article-property">
+                        <label class="radio-title">{$LANG['common']['property']}:</label>
+                        <div class="radio radio-inline">
+                            <input id="public" name="property" type="radio" value="0" checked="checked" />
+                            <label for="public" class="set-label radio-label">{$LANG['common']['public']}</label>
+                        </div>
+                        <div class="radio radio-inline">
+                            <input id="private" name="property" type="radio" value="1" />
+                            <label for="private" class="set-label radio-label">{$LANG['common']['private']}</label>
+                        </div>
+                    </div>
+                    <!--{if $login['admin'] === true}-->
+                    <div class="article-pinned">
+                        <div class="checkbox">
+                            <label for="pinned">{$LANG['common']['pinned']}: </label>
+                            <input type="checkbox" id="pinned" name="pinned" value="pinned" onchange="showPinnedSort(this)" />
+                        </div>
+                    </div>
+                    <!--{/if}-->
+                </div>
+                <textarea class="article-text" id="article" type="text" name="content" rows="7" cols="50" maxlength="10000"></textarea>
+                <div class="article-submit">
+                    <button type="submit" name="submit">{$LANG['common']['submit']}</button>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            var editor = new Jodit('#article', {
+                showXPathInStatusbar: false,
+                askBeforePasteHTML: false,
+                askBeforePasteFromWord: false,
+                defaultActionOnPaste: 'insert_only_text',
+                iframe: false,
+                observer: {
+                    timeout: 100
+                },
+                uploader: {
+                    url: 'https://xdsoft.net/jodit/connector/index.php?action=fileUpload'
+                },
+                commandToHotkeys: {
+                    'openreplacedialog': 'ctrl+p'
+                },
+                image: {
+                    openOnDblClick: false,
+                    editSrc: false,
+                    useImageEditor: true,
+                    editTitle: false,
+                    editAlt: false,
+                    editLink: false,
+                    editSize: true,
+                    editMargins: false,
+                    editBorderRadius: false,
+                    editClass: false,
+                    editStyle: false,
+                    editId: false,
+                    editAlign: false,
+                    showPreview: false,
+                    selectImageAfterClose: false
+                },
+                useAceEditor: false,
+                width: 'auto',
+                height: 'auto',
+                minHeight: 250,
+                language: 'zh_tw',
+                defaultMode: Jodit.MODE_WYSIWYG,
+                useSplitMode: false,
+                imageDefaultWidth: 300,
+                enableDragAndDropFileToEditor: false,
+                removeButtons: ['source', 'selectall', 'font', 'dots', 'about', 'print', 'symbol', 'fullsize', 'copyformat'],
+                disablePlugins: ['source', 'addNewLine'],
+                buttons: [
+                    'bold',
+                    'strikethrough',
+                    'underline',
+                    'italic', '|',
+                    'ul',
+                    'ol', '|',
+                    'outdent', 'indent',  '|',
+                    'fontsize',
+                    'brush',
+                    'paragraph', '|',
+                    'image',
+                    'video',
+                    'table',
+                    'link', '|',
+                    'align', 'undo', 'redo', '|',
+                    'hr',
+                    'eraser'
+                ],
+                buttonsXS: [
+                    'bold',
+                    'image', '|',
+                    'brush',
+                    'paragraph', '|',
+                    'align', '|',
+                    'undo', 'redo', '|',
+                    'eraser',
+                    'dots'
+                ],
+                events: {},
+                textIcons: false,
+            });
+            editor.setEditorValue('<p>start</p>')
+        });
+        </script>
+        <script type="text/javascript">
+        function wordLeft() {
+            var maxlength = parseInt($('.article-input').attr('maxlength'));
+            var NowEntry = parseInt($('.article-input').val().length);
+            var left = maxlength - NowEntry;
+            NowEntry = maxlength <= NowEntry ? NowEntry : NowEntry + 1;
+            left = maxlength <= NowEntry ? left : left;
+            $('#display').text(left);
+        };
+        $('.article-input').on('keyup keydown', function() {
+            wordLeft();
+        });
+        function showPinnedSort(event) {
+            if (event.checked === true) {
+                $('#public').prop('checked', true);
+                $('#private').prop('checked', false);
+                $('#private').prop('disabled', true);
+            } else {
+                $('#private').prop('disabled', false);
+            }
+        };
+        </script>

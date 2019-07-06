@@ -1,10 +1,20 @@
-.info_main {
+@charset "UTF-8";
+
+/* Information Box */
+.info {
+    margin-top: 0;
+    padding: 0;
+    height: 100%;
+    margin-left: 200px;
+}
+
+.info-main {
     margin-top: 0;
     padding: 0;
     height: 100%;
 }
 
-.info_title {
+.info-title {
     background-color: #eef1f7;
     border-bottom: 1px solid #b8bec9;
     padding: 10px 20px;
@@ -13,29 +23,21 @@
     font-size: 18px;
 }
 
-.info_success {
-    margin-top: 0;
-    padding: 0;
-    height: 100%;
-    margin-left: 200px;
-}
-
-.info_info {
+.info-box {
     display: flex;
     flex-flow: row wrap;
 }
 
-.info_message {
+.info-message {
     flex-basis: 300px;
     flex-grow: 10;
     height: 300px;
-    margin: 15px;
     border-radius: 6px;
     background-color: #ffffff;
     position: relative;
 }
 
-.info_message .title {
+.info-message .title {
     background-color: #eef1f7;
     border-bottom: 1px solid #dfe4ec;
     padding: 10px;
@@ -46,7 +48,14 @@
 }
 
 
-.info_message .chart {
+.info-message .chart {
     padding: 10px;
     color: #000000;
+}
+
+/* Mobile view */
+@media screen and (min-width: 280px) and (max-width: 450px) {
+    .info {
+        margin-left: 0px;
+    }
 }

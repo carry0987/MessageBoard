@@ -1,0 +1,108 @@
+            <div class="data-list-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="checkall" id="checkall" />
+                                </div>
+                            </th>
+                            <th scope="col">ID</th>
+                            <th scope="col">{$LANG['common']['display_name']}</th>
+                            <th scope="col">{$LANG['common']['username']}</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">{$LANG['common']['user_identity']}</th>
+                            <th scope="col">{$LANG['common']['status']}</th>
+                            <th scope="col">{$LANG['common']['action']}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--{loop $member_result $member_list}-->
+                        <tr>
+                            <td class="data-check-td">
+                                <div class="checkbox checkbox-node">
+                                    <input type="checkbox" name="dataID[]" value="{$member_list['uid']}" onchange="enableDeleteMulti(this)" />
+                                </div>
+                            </td>
+                            <td scope="row" data-label="ID">{$member_list['uid']}</td>
+                            <td display-name-id="{$member_list['uid']}" data-label="{$LANG['common']['display_name']}">
+                                <div class="table-list-style">
+                                    <div class="list-block">
+                                        <span>{$member_list['display_name']}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td username-id="{$member_list['uid']}" data-label="{$LANG['common']['username']}">
+                                <div class="table-list-style">
+                                    <div class="list-block">
+                                        <a href="member.php?uid={$member_list['uid']}" target="_blank" rel="noopener noreferrer" title="{$member_list['display_name']} (&commat;{$member_list['username']})">
+                                            <span>&commat;{$member_list['username']}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td bio-id="{$member_list['uid']}" style="display: none;">{$member_list['bio']}</td>
+                            <td email-id="{$member_list['uid']}" data-label="Email">
+                                <div class="table-list-style">
+                                    <div class="list-block" title="{$member_list['email']}">
+                                        <span>{$member_list['email']}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['user_identity']}">{echo isAdmin($member_list['is_admin'], $LANG['common']['admin'], $LANG['common']['member'])}</td>
+                            <input identity-id="{$member_list['uid']}" hidden="hidden" value="{$member_list['is_admin']}" />
+                            <td data-label="{$LANG['common']['status']}">{echo isBanned($member_list['banned'], $LANG['common']['banned'], $LANG['common']['normal'])}</td>
+                            <input status-id="{$member_list['uid']}" hidden="hidden" value="{$member_list['banned']}" />
+                            <td data-label="{$LANG['common']['action']}">
+                                <div class="data-list-action">
+                                    <a href="javascript:void(0);" class="edit-data" data-id="{$member_list['uid']}" onclick="actionEdit(this)" title="{$LANG['common']['edit']}">
+                                        <i><img class="button-icon" src="static/icon/edit.svg" alt="Edit Icon" /></i>
+                                    </a>
+                                    <a href="javascript:void(0);" class="delete-data" data-id="{$member_list['uid']}" onclick="actionDelete(this)" title="{$LANG['common']['delete']}">
+                                        <i><img class="button-icon" src="static/icon/trashcan.svg" alt="Trashcan Icon" /></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{/loop}-->
+                    </tbody>
+                </table>
+                <div class="search-result">
+                    <!--{eval $langParam['limit'] = count($member_result);}-->
+                    <!--{eval $langParam['total'] = $total_member;}-->
+                    <div class="result-info">
+                        <span>{lang $LANG['common']['search_result_info'] $langParam}</span>
+                    </div>
+                    <!--{if ($paginator->getNumPages() > 1)}-->
+                    <div class="pagination">
+                        <ul class="pagination-list">
+                            <!--{if ($paginator->getPrevUrl())}-->
+                            <li class="page-item" onclick="searchFilter({echo $currentPage - 1})">
+                                <a class="page-link" href="javascript:void(0);">{$LANG['common']['prev_page']}</a>
+                            </li>
+                            <!--{/if}-->
+                            <!--{loop $paginator->getPages() $page}-->
+                            <!--{if $page['url']}-->
+                            <!--{eval $pages['class'] = $page['isCurrent'] ? 'active' : '';}-->
+                            <li class="page-item {$pages['class']}" onclick="searchFilter({$page['num']})">
+                                <a class="page-link" href="javascript:void(0);">{$page['num']}</a>
+                            </li>
+                            <!--{else}-->
+                            <li class="page-item-disable"><a class="link-disable">{$page['num']}</a></li>
+                            <!--{/if}-->
+                            <!--{/loop}-->
+                            <!--{if ($paginator->getNextUrl())}-->
+                            <li class="page-item" onclick="searchFilter({echo $currentPage + 1})">
+                                <a class="page-link" href="javascript:void(0);">{$LANG['common']['next_page']}</a>
+                            </li>
+                            <!--{/if}-->
+                        </ul>
+                    </div>
+                    <!--{/if}-->
+                </div>
+            </div>
+            <!--{if isset($randomPassword)}-->
+            <script type="text/javascript">
+            getRandom('{$randomPassword}');
+            </script>
+            <!--{/if}-->

@@ -1,0 +1,19 @@
+<div class="error-box">
+    <div class="error-inbox">
+        <div class="error-icon">
+            <img src="{$base_url}/static/icon/error.svg" alt="Error" />
+        </div>
+        <div class="error-info">
+<!--{if !empty($email_error)}-->
+            <span>{$email_error}</span>
+<!--{elseif !empty($username_error)}-->
+            <span>{$username_error}</span>
+<!--{else}-->
+            <span>{$signup_error}</span>
+<!--{/if}-->
+        </div>
+        <div class="error-back">
+            <span><a href="{$base_url}/signup.php">{$LANG['common']['back_page']}</a></span>
+        </div>
+    </div>
+</div>

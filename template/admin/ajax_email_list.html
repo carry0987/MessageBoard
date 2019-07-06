@@ -1,0 +1,62 @@
+<!--{if isset($email['type'])}-->
+                <div class="title setting-title">
+                    <span>{$LANG['common']['setting']}</span>
+                </div>
+<!--{if $email['type'] === 'localhost'}-->
+                <div class="chart">
+                    <div class="setting-list">
+                        <form action="admin.php?update=email_setting" method="post" name="email_setting">
+                            <input type="text" name="email_type" value="{$email['type']}" hidden="hidden">
+<!--{loop $email_option $option['title'] $option['value']}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-email'][$option['title']]}</label>
+                                    <input class="setting-list-input" type="text" name="{$option['title']}" maxlength="100" value="{$option['value']}" />
+                                </div>
+                                <div class="setting-list-description">
+<!--{eval $langParam['web_url'] = str_replace('www.', '', $_SERVER['HTTP_HOST']);}-->
+<!--{eval $langParam['web_name'] = $meta['title'];}-->
+                                    <p>{lang $LANG['admin-email'][$option['title'].'_description'] $langParam}</p>
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+<!--{/loop}-->
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+<!--{elseif $email['type'] === 'smtp'}-->
+                <div class="chart">
+                    <div class="setting-list">
+                        <form action="admin.php?update=email_setting" method="post" name="email_setting">
+                            <input type="text" name="email_type" value="{$email['type']}" hidden="hidden">
+<!--{loop $email_option $option['title'] $option['value']}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-email'][$option['title']]}</label>
+                                    <input class="setting-list-input" type="text" name="{$option['title']}" maxlength="100" value="{$option['value']}" />
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-email'][$option['title'].'_description']}</p>
+                                </div>
+<!--{if $option['title'] === 'smtp_pw'}-->
+<!--{block langParam['app_pw_url']}-->
+<a href="https://security.google.com/settings/security/apppasswords" class="link" target="_blank" rel="noopener noreferrer">{$LANG['common']['here']}</a>
+<!--{/block}-->
+                                <div class="description-notification announce">
+                                    <p>{lang $LANG['admin-email']['smtp_pw_url'] $langParam}</p>
+                                </div>
+<!--{/if}-->
+                            </div>
+                            <div class="horizon"></div>
+<!--{/loop}-->
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+<!--{/if}-->
+<!--{/if}-->

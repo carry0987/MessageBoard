@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+.forgot-pw-div {
+    margin: 0 auto;
+    background: #fff;
+    max-width: 400px;
+    padding: 3em 2em 2em;
+    text-align: center;
+}
+
+.forgot-pw-input {
+    outline: none;
+    font-size: .9em;
+    letter-spacing: 1px;
+    color: #666;
+    padding: 1em 1em;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1em;
+    display: block;
+    border: 1px solid #dde0df;
+    background: #e4eae7;
+}
+
+.login-link {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-link>a {
+    display: table-cell;
+    font-size: 1em;
+    width: 100%;
+    color: #ffffff;
+    background: #0f9d58;
+    border: 1px solid #0f9d58;
+    outline: none;
+    cursor: pointer;
+    padding: .8em 5em;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.forgot-pw-submit>button {
+    font-size: 1em;
+    color: #ffffff;
+    background: #0f9d58;
+    border: 1px solid #0f9d58;
+    outline: none;
+    cursor: pointer;
+    padding: .8em 1em;
+    letter-spacing: 1px;
+    width: 100%;
+}
+
+.forgot-pw-submit>button:hover {
+    background: #333;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+@media screen and (min-width: 320px) and (max-width: 700px) {
+    .login-link>a {
+        padding: 0.8em 0.5em;
+    }
+}

@@ -1,0 +1,26 @@
+<?php
+$LANG['admin-email'] = array(
+    'email_type' => 'Email Type',
+    'localhost' => 'Localhost',
+    'smtp' => 'Gmail SMTP',
+    'email_test' => 'Email Test',
+    'send_test_email' => 'Send test email',
+    'send_to' => 'Send To',
+    'test_success' => 'Test success',
+    'test_failed' => 'Test failed',
+    'charset' => 'Charset',
+    'charset_description' => 'Email charset，preset to UTF-8',
+    'send_from' => 'Send From',
+    'send_from_description' => 'Source of the email，defaulted to admin&commat;{web_url}',
+    'send_name' => 'Sender name',
+    'send_name_description' => 'Sender name, default is {web_name}',
+    'smtp_send_name' => 'SMTP Sender Name',
+    'smtp_send_name_description' => 'SMTP sender name, default is Admin',
+    'smtp_host' => 'SMTP Server',
+    'smtp_host_description' => 'SMTP server, default is smtp.google.com',
+    'smtp_user' => 'SMTP Username',
+    'smtp_user_description' => 'SMTP username, your Gmail account',
+    'smtp_pw' => 'SMTP Password',
+    'smtp_pw_description' => 'SMTP password, note that it is not your Gmail password, but the application password',
+    'smtp_pw_url' => 'You can apply at {app_pw_url}'
+);

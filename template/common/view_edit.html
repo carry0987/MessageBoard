@@ -1,0 +1,114 @@
+        <link rel="stylesheet" type="text/css" href="{loadcss component/radio.css}">
+        <link rel="stylesheet" type="text/css" href="{loadcss component/checkbox.css}">
+        <link rel="stylesheet" href="{loadcss ../editor/themes/editor-common.css}" id="theme-style">
+        <script src="{loadjs ../editor/sceditor.js}" type="text/javascript"></script>
+        <script src="{loadjs ../editor/icons/monocons.js}" type="text/javascript"></script>
+        <script src="{loadjs ../editor/bbcode.js}" type="text/javascript"></script>
+        <script src="{$base_url}/static/editor/editorlang/{$LANG['common']['current_language']}.js" type="text/javascript"></script>
+        <div class="article-div">
+            <form class="article-form" action="./article.php?aid={$article_id}&amp;action=edit_article" method="post">
+                <span>
+                    <label for="title">{$LANG['common']['title']}: </label>
+                    <input class="article-input" id="title" type="text" name="title" placeholder="Title" maxlength="150" value="{$articleInfo['title']}" autocomplete="off" />
+                </span>
+                <span class="word_left">{$LANG['common']['word_left']}：<span id="display">150</span></span>
+                <div class="action-box">
+                    <!--{if $check->checkAuthor($article_id, $login['uid']) === true}-->
+                    <div class="article-property">
+                        <label class="radio-title">{$LANG['common']['property']}:</label>
+                        <!--{if $articleInfo['property'] !== 3}-->
+                        <!--{loop $propertyList $key $value}-->
+                        <!--{eval $current_property = ($value === $articleInfo['property']) ? 'checked="checked"' : '';}-->
+                        <div class="radio radio-inline">
+                            <input id="{$key}" name="property" type="radio" value="{$value}" {$current_property} />
+                            <label for="{$key}" class="set-label radio-label">{$LANG['common'][$key]}</label>
+                        </div>
+                        <!--{/loop}-->
+                        <!--{else}-->
+                        <div class="radio radio-inline">
+                            <input id="public" name="property" type="radio" value="0" checked="checked" />
+                            <label for="public" class="set-label radio-label">{$LANG['common']['public']}</label>
+                        </div>
+                        <div class="radio radio-inline">
+                            <input id="private" name="property" type="radio" value="1" disabled="disabled" />
+                            <label for="private" class="set-label radio-label">{$LANG['common']['private']}</label>
+                        </div>
+                        <!--{/if}-->
+                    </div>
+                    <!--{else}-->
+                    <div class="article-property">
+                        <label class="radio-title">{$LANG['common']['property']}:</label>
+                        <!--{loop $propertyList $key $value}-->
+                        <div class="radio radio-inline">
+                            <input id="{$key}-disable" name="property-disable" type="radio" value="{$value}" disabled="disabled" />
+                            <label for="{$key}-disable" class="set-label radio-label">{$LANG['common'][$key]}</label>
+                        </div>
+                        <!--{/loop}-->
+                    </div>
+                    <!--{/if}-->
+                    <!--{if $login['admin'] === true}-->
+                    <div class="article-pinned">
+                        <div class="checkbox">
+                            <label for="pinned">{$LANG['common']['pinned']}: </label>
+                            <!--{eval $current_pinned = ($articleInfo['property'] === 3) ? 'checked="checked"' : '';}-->
+                            <input type="checkbox" id="pinned" name="pinned" value="{$article_id}" onchange="showPinnedSort(this)" {$current_pinned} />
+                        </div>
+                    </div>
+                    <!--{/if}-->
+                </div>
+                <textarea class="article-text" id="article" type="text" name="content" rows="7" cols="50" maxlength="10000">{echo html2bbcode($articleInfo['content'])}</textarea>
+                <input type="text" name="pinned_sort" hidden="hidden" value="{$articleInfo['pinned_sort']}" />
+                <div class="article-submit">
+                    <button type="submit" name="submit">{$LANG['common']['submit']}</button>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            var textarea = document.getElementById('article');
+            sceditor.create(textarea, {
+                locale: "{$LANG['common']['current_language']}",
+                resizeMinHeight: 260,
+                ltr: true,
+                autofocus: false,
+                format: 'bbcode',
+                icons: 'monocons',
+                bbcodeTrim: true,
+                emoticonsRoot: 'static/editor/',
+                emoticons:
+                {
+                    dropdown: {
+                        '[:)]': 'emoticons/smile.svg',
+                        '[:tear-joy]': 'emoticons/tear_joy.svg',
+                        '[:angry:]': 'emoticons/angry.svg',
+                        '[;)]': 'emoticons/wink.svg',
+                        '[:love]': 'emoticons/love.svg',
+                        '[:dog]': 'emoticons/dog.svg'
+                    }
+                },
+                style: "{loadcss editor.css}"
+            });
+            function wordLeft() {
+                var maxlength = parseInt($('.article-input').attr('maxlength'));
+                var NowEntry = parseInt($('.article-input').val().length);
+                var left = maxlength - NowEntry;
+                NowEntry = maxlength <= NowEntry ? NowEntry : NowEntry + 1;
+                left = maxlength <= NowEntry ? left : left;
+                $('#display').text(left);
+            };
+            $('.article-input').on('keyup keydown', function() {
+                wordLeft();
+            });
+        });
+        </script>
+        <script type="text/javascript">
+        function showPinnedSort(event) {
+            if (event.checked === true) {
+                $('#public').prop('checked', true);
+                $('#private').prop('checked', false);
+                $('#private').prop('disabled', true);
+            } else {
+                $('#private').prop('disabled', false);
+            }
+        };
+        </script>

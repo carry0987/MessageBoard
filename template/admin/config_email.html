@@ -1,0 +1,111 @@
+    <link href="{loadcss ../component/radio.css}" rel="stylesheet" type="text/css">
+    <div class="main-content">
+        <div class="title">
+            <span>{$LANG['common']['email']}</span>
+        </div>
+        <div class="main">
+            <div class="widget">
+                <div class="title">
+                    <span>{$LANG['admin']['email_function']}</span>
+                </div>
+                <div class="chart">
+                    <div class="type-list">
+                        <form action="admin.php?update=email_enable" method="post" id="email_enable">
+                            <input type="text" id="change_type" name="change_type" hidden="hidden" value="{$email['current_type']}" />
+                            <div class="setting-option">
+                                <div class="type-list-box option-set">
+<!--{if $email['set'] === true}-->
+                                    <div class="radio">
+                                        <input id="enable" name="email_set" type="radio" value="enable" checked="checked" />
+                                        <label for="enable" class="set-label radio-label">{$LANG['common']['enable']}</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input id="disable" name="email_set" type="radio" value="disable" />
+                                        <label for="disable" class="set-label radio-label">{$LANG['common']['disable']}</label>
+                                    </div>
+<!--{else}-->
+                                    <div class="radio">
+                                        <input id="enable" name="email_set" type="radio" value="enable" />
+                                        <label for="enable" class="set-label radio-label">{$LANG['common']['enable']}</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input id="disable" name="email_set" type="radio" value="disable" checked="checked" />
+                                        <label for="disable" class="set-label radio-label">{$LANG['common']['disable']}</label>
+                                    </div>
+<!--{/if}-->
+                                </div>
+                            </div>
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="widget">
+                <div class="title">
+                    <span>{$LANG['admin-email']['email_test']}</span>
+                </div>
+                <div class="chart">
+                    <div class="setting-test">
+                        <form action="admin.php?mod=email&test=test_email" method="post">
+                            <div class="setting-test-list">
+                                <span class="setting-test-title">{$LANG['admin']['current_type']} : {$LANG['admin-email'][$email['current_type']]}</span>
+                                <div class="setting-test-box">
+                                    <label for="send_test" class="setting-test-label">{$LANG['admin-email']['send_to']}: </label>
+                                    <input id="send_test" type="email" name="send_test" class="setting-test-input" />
+                                </div>
+                            </div>
+                            <div class="setting-test-submit">
+                                <button type="submit" name="submit">{$LANG['common']['send']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="widget notification-widget" style="display: none;">
+                <div class="notification">
+                    <div class="notification-bar announce" style="font-size: 14px;">
+                        <p>{$LANG['admin']['email_disable_warning']} {$LANG['admin']['email_disable_only']}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-admin">
+            <div class="widget">
+                <div class="title">
+                    <span>{$LANG['admin-email']['email_type']}</span>
+                </div>
+                <div class="chart">
+                    <div class="type-list">
+                        <div class="type-list-box type-select">
+                            <input type="text" id="current_type" hidden="hidden" disabled="disabled" value="{$email['current_type']}" />
+<!--{loop $email_type_list $type_list['value']}-->
+<!--{eval $current_type = ($type_list['value'] === $email['current_type']) ? 'checked="checked"' : '';}-->
+                            <div class="radio">
+                                <input id="{$type_list['value']}" name="type_select" type="radio" value="{$type_list['value']}" {$current_type} />
+                                <label for="{$type_list['value']}" class="select-label radio-label">{$LANG['admin-email'][$type_list['value']]}</label>
+                            </div>
+<!--{/loop}-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget" id="show-setting">
+            </div>
+            <div class="widget setting-loading">
+                <div class="title loading-title">
+                    <span>{$LANG['common']['setting']}</span>
+                </div>
+                <div class="chart-loading-box">
+                    <div class="loading-overlay">
+                        <div class="overlay-content">
+                            <span style="display: block;">{$LANG['common']['loading']}</span>
+                            <img src="static/icon/loading_spin.svg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{loadjs admin-email.js}" type="text/javascript"></script>

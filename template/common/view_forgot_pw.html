@@ -1,0 +1,23 @@
+        <link rel="stylesheet" type="text/css" href="{loadcss forgot-pw.css}">
+        <div class="forgot-pw-div">
+            <form action="login.php?pw=forgot" id="forgot_pw_form" method="post">
+                <input type="email" class="forgot-pw-input" name="email" id="email" placeholder="{$LANG['common']['email']}" maxlength="30" />
+                <div class="forgot-pw-submit">
+                    <button type="submit" name="submit">{$LANG['common']['submit']}</button>
+                </div>
+            </form>
+            <div class="horizon"></div>
+            <div class="login-link">
+                <a href="./login.php">{$LANG['common']['back_page']}</a>
+            </div>
+        </div>
+        <script type="text/javascript">
+        $('#forgot_pw_form').submit(function() {
+            if ($('#email').val() == '') {
+                alert('{$LANG['common']['email_empty']}');
+                $('#email').focus();
+                return false;
+            }
+            return true;
+        });
+        </script>

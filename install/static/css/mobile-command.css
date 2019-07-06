@@ -13,11 +13,27 @@
         font-size: 15px;
     }
 
+    .language {
+        width: 45%;
+    }
+
     .change_language {
         width: 95%;
     }
 
     #logo {
         width: 40%;
+    }
+
+    .email_config {
+        font-size: 15px;
+    }
+
+    .radio {
+        margin: 0.25em;
+    }
+
+    .radio input[type="radio"]+.radio-label:before {
+        margin-right: 0.25em;
     }
 }

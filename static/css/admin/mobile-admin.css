@@ -1,10 +1,263 @@
 @charset "UTF-8";
 
 /* Mobile view */
-
-@media screen and (min-width: 280px) and (max-width: 450px) {
+@media screen and (min-width: 280px) and (max-width: 680px) {
     .logo span {
         color: #233245;
         margin-left: 5px;
+    }
+
+    .header {
+        display: block;
+        background-color: #fff;
+        position: fixed;
+    }
+
+    .header .logo {
+        display: block;
+        line-height: 1.5;
+    }
+
+    /* Nav Bar */
+    .nav-trigger {
+        position: relative;
+        float: right;
+        width: 20px;
+        height: 44px;
+        right: 30px;
+        display: block;
+    }
+
+    .nav-trigger span,
+    .nav-trigger span:before,
+    span:after {
+        width: 20px;
+        height: 2px;
+        background-color: #35475E;
+        position: absolute;
+    }
+
+    .nav-trigger span {
+        top: 50%;
+    }
+
+    .nav-trigger span:before,
+    .nav-trigger span:after {
+        content: '';
+    }
+
+    .nav-trigger span:before {
+        top: -6px;
+    }
+
+    .nav-trigger span:after {
+        top: 6px;
+    }
+
+    /* Pagination */
+    .result-info {
+        float: initial;
+        text-align: center;
+    }
+
+    .pagination {
+        float: initial;
+        text-align: center;
+    }
+
+    /* Side Navigation Style */
+    .side-nav {
+        z-index: 1;
+        width: 100%;
+        display: none;
+    }
+
+    .side-nav.visible {
+        max-height: 100%;
+        overflow-y: scroll;
+    }
+
+    .version:first-child {
+        padding-bottom: 0.25em;
+    }
+
+    .version:last-child {
+        padding-top: 0.25em;
+    }
+
+    /* Main Content */
+    .main-content {
+        margin-left: 0px;
+    }
+
+    .main .widget:nth-of-type(1) {
+        order: 1;
+        -webkit-order: 1;
+    }
+
+    .main .widget:nth-of-type(2) {
+        order: 3;
+        -webkit-order: 3;
+    }
+
+    .main .widget:nth-of-type(3) {
+        flex-basis: 300px;
+        -webkit-flex-basis: 300px;
+        order: 2;
+        -webkit-order: 2;
+    }
+
+    /* Test Setting */
+    .setting-test {
+        padding: 0.5em 0.5em 0em 0.5em;
+    }
+
+    .setting-test-list {
+        padding-top: 0em;
+    }
+
+    .setting-test-box,
+    .setting-test-description {
+        display: block;
+    }
+
+    .setting-test-submit>button {
+        width: 30%;
+        padding: 0.5em 0.25em;
+    }
+
+    .setting-save-global>button {
+        width: 60%;
+    }
+
+    .button {
+        margin: 0px 0px 0px 2.5px;
+    }
+
+    .button-link span {
+        font-size: 0.75em;
+        padding: 0 5px;
+    }
+
+    .submit-link span {
+        font-size: 1em;
+        padding: 5px 10px;
+    }
+
+    .type-list .setting-save {
+        margin-left: 0.25em;
+        margin-bottom: 0.5em;
+    }
+
+    /* Information area */
+    .information-button {
+        margin-top: 0.5em;
+    }
+
+    /* List */
+    .setting-list-box,
+    .setting-list-description {
+        display: block;
+    }
+
+    .setting-list-description>p {
+        margin: 0px;
+    }
+
+    .setting-list .gallery img {
+        width: 100%;
+        max-width: none;
+        max-height: none;
+    }
+
+    .main .type-list .setting-save>button {
+        width: 30%;
+        padding: 0.5em 0.25em;
+    }
+
+    .main-admin .type-list .setting-save>button {
+        width: 25%;
+        padding: 0.5em 0.5em;
+    }
+
+    .setting-note {
+        overflow-x: scroll;
+    }
+
+    .setting-save>button {
+        width: 100%;
+    }
+
+    /* Manage Page */
+    .data-manage {
+        margin: 0.5em 0em;
+        padding: 0em;
+    }
+
+    .search-bar {
+        display: table-row;
+    }
+
+    .search-bar>input {
+        margin: 0px 10px;
+    }
+
+    .search-bar .sort-select {
+        display: block;
+        margin: 10px 10px 5px 10px;
+    }
+
+    .action-bar,
+    .action-bar-box {
+        display: none;
+    }
+
+    .action-bar-mobile {
+        display: block;
+        margin: 0px auto;
+        text-align: center;
+    }
+
+    .data-manage .btn {
+        float: none;
+        min-width: 50px;
+        margin-left: 0px;
+        width: 80%;
+    }
+
+    .data-manage .btn img {
+        vertical-align: middle;
+        float: none;
+        margin-right: 0px;
+    }
+
+    .data-manage .btn a {
+        vertical-align: middle;
+    }
+
+    .data-manage .btn span {
+        float: none;
+    }
+
+    .data-action {
+        width: auto;
+    }
+
+    /* Footer */
+    .footer-content {
+        margin-left: 0px;
+    }
+
+    /* Other */
+    .language {
+        width: 70%;
+    }
+
+    .web-lang {
+        width: 42%;
+    }
+
+    .change_language {
+        width: 90%;
     }
 }

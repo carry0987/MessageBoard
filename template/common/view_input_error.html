@@ -1,0 +1,17 @@
+<div class="error-box">
+    <div class="error-inbox">
+        <div class="error-icon">
+            <img src="{$base_url}/static/icon/error.svg" alt="Error" />
+        </div>
+        <div class="error-info">
+<!--{if isset($pdr_error) && $pdr_error === true}-->
+            <span>{$LANG['common']['repassword_error']}</span>
+<!--{else}-->
+            <span>{$LANG['common']['input_empty']}</span>
+<!--{/if}-->
+        </div>
+        <div class="error-back">
+            <span><a href="{$base_url}/{$back_page}">{$LANG['common']['back_page']}</a></span>
+        </div>
+    </div>
+</div>

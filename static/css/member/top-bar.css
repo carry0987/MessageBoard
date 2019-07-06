@@ -1,0 +1,13 @@
+@media (min-width: 1300px) {
+    .branding {
+        -webkit-flex: 0 1 75%;
+        -ms-flex: 0 1 75%;
+        flex: 0 1 75%;
+    }
+
+    nav {
+        -webkit-flex: 0 1 25%;
+        -ms-flex: 0 1 25%;
+        flex: 0 1 25%;
+    }
+}

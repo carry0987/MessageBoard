@@ -1,0 +1,61 @@
+        <div class="reset-pw-div">
+            <div class="alert">
+                <span id="checkbox"></span>
+            </div>
+            <form action="login.php?pw=reset&fp_code={$reset['fp_code']}" id="reset_pw_form" method="post">
+                <input type="password" class="reset-pw-input" name="password" id="password" placeholder="{$LANG['common']['new_password']}" maxlength="20" />
+                <input type="password" class="reset-pw-input" name="pdr" id="pdr" placeholder="{$LANG['common']['password_confirm']}" maxlength="20" />
+                <div class="reset-pw-submit">
+                    <button type="submit" name="submit">{$LANG['common']['submit']}</button>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $("#reset_pw_form").submit(function() {
+                var password1 = $('#password').val();
+                var password2 = $('#pdr').val();
+                var regex = new RegExp("^[A-Za-z0-9]+$");
+                if (password1 == '' || password2 == '') {
+                    alert('{$LANG['common']['password_empty']}');
+                    return false;
+                } else if (password1 != password2) {
+                    alert('{$LANG['common']['repassword_error']}');
+                    return false;
+                } else if (password1.length < 8 || password2.length < 8 || !regex.test(password1) || !regex.test(password2)) {
+                    alert('{$LANG['common']['password_rule']}');
+                    document.getElementById('password').value = "";
+                    document.getElementById('pdr').value = "";
+                    return false;
+                }
+                return true;
+            });
+
+            $("#password").blur(function() {
+                var password = $('#password').val();
+                var password_max = $('#password').val().length;
+                if (password_max > 20) {
+                    $('#checkbox').html("<span style='color: red'>Word Count : 20</span>");
+                    return false;
+                } else if (password == '') {
+                    $('#checkbox').html("<span style='color: red'>{$LANG['common']['password_empty']}</span>");
+                    return false;
+                } else {
+                    $('#checkbox').html("");
+                    return true;
+                }
+            });
+
+            $("#pdr").blur(function() {
+                var password1 = $('#password').val();
+                var password2 = $('#pdr').val();
+                if (password1 !== password2) {
+                    $('#checkbox').html("<span style='color: red'>{$LANG['common']['repassword_error']}</span>");
+                    return false;
+                } else {
+                    $('#checkbox').html("");
+                    return true;
+                }
+            });
+        });
+        </script>

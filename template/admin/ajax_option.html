@@ -1,0 +1,5 @@
+<!--{if isset($boardList) && $boardList !== false}-->
+<!--{loop $boardList $value}-->
+<option value="{$value['bid']}" sitemap="{$value['set_sitemap']}">{$value['name']}</option>
+<!--{/loop}-->
+<!--{/if}-->

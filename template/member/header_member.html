@@ -5,17 +5,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="dns-prefetch" href="{$meta['url']}" />
-    <title>{$member_name}</title>
+    <title>{$member['row']['display_name']} (@{$member['row']['username']}) | {$meta['title']}</title>
+    <link href="{loadcss ../pagination.css}" rel="stylesheet" type="text/css" />
     <link href="{loadcss member.css}" rel="stylesheet" type="text/css" />
     <link href="{loadcss mobile-member.css}" rel="stylesheet" type="text/css" />
-    <meta name="description" content="{$meta['description']}" />
+    <link href="{loadcss tablet-member.css}" rel="stylesheet" type="text/css" />
+<!--{if !empty($member_bio)}-->
+    <meta name="description" content="{$member_bio}" />
+    <meta property="og:description" content="{$member_bio}" />
+<!--{else}-->
+    <meta name="description" content="@{$member['row']['username']}, {lang $LANG['member']['default_bio'] $article_info}" />
+    <meta property="og:description" content="@{$member['row']['username']}, {lang $LANG['member']['default_bio'] $article_info}" />
+<!--{/if}-->
     <meta name="author" content="carry0987" />
-    <meta property="profile:username" content="{$member_name}" />
+    <meta property="profile:username" content="{$member['row']['username']}" />
     <meta property="og:image" content="{$base_url}/static/icon/logo.png" />
     <meta property="og:site_name" content="{$meta['title']}" />
     <meta property="og:type" content="profile" />
-    <meta property="og:title" content="{$member_name} | {$meta['title']}" />
+    <meta property="og:title" content="{$member['row']['display_name']} (@{$member['row']['username']}) | {$meta['title']}" />
     <meta property="og:url" content="{$meta['url']}" />
-    <meta property="og:description" content="{$meta['description']}" />
     <link rel="shortcut icon" href="./favicon.ico" />
 </head>

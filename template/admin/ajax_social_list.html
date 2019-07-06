@@ -1,0 +1,29 @@
+<!--{if isset($social['type'])}-->
+                <div class="title setting-title">
+                    <span>{$LANG['common']['setting']}</span>
+                </div>
+<!--{if $social['type'] === 'github_login'}-->
+                <div class="chart">
+                    <div class="setting-list">
+                        <form action="admin.php?update=social_setting" method="post" name="social_setting">
+                            <input type="text" name="social_type" value="{$social['type']}" hidden="hidden">
+<!--{loop $social_login['option'] $option['title'] $option['value']}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-social'][$option['title']]}</label>
+                                    <input class="setting-list-input" type="text" name="{$option['title']}" maxlength="150" value="{$option['value']}" />
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-social'][$option['title'].'_description']}</p>
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+<!--{/loop}-->
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+<!--{/if}-->
+<!--{/if}-->

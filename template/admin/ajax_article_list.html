@@ -1,0 +1,126 @@
+            <div class="data-list-box">
+                <table class="data-block">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="checkall" id="checkall" />
+                                </div>
+                            </th>
+                            <th scope="col">ID</th>
+                            <th scope="col">{$LANG['common']['title']}</th>
+                            <th scope="col">{$LANG['common']['description']}</th>
+                            <th scope="col">{$LANG['common']['author']}</th>
+                            <th scope="col">{$LANG['common']['board']}</th>
+                            <th scope="col">{$LANG['common']['property']}</th>
+                            <th scope="col">{$LANG['common']['last_edit']}</th>
+                            <th scope="col">{$LANG['common']['action']}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--{loop $article_result $dataList}-->
+                        <tr>
+                            <td class="data-check-td table-block">
+                                <div class="checkbox checkbox-node">
+                                    <input type="checkbox" name="dataID[]" value="{$dataList['aid']}" onchange="enableDeleteMulti(this)" />
+                                </div>
+                            </td>
+                            <td scope="row" data-label="ID" class="table-block">
+                                <div class="table-list-style">{$dataList['aid']}</div>
+                            </td>
+                            <td data-label="{$LANG['common']['title']}" class="table-block">
+                                <div class="table-list-style">
+                                    <div class="list-block">
+                                        <a href="article.php?aid={$dataList['aid']}" target="_blank" rel="noopener noreferrer" title="{$dataList['title']}">{$dataList['title']}</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['description']}" class="table-block">
+                                <div class="table-list-style">
+                                    <div class="description">
+                                        <span>{$dataList['description']}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['author']}" class="table-block">
+                                <div class="table-list-style">
+                                    <div class="list-block">
+                                        <a href="member.php?uid={$dataList['user_id']}" target="_blank" rel="noopener noreferrer" title="{$dataList['display_name']} (&commat;{$dataList['username']})">
+                                            <span>&commat;{$dataList['username']}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['board']}" class="table-block">
+                                <div class="table-list-style">
+                                    <div class="list-block">
+                                        <a href="board.php?bid={$dataList['board_id']}" target="_blank" rel="noopener noreferrer" title="{$dataList['name']}">{$dataList['name']}</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['property']}" class="table-block">
+                                <div class="table-list-style">
+                                    <div class="list-block">
+                                        <span>{$LANG['common'][$articleProperty[$dataList['property']]]}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['last_edit']}" class="table-block table-date">
+                                <div class="table-list-style">
+                                    <div class="date">
+                                        <div class="date-display">
+                                            <div class="list-block-date">
+                                                <span>{$dataList['last_edit']}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['action']}" class="table-block">
+                                <div class="data-list-action">
+                                    <a href="article.php?aid={$dataList['aid']}&amp;action=edit_article" class="edit-data" data-id="{$dataList['aid']}" title="{$LANG['common']['edit']}" target="_blank" rel="noopener noreferrer">
+                                        <i><img class="button-icon" src="static/icon/edit.svg" alt="Edit Icon" /></i>
+                                    </a>
+                                    <a href="javascript:void(0);" class="delete-data" data-id="{$dataList['aid']}" onclick="actionDelete(this)" title="{$LANG['common']['delete']}">
+                                        <i><img class="button-icon" src="static/icon/trashcan.svg" alt="Trashcan Icon" /></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{/loop}-->
+                    </tbody>
+                </table>
+                <div class="search-result">
+                    <!--{eval $langParam['limit'] = count($article_result);}-->
+                    <!--{eval $langParam['total'] = $total_article;}-->
+                    <div class="result-info">
+                        <span>{lang $LANG['common']['search_result_info'] $langParam}</span>
+                    </div>
+                    <!--{if ($paginator->getNumPages() > 1)}-->
+                    <div class="pagination">
+                        <ul class="pagination-list">
+                            <!--{if ($paginator->getPrevUrl())}-->
+                            <li class="page-item" onclick="searchFilter({echo $currentPage - 1})">
+                                <a class="page-link" href="javascript:void(0);">{$LANG['common']['prev_page']}</a>
+                            </li>
+                            <!--{/if}-->
+                            <!--{loop $paginator->getPages() $page}-->
+                            <!--{if $page['url']}-->
+                            <!--{eval $pages['class'] = $page['isCurrent'] ? 'active' : '';}-->
+                            <li class="page-item {$pages['class']}" onclick="searchFilter({$page['num']})">
+                                <a class="page-link" href="javascript:void(0);">{$page['num']}</a>
+                            </li>
+                            <!--{else}-->
+                            <li class="page-item-disable"><a class="link-disable">{$page['num']}</a></li>
+                            <!--{/if}-->
+                            <!--{/loop}-->
+                            <!--{if ($paginator->getNextUrl())}-->
+                            <li class="page-item" onclick="searchFilter({echo $currentPage + 1})">
+                                <a class="page-link" href="javascript:void(0);">{$LANG['common']['next_page']}</a>
+                            </li>
+                            <!--{/if}-->
+                        </ul>
+                    </div>
+                    <!--{/if}-->
+                </div>
+            </div>

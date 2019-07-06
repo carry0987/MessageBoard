@@ -1,6 +1,8 @@
+@charset "UTF-8";
+
 @media all and (max-width: 800px) {
     #cssmenu {
-        background: #2FE2B3;
+        background: #1B76C6;
     }
     #cssmenu>ul {
         display: none;
@@ -28,7 +30,7 @@
 
     #cssmenu>ul>li:hover>a,
     #cssmenu>ul>li.active>a {
-        background: #FE7981;
+        background: #00b988;
     }
     #cssmenu #menu-button {
         display: block;

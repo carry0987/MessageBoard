@@ -10,7 +10,7 @@ spl_autoload_register(function ($class) {
       /* If the class does not lie under the "ReCaptcha" namespace,
        * then we can exit immediately.
        */
-      return;
+        return;
     }
 
     /* All of the classes have names like "ReCaptcha\Foo", so we need

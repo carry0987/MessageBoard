@@ -1,46 +1,35 @@
 <?php
 define('ROOT_PATH', dirname(__FILE__).'/../');
-if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+require ROOT_PATH.'/../source/class/class_language.php';
+$lang_path = dirname(dirname($_SERVER['PHP_SELF']));
+// Check language
+$load_language = new Language($lang_path);
+$load_language->setLanguageFile(array('admin', 'common', 'database', 'install'));
+if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && !isset($_COOKIE['language'])) {
     $browser_lang = strtok(strtok(strip_tags($_SERVER['HTTP_ACCEPT_LANGUAGE']), ','), '-');
+    $lang_file = $load_language->loadLanguage($browser_lang);
+    foreach ($lang_file as $lang) {
+        require ROOT_PATH.'/..'.$lang;
+    }
+    $current_lang = $load_language->getCurrentLang();
+} elseif (isset($_COOKIE['language'])) {
+    $lang_file = $load_language->loadLanguage($_COOKIE['language']);
+    foreach ($lang_file as $lang) {
+        require ROOT_PATH.'/..'.$lang;
+    }
+    $current_lang = $load_language->getCurrentLang();
 } else {
     $browser_lang = 'en';
+    $lang_file = $load_language->loadLanguage($browser_lang);
+    foreach ($lang_file as $lang) {
+        require ROOT_PATH.'/..'.$lang;
+    }
+    $current_lang = $load_language->getCurrentLang();
 }
 
-if (!isset($_COOKIE['language'])) {
-    switch ($browser_lang) {
-        case ($browser_lang == 'en'):
-            require ROOT_PATH.'/../language/en_US.php';
-            break;
-        case ($browser_lang == 'zh'):
-            require ROOT_PATH.'/../language/zh_TW.php';
-            break;
-        case ($browser_lang == 'ja'):
-            require ROOT_PATH.'/../language/ja_JP.php';
-            break;
-        case ($browser_lang == 'th'):
-            require ROOT_PATH.'/../language/th_TH.php';
-            break;
-        default:
-            require ROOT_PATH.'/../language/en_US.php';
-            break;
-    }
-} elseif (isset($_COOKIE['language'])) {
-    switch ($_COOKIE['language']) {
-        case ($_COOKIE['language'] == 'en_US'):
-            require ROOT_PATH.'/../language/en_US.php';
-            break;
-        case ($_COOKIE['language'] == 'zh_TW'):
-            require ROOT_PATH.'/../language/zh_TW.php';
-            break;
-        case ($_COOKIE['language'] == 'ja_JP'):
-            require ROOT_PATH.'/../language/ja_JP.php';
-            break;
-        case ($_COOKIE['language'] == 'th_TH'):
-            require ROOT_PATH.'/../language/th_TH.php';
-            break;
-        default:
-            require ROOT_PATH.'/../language/en_US.php';
-            break;
-    }
+// Change language
+if (isset($_POST['lang'])) {
+    $load_language->setLanguage($_POST['lang'], (isset($_SERVER['HTTPS'])?true:false));
+} elseif (isset($_GET['lang'])) {
+    $load_language->setLanguage($_GET['lang'], (isset($_SERVER['HTTPS'])?true:false));
 }
-require ROOT_PATH.'/../language/language.php';

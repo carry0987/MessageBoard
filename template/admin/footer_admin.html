@@ -1,18 +1,50 @@
 </body>
+<!--{eval $today = date("l F jS, Y")}-->
+<div class="footer-content">
     <div class="footer">
-        <div class="link">
-            <a href="mailto:carry0987@gmail.com" title="carry0987 Email" target="_blank" rel="noopener">
-                <img class="footer_icon" src="./static/icon/email.svg" />
-            </a>
-                <a href="https://www.facebook.com/carry0987/" title="carry0987 Facebook" target="_blank" rel="noopener">
-                <img class="footer_icon" src="./static/icon/facebook.svg" />
-            </a>
-            <a href="https://github.com/carry0987?tab=repositories" title="carry0987 GitHub" target="_blank" rel="noopener">
+        <div class="footer-link">
+            <a href="https://github.com/carry0987?tab=repositories" title="carry0987 GitHub" target="_blank" rel="noopener noreferrer">
                 <img class="footer_icon" src="./static/icon/github.svg" />
             </a>
         </div>
+        <div class="footer-date">
+            <p>{$today}</p>
+        </div>
+        <div class="change_language">
+            <form action="" method="POST">
+                <label>Language : </label>
+                <select class="language" name="lang">
+                    <option selected="selected" disabled="disabled" hidden="hidden">{$LANG['common']['display_language']}</option>
+                    <option value="en_US">English</option>
+                    <option value="zh_TW">繁體中文</option>
+                    <option value="ja_JP">日本語</option>
+                    <option value="th_TH">Thai</option>
+                </select>
+            </form>
+        </div>
+        <script type="text/javascript">
+        $('select.language').change(function() {
+            $.ajax({
+                    type: 'POST',
+                    url: '{$meta['url']}',
+                    data: {lang: $('select.language').val()},
+                    success: function(data) {
+                        setTimeout(function() {
+                            location.reload();
+                        }, 100);
+                    },
+                    error: function() {
+                        setTimeout(function() {
+                            location.reload();
+                        }, 100);
+                    },
+                    dataType: 'html'
+            });
+        });
+        </script>
         <div class="footer-text">
             <p>Made by carry0987</p>
         </div>
     </div>
+</div>
 </html>

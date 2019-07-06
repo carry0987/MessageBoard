@@ -1,7 +1,6 @@
 <!--{if isset($signup_permit)}-->
         <script type="text/javascript">
         setTimeout("countdown()", 1000);
-
         function countdown() {
             var s = document.getElementById("refresh");
             s.innerHTML = s.innerHTML - 1;
@@ -16,40 +15,63 @@
             }
         }
         </script>
-        <div class="infomation">
-            <a>{$lang_signup_info_1}<span id="refresh">1</span>{$lang_signup_info_2}</a>
+<!--{block langParam['redirect_time']}-->
+    <span id="refresh">1</span>
+<!--{/block}-->
+    <div class="information_box">
+        <div class="information">
+            <span>{$LANG['common']['signup_success']}</span>
             <br />
-            <a class="ifnorefresh" href="{$base_url}/login.php">{$lang_no_refresh}</a>
+            <span>{lang $LANG['common']['redirect_info'] $langParam}</span>
+            <br />
+                <a class="ifnorefresh" href="{$base_url}/login.php">{$LANG['common']['if_no_refresh']}</a>
+            </div>
         </div>
 <!--{/if}-->
 
 <!--{if isset($login_permit)}-->
+<!--{eval $redirect = ($url_from !== false) ? $url_from : $base_url;}-->
         <script type="text/javascript">
         setTimeout("countdown()", 1000);
-
         function countdown() {
             var s = document.getElementById("refresh");
             s.innerHTML = s.innerHTML - 1;
             if (s.innerHTML == 0) {
-                window.location = "{$base_url}";
+                window.location = "{$redirect}";
             } else {
                 document.getElementById("username").readOnly = true;
                 document.getElementById("password").readOnly = true;
-                setTimeout("countdown()", 1000);
+                setTimeout("countdown()", 10000000);
             }
         }
         </script>
-        <div class="infomation">
-            <a>{$lang_login_info_1}<span id="refresh">1</span>{$lang_login_info_2}</a>
+<!--{if isset($_SERVER['HTTPS']) === true}-->
+        <script src="{loadjs notify.js}" type="text/javascript"></script>
+        <script type="text/javascript">
+        window.onload = function() {
+            var title = 'Hello';
+            var body = "{$LANG['common']['welcome']}";
+            NotifyMe(title, { body: body }).launch();
+        };
+        </script>
+<!--{/if}-->
+<!--{block langParam['redirect_time']}-->
+    <span id="refresh">1</span>
+<!--{/block}-->
+    <div class="information_box">
+        <div class="information">
+            <span>{$LANG['common']['login_success']}</span>
             <br />
-            <a class="ifnorefresh" href="./">{$lang_no_refresh}</a>
+            <span>{lang $LANG['common']['redirect_info'] $langParam}</span>
+            <br />
+                <a class="ifnorefresh" href="{$redirect}">{$LANG['common']['if_no_refresh']}</a>
+            </div>
         </div>
 <!--{/if}-->
 
 <!--{if isset($create_permit) && $create_permit === true && isset($board_id)}-->
         <script type="text/javascript">
         setTimeout("countdown()", 1000);
-
         function countdown() {
             var s = document.getElementById("refresh");
             s.innerHTML = s.innerHTML - 1;
@@ -60,9 +82,137 @@
             }
         }
         </script>
-        <div class="infomation">
-            <a>{$lang_send_article_1}<span id="refresh">1</span>{$lang_send_article_2}</a>
+<!--{block langParam['redirect_time']}-->
+    <span id="refresh">1</span>
+<!--{/block}-->
+    <div class="information_box">
+        <div class="information">
+            <span>{$LANG['common']['post_success']}</span>
             <br />
-            <a class="ifnorefresh" href="{$base_url}/board.php?bid={$board_id}">{$lang_no_refresh}</a>
+            <span>{lang $LANG['common']['redirect_info'] $langParam}</span>
+            <br />
+                <a class="ifnorefresh" href="{$base_url}/board.php?bid={$board_id}">{$LANG['common']['if_no_refresh']}</a>
+            </div>
         </div>
+<!--{/if}-->
+
+<!--{if isset($edit_permit) && $edit_permit === true && isset($article_id)}-->
+        <script type="text/javascript">
+        setTimeout("countdown()", 1000);
+        function countdown() {
+            var s = document.getElementById("refresh");
+            s.innerHTML = s.innerHTML - 1;
+            if (s.innerHTML == 0) {
+                window.location = "{$base_url}/article.php?aid={$article_id}";
+            } else {
+                setTimeout("countdown()", 1000);
+            }
+        }
+        </script>
+<!--{block langParam['redirect_time']}-->
+    <span id="refresh">1</span>
+<!--{/block}-->
+    <div class="information_box">
+        <div class="information">
+            <span>{$LANG['common']['edit_success']}</span>
+            <br />
+            <span>{lang $LANG['common']['redirect_info'] $langParam}</span>
+            <br />
+                <a class="ifnorefresh" href="{$base_url}/article.php?aid={$article_id}">{$LANG['common']['if_no_refresh']}</a>
+            </div>
+        </div>
+<!--{/if}-->
+
+<!--{if isset($logout_permit)}-->
+<!--{eval $redirect = ($url_from != false) ? $url_from : $base_url;}-->
+    <script type="text/javascript">
+    setTimeout("countdown()", 1000);
+    function countdown() {
+        var s = document.getElementById("refresh");
+        s.innerHTML = s.innerHTML - 1;
+        if (s.innerHTML == 0) {
+            window.location = "{$redirect}";
+        } else {
+            setTimeout("countdown()", 1000000);
+        }
+    }
+    </script>
+<!--{block langParam['redirect_time']}-->
+    <span id="refresh">1</span>
+<!--{/block}-->
+    <div class="information_box">
+        <div class="information">
+            <span>{$LANG['common']['logout_success']}</span>
+            <br />
+            <span>{lang $LANG['common']['redirect_info'] $langParam}</span>
+            <br />
+            <a class="ifnorefresh" href="{$redirect}">{$LANG['common']['if_no_refresh']}</a>
+        </div>
+    </div>
+<!--{/if}-->
+
+<!--{if isset($email_process) && $email_process === true}-->
+    <script type="text/javascript">
+    setTimeout("countdown()", 1000);
+    function countdown() {
+        var s = document.getElementById("refresh");
+        s.innerHTML = s.innerHTML - 1;
+        if (s.innerHTML == 0) {
+            window.location = "{$base_url}";
+        } else {
+            setTimeout("countdown()", 1000);
+        }
+    }
+    </script>
+<!--{block langParam['redirect_time']}-->
+    <span id="refresh">1</span>
+<!--{/block}-->
+    <div class="information_box">
+        <div class="information">
+            <span>{$LANG['common']['email_success']}</span>
+            <br />
+            <span>{lang $LANG['common']['redirect_info'] $langParam}</span>
+            <br />
+            <a class="ifnorefresh" href="{$base_url}">{$LANG['common']['if_no_refresh']}</a>
+        </div>
+    </div>
+<!--{/if}-->
+
+<!--{if isset($reset_process)}-->
+    <div class="information_box">
+        <div class="information">
+            <span>{$LANG['common']['reset_pw_success']}</span>
+            <br />
+            <div class="login-link">
+                <a href="./login.php">{$LANG['common']['login']}</a>
+            </div>
+        </div>
+    </div>
+<!--{/if}-->
+
+<!--{if isset($reply_process) && $reply_process === true}-->
+    <script type="text/javascript">
+    setTimeout("countdown()", 1000);
+    function countdown() {
+        var s = document.getElementById("refresh");
+        s.innerHTML = s.innerHTML - 1;
+        if (s.innerHTML == 0) {
+            window.location = "{$base_url}/article.php?aid={$article_id}";
+        } else {
+            setTimeout("countdown()", 1000);
+        }
+    }
+    </script>
+<!--{block langParam['redirect_time']}-->
+    <span id="refresh">1</span>
+<!--{/block}-->
+    <div class="information_box">
+        <div class="information">
+            <span>{$LANG['common']['reply_success']}</span>
+            <br />
+            <span>{lang $LANG['common']['redirect_info'] $langParam}</span>
+            <br />
+            <a class="ifnorefresh" href="{$base_url}/article.php?aid={$article_id}&amp;page={$total_pages}#{$replyID}">{$LANG['common']['if_no_refresh']}</a>
+        </div>
+    </div>
 <!--{/if}-->

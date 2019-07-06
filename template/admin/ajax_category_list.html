@@ -1,0 +1,100 @@
+            <div class="data-list-box">
+                <table class="data-block">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="checkall" id="checkall" />
+                                </div>
+                            </th>
+                            <th scope="col">ID</th>
+                            <th scope="col">{$LANG['common']['category_name']}</th>
+                            <th scope="col">{$LANG['common']['description']}</th>
+                            <th scope="col">{$LANG['common']['last_edit']}</th>
+                            <th scope="col">{$LANG['common']['create_date']}</th>
+                            <th scope="col">{$LANG['common']['action']}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--{loop $category_result $dataList}-->
+                        <tr>
+                            <td class="data-check-td table-block">
+                                <div class="checkbox checkbox-node">
+                                    <input type="checkbox" name="dataID[]" value="{$dataList['cid']}" onchange="enableDeleteMulti(this)" />
+                                </div>
+                            </td>
+                            <td scope="row" data-label="ID" class="table-block">
+                                <div class="table-list-style">{$dataList['cid']}</div>
+                            </td>
+                            <td category-name-id="{$dataList['cid']}" style="display: none;">{$dataList['name']}</td>
+                            <td data-label="{$LANG['common']['category_name']}" class="table-block">
+                                <div class="table-list-style">
+                                    <div class="list-block">
+                                        <a href="category.php?cid={$dataList['cid']}" target="_blank" rel="noopener noreferrer" title="{$dataList['name']}">{$dataList['name']}</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['description']}" class="table-block">
+                                <div class="table-list-style" description-id="{$dataList['cid']}">
+                                    <div class="description"><span>{$dataList['description']}</span></div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['last_edit']}" class="table-block">
+                                <div class="table-list-style">
+                                    <div class="list-block">{$dataList['last_edit']}</div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['create_date']}" class="table-block">
+                                <div class="table-list-style">
+                                    <div class="list-block-min">{$dataList['create_date']}</div>
+                                </div>
+                            </td>
+                            <td data-label="{$LANG['common']['action']}" class="table-block">
+                                <div class="data-list-action">
+                                    <a href="javascript:void(0);" class="edit-data" data-id="{$dataList['cid']}" onclick="actionEdit(this)" title="{$LANG['common']['edit']}" target="_blank" rel="noopener noreferrer">
+                                        <i><img class="button-icon" src="static/icon/edit.svg" alt="Edit Icon" /></i>
+                                    </a>
+                                    <a href="javascript:void(0);" class="delete-data" data-id="{$dataList['cid']}" onclick="actionDelete(this)" title="{$LANG['common']['delete']}">
+                                        <i><img class="button-icon" src="static/icon/trashcan.svg" alt="Trashcan Icon" /></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <input type="text" sitemap-id="{$dataList['cid']}" name="set_sitemap" hidden="hidden" value="{$dataList['set_sitemap']}" />
+                        </tr>
+                        <!--{/loop}-->
+                    </tbody>
+                </table>
+                <div class="search-result">
+                    <!--{eval $langParam['limit'] = count($category_result);}-->
+                    <!--{eval $langParam['total'] = $total_category;}-->
+                    <div class="result-info">
+                        <span>{lang $LANG['common']['search_result_info'] $langParam}</span>
+                    </div>
+                    <!--{if ($paginator->getNumPages() > 1)}-->
+                    <div class="pagination">
+                        <ul class="pagination-list">
+                            <!--{if ($paginator->getPrevUrl())}-->
+                            <li class="page-item" onclick="searchFilter({echo $currentPage - 1})">
+                                <a class="page-link" href="javascript:void(0);">{$LANG['common']['prev_page']}</a>
+                            </li>
+                            <!--{/if}-->
+                            <!--{loop $paginator->getPages() $page}-->
+                            <!--{if $page['url']}-->
+                            <!--{eval $pages['class'] = $page['isCurrent'] ? 'active' : '';}-->
+                            <li class="page-item {$pages['class']}" onclick="searchFilter({$page['num']})">
+                                <a class="page-link" href="javascript:void(0);">{$page['num']}</a>
+                            </li>
+                            <!--{else}-->
+                            <li class="page-item-disable"><a class="link-disable">{$page['num']}</a></li>
+                            <!--{/if}-->
+                            <!--{/loop}-->
+                            <!--{if ($paginator->getNextUrl())}-->
+                            <li class="page-item" onclick="searchFilter({echo $currentPage + 1})">
+                                <a class="page-link" href="javascript:void(0);">{$LANG['common']['next_page']}</a>
+                            </li>
+                            <!--{/if}-->
+                        </ul>
+                    </div>
+                    <!--{/if}-->
+                </div>
+            </div>

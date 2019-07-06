@@ -1,100 +1,282 @@
 <!--{if isset($show_board) && $show_board === true}-->
     <fieldset class="breadcrumb">
-        <span class="crumbs">
-            <span class="crust" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-                <a href="{$base_url}" class="crumb" rel="up" itemprop="url">
-                    <span class="crumb_img" itemprop="title">
-                        <img class="breadcrumb_img" src="{$base_url}/static/icon/home.svg" alt="Home">
+        <ol class="crumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="crust" itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
+                <a href="{$base_url}" class="crumb" itemtype="https://schema.org/Thing" itemprop="item">
+                    <span class="crumb-img" itemprop="name">
+                        <span class="main-name">{$meta['name']}</span>
+                        <img class="breadcrumb-img" src="{$base_url}/static/icon/home.svg" alt="Home" />
                     </span>
                 </a>
                 <span class="arrow"><span></span></span>
-            </span>
-            <span class="crust" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-                <a href="{$base_url}/board.php?bid={$board_id}" class="crumb" rel="up" itemprop="url">
-                    <span class="crumb_board" itemprop="title">{$board_name}</span>
+                <meta itemprop="position" content="1" />
+            </li>
+            <li class="crust" itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
+                <a href="{$base_url}/category.php?cid={$category_id}" class="crumb" itemtype="https://schema.org/Thing" itemprop="item">
+                    <span class="crumb-category" itemprop="name">{$category_name}</span>
                 </a>
-            </span>
-        </span>
+                <span class="arrow"><span>&gt;</span></span>
+                <meta itemprop="position" content="2" />
+            </li>
+            <li class="crust" itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
+                <a href="{$base_url}/board.php?bid={$board_id}" class="crumb" itemtype="https://schema.org/Thing" itemprop="item">
+                    <span class="crumb-board" itemprop="name">{$board_name}</span>
+                </a>
+                <meta itemprop="position" content="3" />
+            </li>
+        </ol>
     </fieldset>
 <!--{/if}-->
 <!--{if isset($show_board) && $show_board === true}-->
-<!--{if $current_page <= $total_pages}-->
     <div class="board">
-        <div class="board_name">
-            <a href="././board.php?bid={$board_id}">{$board_name}</a>
-            <span>{$lang_total_post}:<span class="total_post">{$total_article}</span></span>
-            <div class="board_description">
+        <div class="board-info">
+            <div class="board-name">
+                <a href="./board.php?bid={$board_id}">{$board_name}</a>
+            </div>
+            <div class="total-article">
+                <span>{$LANG['common']['total_post']}:<span class="total-post">{$total_article}</span></span>
+            </div>
+            <div class="board-description">
                 <span>{$board_description}</span>
             </div>
         </div>
         <div class="post">
-            <div class="post_button">
-                <a class="post_link" href="./board.php?bid={$board_id}&amp;action=create_article">
-                    <span>{$lang_post_article}</span>
+            <div class="common-button">
+                <a href="./board.php?bid={$board_id}&amp;action=create_article">
+                    <span>{$LANG['common']['post_article']}</span>
                 </a>
             </div>
-<!--{if isset($show_page) && $show_page === true}-->
-            <div class="pages">
-<!--{if $show_prev != 0}-->
-                <a class="pages_tag" href="./board.php?bid={$board_id}&amp;page={$show_prev}">{$lang_prev_page}</a>
-<!--{/if}-->
-<!--{loop $page_numbers $pages}-->
-                <a class="{$pages['class']}" href="./board.php?bid={$board_id}&amp;page={$pages['page']}">{$pages['page']}</a>
-<!--{/loop}-->
-<!--{if $show_next != 0}-->
-                <a class="pages_tag" href="./board.php?bid={$board_id}&amp;page={$show_next}">{$lang_next_page}</a>
-<!--{/if}-->
+            <!--{if $current_page <= $total_pages}-->
+            <!--{if ($paginator->getNumPages() > 1)}-->
+            <div class="pagination">
+                <ul class="pagination-list">
+                    <!--{if ($paginator->getPrevUrl())}-->
+                    <li class="page-item">
+                        <a class="page-link" href="{echo $paginator->getPrevUrl()}">{$LANG['common']['prev_page']}</a>
+                    </li>
+                    <!--{/if}-->
+                    <!--{loop $paginator->getPages() $page}-->
+                    <!--{if $page['url']}-->
+                    <!--{eval $pages['class'] = $page['isCurrent'] ? 'active' : '';}-->
+                    <li class="page-item {$pages['class']}">
+                        <a class="page-link" href="{$page['url']}">{$page['num']}</a>
+                    </li>
+                    <!--{else}-->
+                    <li class="page-item-disable"><a class="link-disable">{$page['num']}</a></li>
+                    <!--{/if}-->
+                    <!--{/loop}-->
+                    <!--{if ($paginator->getNextUrl())}-->
+                    <li class="page-item">
+                        <a class="page-link" href="{echo $paginator->getNextUrl()}">{$LANG['common']['next_page']}</a>
+                    </li>
+                    <!--{/if}-->
+                </ul>
             </div>
-<!--{/if}-->
+            <!--{/if}-->
+            <!--{/if}-->
         </div>
-            <div class="box">
-                <div class="box_detail">
-                    <dl>
-                        <dt><span>{$lang_title}</span></dt>
-                        <dd class="box_reply">{$lang_reply}</dd>
-                        <dd class="box_latest_reply">{$lang_final_reply}</dd>
-                    </dl>
-                    <ol class="box_ol">
-<!--{if isset($article_pages)}-->
-<!--{loop $article_pages $articles}-->
-<!--{eval $date = date('Y-m-d', strtotime($articles['date']))}-->
-                        <li class="box_list">
-                            <div class="box_title">
-                                <a class="box_link" href="./article.php?aid={$articles['id']}" target="_blank" rel="noopener">{$articles['title']}</a>
-                                <span class="box_date">{$date}</span>
-                                <a class="box_username" href="./member.php?uid={$articles['user_id']}">
-                                    <span>,&nbsp;{$articles['username']}</span>
-                                </a>
-                            </div>
-                        </li>
-<!--{/loop}-->
-<!--{/if}-->
-                    </ol>
+        <div class="box">
+            <div class="box-detail">
+                <dl>
+                    <dt><span>{$LANG['common']['title']}</span></dt>
+                    <dd class="box-reply">
+                        <a class="major"><span>{$LANG['common']['reply']}</span></a>
+                        <a class="minor"><span>{$LANG['common']['comment']}</span></a>
+                    </dd>
+                    <dd class="box-latest-reply"><span>{$LANG['common']['final_reply']}</span></dd>
+                </dl>
+                <!--{if isset($show_pinned) && $show_pinned === true}-->
+                <div class="pinned-list">
+                    <div class="title">
+                        <span>{$LANG['common']['pinned_article']}</span>
+                    </div>
+                    <!--{if $login['admin'] === true}-->
+                    <input type="text" id="action_type" value="edit" hidden="hidden" />
+                    <div class="list-button">
+                        <a href="javascript:void(0);" onclick="changeSort()">
+                            <span>{$LANG['common']['edit']}</span>
+                        </a>
+                    </div>
+                    <div class="update-loading" style="display: none;">
+                        <img src="static/icon/loading_spin.svg" />
+                    </div>
+                    <div class="update-info" style="display: none;">
+                        <span id="success">{$LANG['common']['edit_success']}</span>
+                        <span id="failed">{$LANG['common']['edit_failed']}</span>
+                    </div>
+                    <!--{/if}-->
                 </div>
+                <ol class="box-ol pinned-ol">
+                    <!--{if isset($pinned_result)}-->
+                    <input type="text" id="enableOrder" value="" hidden="hidden" />
+                    <!--{loop $pinned_result $pinned_value}-->
+                    <li class="box-list" article-id="{$pinned_value['aid']}" pinned-sort="{$pinned_value['pinned_sort']}" new-sort="">
+                        <div class="author-avatar">
+                            <span>
+                                <a href="member.php?uid={$pinned_value['uid']}" title="{$pinned_value['display_name']} (&commat;{$pinned_value['username']})">
+                                    <img src="./static/icon/default_avatar.svg" alt="{$pinned_value['display_name']} (&commat;{$pinned_value['username']})" />
+                                </a>
+                            </span>
+                        </div>
+                        <div class="list-block article-title">
+                            <div class="box-title">
+                                <h3 class="title">
+                                    <a class="box-link" href="./article.php?aid={$pinned_value['aid']}" target="_blank" rel="noopener noreferrer">{$pinned_value['title']}</a>
+                                </h3>
+                                <span class="pinned-author">
+                                    <a href="./member.php?uid={$pinned_value['uid']}" title="{$pinned_value['display_name']} (&commat;{$pinned_value['username']})">
+                                        <span>{$pinned_value['display_name']}</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="list-block action-block">
+                            <div class="action-button unselectable">
+                                <button class="up" type="button">{$LANG['common']['up']}</button>
+                                <button class="down" type="button">{$LANG['common']['down']}</button>
+                            </div>
+                        </div>
+                        <div class="list-block stats">
+                            <dl class="article-stats">
+                                <dt>{$LANG['common']['reply']}:</dt>
+                                <dd>{$pinned_value['total_reply']}</dd>
+                            </dl>
+                            <dl class="article-stats">
+                                <dt>{$LANG['common']['comment']}:</dt>
+                                <dd>{$pinned_value['total_comment']}</dd>
+                            </dl>
+                        </div>
+                        <div class="list-block last-reply">
+                            <!--{if $pinned_value['show_reply'] !== false}-->
+                            <dl class="last-reply-info">
+                                <a href="member.php?uid={$pinned_value['uid']}" class="avatar">
+                                    <img src="./static/icon/default_avatar.svg" title="{$pinned_value['display_name']} (&commat;{$pinned_value['username']})" alt="{$pinned_value['display_name']} (&commat;{$pinned_value['username']})" />
+                                </a>
+                                <dt>
+                                    <a class="reply-author" href="member.php?uid={$pinned_value['uid']}" title="{$pinned_value['display_name']} (&commat;{$pinned_value['username']})">
+                                        <span>{$pinned_value['display_name']}</span>
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <!--{eval $reply_page = ($pinned_value['reply_page'] > 1) ? '&amp;page='.$pinned_value['reply_page'] : '';}-->
+                                    <a href="article.php?aid={$pinned_value['aid']}{$reply_page}&amp;#reply-{$pinned_value['reply_id']}" title="{$LANG['common']['final_reply']}" class="dateTime">
+                                        <span>{$pinned_value['reply_date']}</span>
+                                    </a>
+                                </dd>
+                            </dl>
+                            <!--{/if}-->
+                        </div>
+                    </li>
+                    <!--{/loop}-->
+                    <!--{/if}-->
+                </ol>
+                <!--{/if}-->
+                <div class="article-list">
+                    <span>{$LANG['common']['article_list']}</span>
+                </div>
+                <ol class="box-ol">
+<!--{if isset($article_result)}-->
+<!--{loop $article_result $articles}-->
+                    <li class="box-list">
+                        <div class="author-avatar">
+                            <span>
+                                <a href="member.php?uid={$articles['user_id']}" title="{$articles['display_name']} (&commat;{$articles['username']})">
+                                    <img src="./static/icon/default_avatar.svg" alt="{$articles['display_name']} (&commat;{$articles['username']})" />
+                                </a>
+                            </span>
+                        </div>
+                        <div class="list-block">
+                            <div class="box-title">
+                                <span class="article-link">
+                                    <a class="box-link" href="./article.php?aid={$articles['aid']}" target="_blank" rel="noopener noreferrer">{$articles['title']}</a>
+                                </span>
+                                <span class="article-author">
+                                    <span class="box-date">{$articles['post_date']},&nbsp;</span>
+                                    <a class="box-username" href="./member.php?uid={$articles['user_id']}" title="{$articles['display_name']} (&commat;{$articles['username']})">
+                                        <span>{$articles['display_name']}</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="list-block stats">
+                            <dl class="article-stats">
+                                <dt>{$LANG['common']['reply']}:</dt>
+                                <dd>{$articles['total_reply']}</dd>
+                            </dl>
+                            <dl class="article-stats">
+                                <dt>{$LANG['common']['comment']}:</dt>
+                                <dd>{$articles['total_comment']}</dd>
+                            </dl>
+                        </div>
+                        <div class="list-block last-reply">
+                            <!--{if $articles['show_reply'] !== false}-->
+                            <dl class="last-reply-info">
+                                <a href="member.php?uid={$articles['last']['user_id']}" class="avatar">
+                                    <img src="./static/icon/default_avatar.svg" title="{$articles['last']['display_name']} (&commat;{$articles['last']['username']})" alt="{$articles['last']['display_name']} (&commat;{$articles['last']['username']})" />
+                                </a>
+                                <dt>
+                                    <a class="reply-author" href="member.php?uid={$articles['last']['user_id']}" title="{$articles['last']['display_name']} (&commat;{$articles['last']['username']})">
+                                        <span>{$articles['last']['display_name']}</span>
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <!--{eval $reply_page = ($articles['reply_page'] > 1) ? '&amp;page='.$articles['reply_page'] : '';}-->
+                                    <a href="article.php?aid={$articles['aid']}{$reply_page}&amp;#reply-{$articles['last']['reply_id']}" title="{$LANG['common']['final_reply']}" class="dateTime">
+                                        <span>{$articles['reply_date']}</span>
+                                    </a>
+                                </dd>
+                            </dl>
+                            <!--{/if}-->
+                        </div>
+                    </li>
+<!--{/loop}-->
+<!--{elseif $total_article == 0}-->
+                    <div class="novalue novalue-article">
+                        <a>{$LANG['common']['index_content_empty']}</a>
+                    </div>
+<!--{/if}-->
+                </ol>
             </div>
         </div>
-<!--{/if}-->
+        <script type="text/javascript">
+        $('.pinned-ol>li').each(function() {
+            $(this).attr('new-sort', $(this).index());
+        });
+        function changeSort() {
+            $('#enableOrder').val('true');
+            if ($('#enableOrder').val() == 'true') {
+                if ($('#action_type').val() == 'edit') {
+                    $('.action-block').css('display', 'inline-block');
+                    $('.box-list>.article-title').css('width', '50%');
+                    $('.list-button>a>span').text("{$LANG['common']['save']}");
+                    $('#action_type').attr('value', 'save');
+                } else {
+                    if ($('#action_type').val() == 'save') {
+                        $('.action-block').css('display', 'none');
+                        $('.box-list>.article-title').css('width', 'auto');
+                        $('.list-button>a>span').text("{$LANG['common']['edit']}");
+                        $('#action_type').attr('value', 'edit');
+                        $('#enableOrder').attr('value', 'false');
+                        var dataArray = {};
+                        dataArray['from'] = '.pinned-ol>li';
+                        dataArray['name'] = 'article-id';
+                        dataArray['sort'] = 'new-sort';
+                        dataArray['url'] = 'board.php?bid={$board_id}&page={$current_page}&action=update'
+                        updateSort(dataArray);
+                    }
+                }
+            }
+        };
+        </script>
+    </div>
 <!--{if $total_article != 0 && $current_page > $total_pages}-->
     <div class="novalue">
-        <a>{$lang_page_not_found}</a>
-    </div>
-<!--{elseif $total_article == 0}-->
-    <div class="board">
-        <div class="post">
-            <div class="post_button">
-                <a class="post_link" href="./source/function/article_add.php?bid={$board_id}">
-                    <span>{$lang_post_article}</span>
-                </a>
-            </div>
-        </div>
-        <div class="novalue">
-            <a>{$lang_index_content_empty}</a>
-        </div>
+        <a>{$LANG['common']['page_not_found']}</a>
     </div>
 <!--{/if}-->
     </div>
 <!--{else}-->
     <div class="novalue" style="margin-top: 1em;">
-        <a>{$lang_board_not_exist}</a>
+        <a>{$LANG['common']['board_not_exist']}</a>
     </div>
 <!--{/if}-->

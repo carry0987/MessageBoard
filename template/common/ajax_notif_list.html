@@ -1,0 +1,30 @@
+<!--{if isset($notif_result[0])}-->
+<!--{loop $notif_result[0] $notification}-->
+<!--{eval $isRead = ($notification['is_read'] === 0) ? 'unread' : 'read' ;}-->
+<li>
+    <div class="notif-list-box {$isRead}">
+        <a href="{$notification['notif_link']}">
+            <div class="notif-avatar">
+                <span>
+                    <img src="static/icon/default_avatar.svg" />
+                </span>
+            </div>
+            <div class="notif-info">
+                <span>{lang $LANG['common']['notif_article'] $notification}</span>
+                <span class="notif-date">{$notification['notif_date']}</span>
+            </div>
+        </a>
+    </div>
+</li>
+<!--{/loop}-->
+<!--{else}-->
+<li>
+    <div class="notif-list-box" style="background-color: #ffffff">
+        <a href="javascript:void(0);" onclick="closeNotif()">
+            <div class="notif-info" style="text-align: center;">
+                <span>{$LANG['common']['notif_empty']}</span>
+            </div>
+        </a>
+    </div>
+</li>
+<!--{/if}-->

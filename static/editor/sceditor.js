@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     function isTypeof(type, arg) {
@@ -48,7 +48,7 @@
      */
     function extend(targetArg, sourceArg) {
         var isTargetBoolean = targetArg === !!targetArg;
-        var i      = isTargetBoolean ? 2 : 1;
+        var i = isTargetBoolean ? 2 : 1;
         var target = isTargetBoolean ? sourceArg : targetArg;
         var isDeep = isTargetBoolean ? targetArg : false;
 
@@ -79,7 +79,6 @@
                 }
             }
         }
-
         return target;
     }
 
@@ -109,7 +108,7 @@
                 fn(i, obj[i]);
             }
         } else {
-            Object.keys(obj).forEach(function (key) {
+            Object.keys(obj).forEach(function(key) {
                 fn(key, obj[key]);
             });
         }
@@ -176,7 +175,7 @@
     function createElement(tag, attributes, context) {
         var node = (context || document).createElement(tag);
 
-        each(attributes || {}, function (key, value) {
+        each(attributes || {}, function(key, value) {
             if (key === 'style') {
                 node.style.cssText = value;
             } else if (key in node) {
@@ -292,11 +291,11 @@
      */
     // eslint-disable-next-line max-params
     function on(node, events, selector, fn, capture) {
-        events.split(' ').forEach(function (event) {
+        events.split(' ').forEach(function(event) {
             var handler;
 
             if (isString(selector)) {
-                handler = fn['_sce-event-' + event + selector] || function (e) {
+                handler = fn['_sce-event-' + event + selector] || function(e) {
                     var target = e.target;
                     while (target && target !== node) {
                         if (is(target, selector)) {
@@ -330,7 +329,7 @@
      */
     // eslint-disable-next-line max-params
     function off(node, events, selector, fn, capture) {
-        events.split(' ').forEach(function (event) {
+        events.split(' ').forEach(function(event) {
             var handler;
 
             if (isString(selector)) {
@@ -427,7 +426,7 @@
                 return node.nodeType === 1 ? getComputedStyle(node)[rule] : null;
             }
 
-            each(rule, function (key, value) {
+            each(rule, function(key, value) {
                 css(node, key, value);
             });
         } else {
@@ -457,7 +456,7 @@
 
         if (node.nodeType === ELEMENT_NODE) {
             if (argsLength === 1) {
-                each(node.attributes, function (_, attr) {
+                each(node.attributes, function(_, attr) {
                     if (/^data\-/i.test(attr.name)) {
                         data[attr.name.substr(5)] = attr.value;
                     }
@@ -679,7 +678,7 @@
     function camelCase(string) {
         return string
             .replace(/^-ms-/, 'ms-')
-            .replace(/-(\w)/g, function (match, char) {
+            .replace(/-(\w)/g, function(match, char) {
                 return char.toUpperCase();
             });
     }
@@ -739,7 +738,7 @@
     function parseHTML(html, context) {
         context = context || document;
 
-        var    ret = context.createDocumentFragment();
+        var ret = context.createDocumentFragment();
         var tmp = createElement('div', {}, context);
 
         tmp.innerHTML = html;
@@ -779,7 +778,7 @@
     function convertElement(element, toTagName) {
         var newElement = createElement(toTagName, {}, element.ownerDocument);
 
-        each(element.attributes, function (_, attribute) {
+        each(element.attributes, function(_, attribute) {
             // Some browsers parse invalid attributes names like
             // 'size"2' which throw an exception when set, just
             // ignore these.
@@ -873,7 +872,7 @@
      * @param {HTMLElement} node
      */
     function fixNesting(node) {
-        var    getLastInlineParent = function (node) {
+        var getLastInlineParent = function(node) {
             while (isInline(node.parentNode, true)) {
                 node = node.parentNode;
             }
@@ -881,13 +880,13 @@
             return node;
         };
 
-        traverse(node, function (node) {
+        traverse(node, function(node) {
             var list = 'ul,ol',
                 isBlock = !isInline(node, true);
 
             // Any blocklevel element inside an inline element needs fixing.
             if (isBlock && isInline(node.parentNode, true)) {
-                var    parent = getLastInlineParent(node),
+                var parent = getLastInlineParent(node),
                     before = extractContents(parent, node),
                     middle = node;
 
@@ -949,7 +948,7 @@
      * @since 1.4.3
      */
     function removeWhiteSpace(root) {
-        var    nodeValue, nodeType, next, previous, previousSibling,
+        var nodeValue, nodeType, next, previous, previousSibling,
             nextNode, trimStart,
             cssWhiteSpace = css(root, 'whiteSpace'),
             // Preserve newlines if is pre-line
@@ -962,17 +961,17 @@
         }
 
         while (node) {
-            nextNode  = node.nextSibling;
+            nextNode = node.nextSibling;
             nodeValue = node.nodeValue;
-            nodeType  = node.nodeType;
+            nodeType = node.nodeType;
 
             if (nodeType === ELEMENT_NODE && node.firstChild) {
                 removeWhiteSpace(node);
             }
 
             if (nodeType === TEXT_NODE) {
-                next      = getSibling(node);
-                previous  = getSibling(node, true);
+                next = getSibling(node);
+                previous = getSibling(node, true);
                 trimStart = false;
 
                 while (hasClass(previous, 'sceditor-ignore')) {
@@ -1055,13 +1054,13 @@
      * @return {Object} An object with left and top properties
      */
     function getOffset(node) {
-        var    left = 0,
+        var left = 0,
             top = 0;
 
         while (node) {
             left += node.offsetLeft;
-            top  += node.offsetTop;
-            node  = node.offsetParent;
+            top += node.offsetTop;
+            node = node.offsetParent;
         }
 
         return {
@@ -1078,19 +1077,19 @@
      * @return {string}
      */
     function getStyle(elm, property) {
-        var    direction, styleValue,
+        var direction, styleValue,
             elmStyle = elm.style;
 
         if (!cssPropertyNameCache[property]) {
             cssPropertyNameCache[property] = camelCase(property);
         }
 
-        property   = cssPropertyNameCache[property];
+        property = cssPropertyNameCache[property];
         styleValue = elmStyle[property];
 
         // Add an exception for text-align
         if ('textAlign' === property) {
-            direction  = elmStyle.direction;
+            direction = elmStyle.direction;
             styleValue = styleValue || css(elm, property);
 
             if (css(elm.parentNode, property) === styleValue ||
@@ -1134,9 +1133,9 @@
     var defaultOptions = {
 
         toolbar: 'bold,italic,underline,strike,subscript,superscript|' +
-            'left,center,right,justify|size,color,removeformat|pastetext' +
+            'left,center,right,justify|size,color,removeformat' +
             '|bulletlist,orderedlist,indent,outdent|' +
-            '|code,quote|horizontalrule,image,link,unlink|',
+            '|code|emoticon,horizontalrule,image,link,unlink|',
 
         toolbarExclude: null,
 
@@ -1146,13 +1145,13 @@
             'Sans-serif,Serif,Times New Roman,Trebuchet MS,Verdana',
 
         colors: '#000000,#44B8FF,#1E92F7,#0074D9,#005DC2,#00369B,#b3d5f4|' +
-                '#444444,#C3FFFF,#9DF9FF,#7FDBFF,#68C4E8,#419DC1,#d9f4ff|' +
-                '#666666,#72FF84,#4CEA5E,#2ECC40,#17B529,#008E02,#c0f0c6|' +
-                '#888888,#FFFF44,#FFFA1E,#FFDC00,#E8C500,#C19E00,#fff5b3|' +
-                '#aaaaaa,#FFC95F,#FFA339,#FF851B,#E86E04,#C14700,#ffdbbb|' +
-                '#cccccc,#FF857A,#FF5F54,#FF4136,#E82A1F,#C10300,#ffc6c3|' +
-                '#eeeeee,#FF56FF,#FF30DC,#F012BE,#D900A7,#B20080,#fbb8ec|' +
-                '#ffffff,#F551FF,#CF2BE7,#B10DC9,#9A00B2,#9A00B2,#e8b6ef',
+            '#444444,#C3FFFF,#9DF9FF,#7FDBFF,#68C4E8,#419DC1,#d9f4ff|' +
+            '#666666,#72FF84,#4CEA5E,#2ECC40,#17B529,#008E02,#c0f0c6|' +
+            '#888888,#FFFF44,#FFFA1E,#FFDC00,#E8C500,#C19E00,#fff5b3|' +
+            '#aaaaaa,#FFC95F,#FFA339,#FF851B,#E86E04,#C14700,#ffdbbb|' +
+            '#cccccc,#FF857A,#FF5F54,#FF4136,#E82A1F,#C10300,#ffc6c3|' +
+            '#eeeeee,#FF56FF,#FF30DC,#F012BE,#D900A7,#B20080,#fbb8ec|' +
+            '#ffffff,#F551FF,#CF2BE7,#B10DC9,#9A00B2,#9A00B2,#e8b6ef',
 
         locale: attr(document.documentElement, 'lang') || 'en',
 
@@ -1160,7 +1159,7 @@
 
         emoticonsCompat: false,
 
-        emoticonsEnabled: false,
+        emoticonsEnabled: true,
 
         emoticonsRoot: '',
         emoticons: {
@@ -1259,16 +1258,16 @@
 
         disableBlockRemove: false,
 
-        parserOptions: { },
+        parserOptions: {},
 
-        dropDownCss: { }
+        dropDownCss: {}
     };
 
     var USER_AGENT = navigator.userAgent;
 
-    var ie = (function () {
-        var    undef,
-            v   = 3,
+    var ie = (function() {
+        var undef,
+            v = 3,
             doc = document,
             div = doc.createElement('div'),
             all = div.getElementsByTagName('i');
@@ -1311,11 +1310,11 @@
      * @name isWysiwygSupported
      * @return {boolean}
      */
-    var isWysiwygSupported = (function () {
-        var    match, isUnsupported;
+    var isWysiwygSupported = (function() {
+        var match, isUnsupported;
 
         var div = document.createElement('div');
-        div.contentEditable = true ;
+        div.contentEditable = true;
 
         // Check if the contentEditable attribute is supported
         if (!('contentEditable' in document.documentElement) ||
@@ -1432,12 +1431,12 @@
         };
 
         if (noQuotes !== false) {
-            replacements['"']  = '&#34;';
+            replacements['"'] = '&#34;';
             replacements['\''] = '&#39;';
-            replacements['`']  = '&#96;';
+            replacements['`'] = '&#96;';
         }
 
-        str = str.replace(/ {2}|\r\n|[&<>\r\n'"`]/g, function (match) {
+        str = str.replace(/ {2}|\r\n|[&<>\r\n'"`]/g, function(match) {
             return replacements[match] || match;
         });
 
@@ -1470,7 +1469,7 @@
      * @since 1.4.5
      */
     function uriScheme(url) {
-        var    path,
+        var path,
             // If there is a : before a / then it has a scheme
             hasScheme = /^[^\/]*:/i,
             location = window.location;
@@ -1495,22 +1494,21 @@
      * @private
      */
     var _templates = {
-        html:
-            '<!DOCTYPE html>' +
+        html: '<!DOCTYPE html>' +
             '<html{attrs}>' +
-                '<head>' +
-                    '<style>.ie * {min-height: auto !important} ' +
-                        '.ie table td {height:15px} ' +
-                        // Target Edge (fixes edge issues)
-                        '@supports (-ms-ime-align:auto) { ' +
-                            '* { min-height: auto !important; } ' +
-                        '}' +
-                        '</style>' +
-                    '<meta http-equiv="Content-Type" ' +
-                        'content="text/html;charset={charset}" />' +
-                    '<link rel="stylesheet" type="text/css" href="{style}" />' +
-                '</head>' +
-                '<body contenteditable="true" {spellcheck}><p></p></body>' +
+            '<head>' +
+            '<style>.ie * {min-height: auto !important} ' +
+            '.ie table td {height:15px} ' +
+            // Target Edge (fixes edge issues)
+            '@supports (-ms-ime-align:auto) { ' +
+            '* { min-height: auto !important; } ' +
+            '}' +
+            '</style>' +
+            '<meta http-equiv="Content-Type" ' +
+            'content="text/html;charset={charset}" />' +
+            '<link rel="stylesheet" type="text/css" href="{style}" />' +
+            '</head>' +
+            '<body contenteditable="true" {spellcheck}><p></p></body>' +
             '</html>',
 
         toolbarButton: '<a class="sceditor-button sceditor-button-{name}" ' +
@@ -1518,7 +1516,7 @@
             '<div unselectable="on">{dispName}</div></a>',
 
         emoticon: '<img src="{url}" data-sceditor-emoticon="{key}" ' +
-            'alt="{key}" title="{tooltip}" />',
+            'alt="{key}" title="{tooltip}" style="width:30px;" />',
 
         fontOpt: '<a class="sceditor-font-option" href="#" ' +
             'data-font="{font}"><font face="{font}">{font}</font></a>',
@@ -1526,53 +1524,46 @@
         sizeOpt: '<a class="sceditor-fontsize-option" data-size="{size}" ' +
             'href="#"><font size="{size}">{size}</font></a>',
 
-        pastetext:
-            '<div><label for="txt">{label}</label> ' +
-                '<textarea cols="20" rows="7" id="txt"></textarea></div>' +
-                '<div><input type="button" class="button" value="{insert}" />' +
+        pastetext: '<div><label for="txt">{label}</label> ' +
+            '<textarea cols="20" rows="7" id="txt"></textarea></div>' +
+            '<div><input type="button" class="button" value="{insert}" />' +
             '</div>',
 
-        table:
-            '<div><label for="rows">{rows}</label><input type="text" ' +
-                'id="rows" value="2" /></div>' +
+        table: '<div><label for="rows">{rows}</label><input type="text" ' +
+            'id="rows" value="2" /></div>' +
             '<div><label for="cols">{cols}</label><input type="text" ' +
-                'id="cols" value="2" /></div>' +
+            'id="cols" value="2" /></div>' +
             '<div><input type="button" class="button" value="{insert}"' +
-                ' /></div>',
+            ' /></div>',
 
-        image:
-            '<div><label for="link">{url}</label> ' +
-                '<input type="text" id="image" dir="ltr" placeholder="https://" /></div>' +
+        image: '<div><label for="link">{url}</label> ' +
+            '<input type="text" id="image" dir="ltr" placeholder="https://" /></div>' +
             '<div><label for="width">{width}</label> ' +
-                '<input type="text" id="width" size="2" dir="ltr" placeholder="px" /></div>' +
+            '<input type="text" id="width" size="2" dir="ltr" placeholder="px" /></div>' +
             '<div><label for="height">{height}</label> ' +
-                '<input type="text" id="height" size="2" dir="ltr" placeholder="px" /></div>' +
+            '<input type="text" id="height" size="2" dir="ltr" placeholder="px" /></div>' +
             '<div><input type="button" class="button" value="{insert}" />' +
-                '</div>',
+            '</div>',
 
-        email:
-            '<div><label for="email">{label}</label> ' +
-                '<input type="text" id="email" dir="ltr" /></div>' +
+        email: '<div><label for="email">{label}</label> ' +
+            '<input type="text" id="email" dir="ltr" /></div>' +
             '<div><label for="des">{desc}</label> ' +
-                '<input type="text" id="des" /></div>' +
+            '<input type="text" id="des" /></div>' +
             '<div><input type="button" class="button" value="{insert}" />' +
-                '</div>',
+            '</div>',
 
-        link:
-            '<div><label for="link">{url}</label> ' +
-                '<input type="text" id="link" dir="ltr" placeholder="https://" /></div>' +
+        link: '<div><label for="link">{url}</label> ' +
+            '<input type="text" id="link" dir="ltr" placeholder="https://" /></div>' +
             '<div><label for="des">{desc}</label> ' +
-                '<input type="text" id="des" /></div>' +
+            '<input type="text" id="des" /></div>' +
             '<div><input type="button" class="button" value="{ins}" /></div>',
 
-        youtubeMenu:
-            '<div><label for="link">{label}</label> ' +
-                '<input type="text" id="link" dir="ltr" placeholder="https://" /></div>' +
+        youtubeMenu: '<div><label for="link">{label}</label> ' +
+            '<input type="text" id="link" dir="ltr" placeholder="https://" /></div>' +
             '<div><input type="button" class="button" value="{insert}" />' +
-                '</div>',
+            '</div>',
 
-        youtube:
-            '<iframe width="560" height="315" frameborder="0" allowfullscreen ' +
+        youtube: '<iframe width="560" height="315" frameborder="0" allowfullscreen ' +
             'src="https://www.youtube.com/embed/{id}?wmode=opaque&start={time}" ' +
             'data-youtube-id="{id}"></iframe>'
     };
@@ -1589,10 +1580,10 @@
      * @returns {string|DocumentFragment}
      * @private
      */
-    function _tmpl (name, params, createHtml) {
+    function _tmpl(name, params, createHtml) {
         var template = _templates[name];
 
-        Object.keys(params).forEach(function (name) {
+        Object.keys(params).forEach(function(name) {
             template = template.replace(
                 new RegExp(regex('{' + name + '}'), 'g'), params[name]
             );
@@ -1698,7 +1689,7 @@
 
         // START_COMMAND: Left
         left: {
-            state: function (node) {
+            state: function(node) {
                 if (node && node.nodeType === 3) {
                     node = node.parentNode;
                 }
@@ -1722,7 +1713,7 @@
         // END_COMMAND
         // START_COMMAND: Right
         right: {
-            state: function (node) {
+            state: function(node) {
                 if (node && node.nodeType === 3) {
                     node = node.parentNode;
                 }
@@ -1747,16 +1738,16 @@
 
         // START_COMMAND: Font
         font: {
-            _dropDown: function (editor, caller, callback) {
-                var    content = createElement('div');
+            _dropDown: function(editor, caller, callback) {
+                var content = createElement('div');
 
-                on(content, 'click', 'a', function (e) {
+                on(content, 'click', 'a', function(e) {
                     callback(data(this, 'font'));
                     editor.closeDropDown(true);
                     e.preventDefault();
                 });
 
-                editor.opts.fonts.split(',').forEach(function (font) {
+                editor.opts.fonts.split(',').forEach(function(font) {
                     appendChild(content, _tmpl('fontOpt', {
                         font: font
                     }, true));
@@ -1764,10 +1755,10 @@
 
                 editor.createDropDown(caller, 'font-picker', content);
             },
-            exec: function (caller) {
+            exec: function(caller) {
                 var editor = this;
 
-                defaultCmds.font._dropDown(editor, caller, function (fontName) {
+                defaultCmds.font._dropDown(editor, caller, function(fontName) {
                     editor.execCommand('fontname', fontName);
                 });
             },
@@ -1776,10 +1767,10 @@
         // END_COMMAND
         // START_COMMAND: Size
         size: {
-            _dropDown: function (editor, caller, callback) {
-                var    content = createElement('div');
+            _dropDown: function(editor, caller, callback) {
+                var content = createElement('div');
 
-                on(content, 'click', 'a', function (e) {
+                on(content, 'click', 'a', function(e) {
                     callback(data(this, 'size'));
                     editor.closeDropDown(true);
                     e.preventDefault();
@@ -1793,10 +1784,10 @@
 
                 editor.createDropDown(caller, 'fontsize-picker', content);
             },
-            exec: function (caller) {
+            exec: function(caller) {
                 var editor = this;
 
-                defaultCmds.size._dropDown(editor, caller, function (fontSize) {
+                defaultCmds.size._dropDown(editor, caller, function(fontSize) {
                     editor.execCommand('fontsize', fontSize);
                 });
             },
@@ -1805,16 +1796,16 @@
         // END_COMMAND
         // START_COMMAND: Colour
         color: {
-            _dropDown: function (editor, caller, callback) {
-                var    content = createElement('div'),
-                    html    = '',
-                    cmd     = defaultCmds.color;
+            _dropDown: function(editor, caller, callback) {
+                var content = createElement('div'),
+                    html = '',
+                    cmd = defaultCmds.color;
 
                 if (!cmd._htmlCache) {
-                    editor.opts.colors.split('|').forEach(function (column) {
+                    editor.opts.colors.split('|').forEach(function(column) {
                         html += '<div class="sceditor-color-column">';
 
-                        column.split(',').forEach(function (color) {
+                        column.split(',').forEach(function(color) {
                             html +=
                                 '<a href="#" class="sceditor-color-option"' +
                                 ' style="background-color: ' + color + '"' +
@@ -1829,7 +1820,7 @@
 
                 appendChild(content, parseHTML(cmd._htmlCache));
 
-                on(content, 'click', 'a', function (e) {
+                on(content, 'click', 'a', function(e) {
                     callback(data(this, 'color'));
                     editor.closeDropDown(true);
                     e.preventDefault();
@@ -1837,10 +1828,10 @@
 
                 editor.createDropDown(caller, 'color-picker', content);
             },
-            exec: function (caller) {
+            exec: function(caller) {
                 var editor = this;
 
-                defaultCmds.color._dropDown(editor, caller, function (color) {
+                defaultCmds.color._dropDown(editor, caller, function(color) {
                     editor.execCommand('forecolor', color);
                 });
             },
@@ -1880,10 +1871,10 @@
         // END_COMMAND
         // START_COMMAND: Paste Text
         pastetext: {
-            exec: function (caller) {
-                var    val,
+            exec: function(caller) {
+                var val,
                     content = createElement('div'),
-                    editor  = this;
+                    editor = this;
 
                 appendChild(content, _tmpl('pastetext', {
                     label: editor._(
@@ -1892,7 +1883,7 @@
                     insert: editor._('Insert')
                 }, true));
 
-                on(content, 'click', '.button', function (e) {
+                on(content, 'click', '.button', function(e) {
                     val = find(content, '#txt')[0].value;
 
                     if (val) {
@@ -1910,7 +1901,7 @@
         // END_COMMAND
         // START_COMMAND: Bullet List
         bulletlist: {
-            exec: function () {
+            exec: function() {
                 fixFirefoxListBug(this);
                 this.execCommand('insertunorderedlist');
             },
@@ -1919,7 +1910,7 @@
         // END_COMMAND
         // START_COMMAND: Ordered List
         orderedlist: {
-            exec: function () {
+            exec: function() {
                 fixFirefoxListBug(this);
                 this.execCommand('insertorderedlist');
             },
@@ -1928,9 +1919,9 @@
         // END_COMMAND
         // START_COMMAND: Indent
         indent: {
-            state: function (parent$$1, firstBlock) {
+            state: function(parent$$1, firstBlock) {
                 // Only works with lists, for now
-                var    range, startParent, endParent;
+                var range, startParent, endParent;
 
                 if (is(firstBlock, 'li')) {
                     return 0;
@@ -1943,7 +1934,7 @@
                     range = this.getRangeHelper().selectedRange();
 
                     startParent = range.startContainer.parentNode;
-                    endParent   = range.endContainer.parentNode;
+                    endParent = range.endContainer.parentNode;
 
                     // TODO: could use nodeType for this?
                     // Maybe just check the firstBlock contains both the start
@@ -1962,7 +1953,7 @@
 
                 return -1;
             },
-            exec: function () {
+            exec: function() {
                 var editor = this,
                     block = editor.getRangeHelper().getFirstBlockParent();
 
@@ -1981,11 +1972,11 @@
         // END_COMMAND
         // START_COMMAND: Outdent
         outdent: {
-            state: function (parents$$1, firstBlock) {
+            state: function(parents$$1, firstBlock) {
                 return closest(firstBlock, 'ul,ol,menu') ? 0 : -1;
             },
-            exec: function () {
-                var    block = this.getRangeHelper().getFirstBlockParent();
+            exec: function() {
+                var block = this.getRangeHelper().getFirstBlockParent();
                 if (closest(block, 'ul,ol,menu')) {
                     this.execCommand('outdent');
                 }
@@ -1996,8 +1987,8 @@
 
         // START_COMMAND: Table
         table: {
-            exec: function (caller) {
-                var    editor  = this,
+            exec: function(caller) {
+                var editor = this,
                     content = createElement('div');
 
                 appendChild(content, _tmpl('table', {
@@ -2006,17 +1997,17 @@
                     insert: editor._('Insert')
                 }, true));
 
-                on(content, 'click', '.button', function (e) {
-                    var    rows = Number(find(content, '#rows')[0].value),
+                on(content, 'click', '.button', function(e) {
+                    var rows = Number(find(content, '#rows')[0].value),
                         cols = Number(find(content, '#cols')[0].value),
                         html = '<table>';
 
                     if (rows > 0 && cols > 0) {
                         html += Array(rows + 1).join(
                             '<tr>' +
-                                Array(cols + 1).join(
-                                    '<td>' + (IE_BR_FIX ? '' : '<br />') + '</td>'
-                                ) +
+                            Array(cols + 1).join(
+                                '<td>' + (IE_BR_FIX ? '' : '<br />') + '</td>'
+                            ) +
                             '</tr>'
                         );
 
@@ -2043,32 +2034,11 @@
 
         // START_COMMAND: Code
         code: {
-            exec: function (caller) {
-                var val,
-                    content = createElement('div'),
-                    editor = this;
-
-                appendChild(content, _tmpl('pastetext', {
-                    label: editor._(
-                        'Enter your code inside the following box:'
-                    ),
-                    insert: editor._('Insert')
-                }, true));
-
-                on(content, 'click', '.button', function (e) {
-                    val = find(content, '#txt')[0].value;
-
-                    if (val) {
-                        editor.wysiwygEditorInsertHtml('<code>');
-                        editor.wysiwygEditorInsertText(val);
-                        editor.wysiwygEditorInsertHtml('</code>');
-                    }
-
-                    editor.closeDropDown(true);
-                    e.preventDefault();
-                });
-
-                editor.createDropDown(caller, 'pastetext', content);
+            exec: function () {
+                this.wysiwygEditorInsertHtml(
+                    '<code>',
+                    (IE_BR_FIX ? '' : '<br />') + '</code>'
+                );
             },
             tooltip: 'Code'
         },
@@ -2076,8 +2046,8 @@
 
         // START_COMMAND: Image
         image: {
-            _dropDown: function (editor, caller, selected, cb) {
-                var    content = createElement('div');
+            _dropDown: function(editor, caller, selected, cb) {
+                var content = createElement('div');
 
                 appendChild(content, _tmpl('image', {
                     url: editor._('URL:'),
@@ -2087,11 +2057,11 @@
                 }, true));
 
 
-                var    urlInput = find(content, '#image')[0];
+                var urlInput = find(content, '#image')[0];
 
                 urlInput.value = selected;
 
-                on(content, 'click', '.button', function (e) {
+                on(content, 'click', '.button', function(e) {
                     if (urlInput.value) {
                         cb(
                             urlInput.value,
@@ -2106,15 +2076,15 @@
 
                 editor.createDropDown(caller, 'insertimage', content);
             },
-            exec: function (caller) {
-                var    editor  = this;
+            exec: function(caller) {
+                var editor = this;
 
                 defaultCmds.image._dropDown(
                     editor,
                     caller,
                     '',
-                    function (url, width$$1, height$$1) {
-                        var attrs  = '';
+                    function(url, width$$1, height$$1) {
+                        var attrs = '';
 
                         if (width$$1) {
                             attrs += ' width="' + width$$1 + '"';
@@ -2136,8 +2106,8 @@
 
         // START_COMMAND: E-mail
         email: {
-            _dropDown: function (editor, caller, cb) {
-                var    content = createElement('div');
+            _dropDown: function(editor, caller, cb) {
+                var content = createElement('div');
 
                 appendChild(content, _tmpl('email', {
                     label: editor._('E-mail:'),
@@ -2145,7 +2115,7 @@
                     insert: editor._('Insert')
                 }, true));
 
-                on(content, 'click', '.button', function (e) {
+                on(content, 'click', '.button', function(e) {
                     var email = find(content, '#email')[0].value;
 
                     if (email) {
@@ -2158,20 +2128,20 @@
 
                 editor.createDropDown(caller, 'insertemail', content);
             },
-            exec: function (caller) {
-                var    editor  = this;
+            exec: function(caller) {
+                var editor = this;
 
                 defaultCmds.email._dropDown(
                     editor,
                     caller,
-                    function (email, text) {
+                    function(email, text) {
                         // needed for IE to reset the last range
                         editor.focus();
 
                         if (!editor.getRangeHelper().selectedHtml() || text) {
                             editor.wysiwygEditorInsertHtml(
                                 '<a href="' + 'mailto:' + email + '">' +
-                                    (text || email) +
+                                (text || email) +
                                 '</a>'
                             );
                         } else {
@@ -2186,7 +2156,7 @@
 
         // START_COMMAND: Link
         link: {
-            _dropDown: function (editor, caller, cb) {
+            _dropDown: function(editor, caller, cb) {
                 var content = createElement('div');
 
                 appendChild(content, _tmpl('link', {
@@ -2207,7 +2177,7 @@
                 }
 
                 on(content, 'click', '.button', insertUrl);
-                on(content, 'keypress', function (e) {
+                on(content, 'keypress', function(e) {
                     // 13 = enter key
                     if (e.which === 13 && linkInput.value) {
                         insertUrl(e);
@@ -2216,10 +2186,10 @@
 
                 editor.createDropDown(caller, 'insertlink', content);
             },
-            exec: function (caller) {
+            exec: function(caller) {
                 var editor = this;
 
-                defaultCmds.link._dropDown(editor, caller, function (url, text) {
+                defaultCmds.link._dropDown(editor, caller, function(url, text) {
                     // needed for IE to restore the last range
                     editor.focus();
 
@@ -2243,10 +2213,10 @@
 
         // START_COMMAND: Unlink
         unlink: {
-            state: function () {
+            state: function() {
                 return closest(this.currentNode(), 'a') ? 0 : -1;
             },
-            exec: function () {
+            exec: function() {
                 var anchor = closest(this.currentNode(), 'a');
 
                 if (anchor) {
@@ -2264,17 +2234,17 @@
 
         // START_COMMAND: Quote
         quote: {
-            exec: function (caller, html, author) {
-                var    before = '<blockquote>',
-                    end    = '</blockquote>';
+            exec: function(caller, html, author) {
+                var before = '<blockquote>',
+                    end = '</blockquote>';
 
                 // if there is HTML passed set end to null so any selected
                 // text is replaced
                 if (html) {
                     author = (author ? '<cite>' + author + '</cite>' : '');
                     before = before + author + html + end;
-                    end    = null;
-                // if not add a newline to the end of the inserted quote
+                    end = null;
+                    // if not add a newline to the end of the inserted quote
                 } else if (this.getRangeHelper().selectedHtml() === '') {
                     end = (IE_BR_FIX ? '' : '<br />') + end;
                 }
@@ -2287,24 +2257,23 @@
 
         // START_COMMAND: Emoticons
         emoticon: {
-            exec: function (caller) {
+            exec: function(caller) {
                 var editor = this;
 
-                var createContent = function (includeMore) {
-                    var    moreLink,
-                        opts            = editor.opts,
-                        emoticonsRoot   = opts.emoticonsRoot || '',
+                var createContent = function(includeMore) {
+                    var moreLink,
+                        opts = editor.opts,
+                        emoticonsRoot = opts.emoticonsRoot || '',
                         emoticonsCompat = opts.emoticonsCompat,
-                        rangeHelper     = editor.getRangeHelper(),
-                        startSpace      = emoticonsCompat &&
-                            rangeHelper.getOuterText(true, 1) !== ' ' ? ' ' : '',
-                        endSpace        = emoticonsCompat &&
-                            rangeHelper.getOuterText(false, 1) !== ' ' ? ' ' : '',
-                        content         = createElement('div'),
-                        line            = createElement('div'),
-                        perLine         = 0,
-                        emoticons       = extend(
-                            {},
+                        rangeHelper = editor.getRangeHelper(),
+                        startSpace = emoticonsCompat &&
+                        rangeHelper.getOuterText(true, 1) !== ' ' ? ' ' : '',
+                        endSpace = emoticonsCompat &&
+                        rangeHelper.getOuterText(false, 1) !== ' ' ? ' ' : '',
+                        content = createElement('div'),
+                        line = createElement('div'),
+                        perLine = 0,
+                        emoticons = extend({},
                             opts.emoticons.dropdown,
                             includeMore ? opts.emoticons.more : {}
                         );
@@ -2313,14 +2282,14 @@
 
                     perLine = Math.sqrt(Object.keys(emoticons).length);
 
-                    on(content, 'click', 'img', function (e) {
+                    on(content, 'click', 'img', function(e) {
                         editor.insert(startSpace + attr(this, 'alt') + endSpace,
                             null, false).closeDropDown(true);
 
                         e.preventDefault();
                     });
 
-                    each(emoticons, function (code, emoticon) {
+                    each(emoticons, function(code, emoticon) {
                         appendChild(line, createElement('img', {
                             src: emoticonsRoot + (emoticon.url || emoticon),
                             alt: code,
@@ -2341,7 +2310,7 @@
                         appendChild(moreLink,
                             document.createTextNode(editor._('More')));
 
-                        on(moreLink, 'click', function (e) {
+                        on(moreLink, 'click', function(e) {
                             editor.createDropDown(
                                 caller, 'more-emoticons', createContent(true)
                             );
@@ -2357,7 +2326,7 @@
 
                 editor.createDropDown(caller, 'emoticons', createContent(false));
             },
-            txtExec: function (caller) {
+            txtExec: function(caller) {
                 defaultCmds.emoticon.exec.call(this, caller);
             },
             tooltip: 'Insert an emoticon'
@@ -2366,22 +2335,22 @@
 
         // START_COMMAND: YouTube
         youtube: {
-            _dropDown: function (editor, caller, callback) {
-                var    content = createElement('div');
+            _dropDown: function(editor, caller, callback) {
+                var content = createElement('div');
 
                 appendChild(content, _tmpl('youtubeMenu', {
                     label: editor._('Video URL:'),
                     insert: editor._('Insert')
                 }, true));
 
-                on(content, 'click', '.button', function (e) {
+                on(content, 'click', '.button', function(e) {
                     var val = find(content, '#link')[0].value;
                     var idMatch = val.match(/(?:v=|v\/|embed\/|youtu.be\/)(.{11})/);
                     var timeMatch = val.match(/[&|?](?:star)?t=((\d+[hms]?){1,3})/);
                     var time = 0;
 
                     if (timeMatch) {
-                        each(timeMatch[1].split(/[hms]/), function (i, val) {
+                        each(timeMatch[1].split(/[hms]/), function(i, val) {
                             if (val !== '') {
                                 time = (time * 60) + Number(val);
                             }
@@ -2398,10 +2367,10 @@
 
                 editor.createDropDown(caller, 'insertlink', content);
             },
-            exec: function (btn) {
+            exec: function(btn) {
                 var editor = this;
 
-                defaultCmds.youtube._dropDown(editor, btn, function (id, time) {
+                defaultCmds.youtube._dropDown(editor, btn, function(id, time) {
                     editor.wysiwygEditorInsertHtml(_tmpl('youtube', {
                         id: id,
                         time: time
@@ -2414,11 +2383,11 @@
 
         // START_COMMAND: Date
         date: {
-            _date: function (editor) {
-                var    now   = new Date(),
-                    year  = now.getYear(),
+            _date: function(editor) {
+                var now = new Date(),
+                    year = now.getYear(),
                     month = now.getMonth() + 1,
-                    day   = now.getDate();
+                    day = now.getDate();
 
                 if (year < 2000) {
                     year = 1900 + year;
@@ -2437,10 +2406,10 @@
                     .replace(/month/i, month)
                     .replace(/day/i, day);
             },
-            exec: function () {
+            exec: function() {
                 this.insertText(defaultCmds.date._date(this));
             },
-            txtExec: function () {
+            txtExec: function() {
                 this.insertText(defaultCmds.date._date(this));
             },
             tooltip: 'Insert current date'
@@ -2449,11 +2418,11 @@
 
         // START_COMMAND: Time
         time: {
-            _time: function () {
-                var    now   = new Date(),
+            _time: function() {
+                var now = new Date(),
                     hours = now.getHours(),
-                    mins  = now.getMinutes(),
-                    secs  = now.getSeconds();
+                    mins = now.getMinutes(),
+                    secs = now.getSeconds();
 
                 if (hours < 10) {
                     hours = '0' + hours;
@@ -2469,10 +2438,10 @@
 
                 return hours + ':' + mins + ':' + secs;
             },
-            exec: function () {
+            exec: function() {
                 this.insertText(defaultCmds.time._time());
             },
-            txtExec: function () {
+            txtExec: function() {
                 this.insertText(defaultCmds.time._time());
             },
             tooltip: 'Insert current time'
@@ -2482,11 +2451,11 @@
 
         // START_COMMAND: Ltr
         ltr: {
-            state: function (parents$$1, firstBlock) {
+            state: function(parents$$1, firstBlock) {
                 return firstBlock && firstBlock.style.direction === 'ltr';
             },
-            exec: function () {
-                var    editor = this,
+            exec: function() {
+                var editor = this,
                     rangeHelper = editor.getRangeHelper(),
                     node = rangeHelper.getFirstBlockParent();
 
@@ -2495,7 +2464,7 @@
                 if (!node || is(node, 'body')) {
                     editor.execCommand('formatBlock', 'p');
 
-                    node  = rangeHelper.getFirstBlockParent();
+                    node = rangeHelper.getFirstBlockParent();
 
                     if (!node || is(node, 'body')) {
                         return;
@@ -2511,11 +2480,11 @@
 
         // START_COMMAND: Rtl
         rtl: {
-            state: function (parents$$1, firstBlock) {
+            state: function(parents$$1, firstBlock) {
                 return firstBlock && firstBlock.style.direction === 'rtl';
             },
-            exec: function () {
-                var    editor = this,
+            exec: function() {
+                var editor = this,
                     rangeHelper = editor.getRangeHelper(),
                     node = rangeHelper.getFirstBlockParent();
 
@@ -2548,13 +2517,13 @@
 
         // START_COMMAND: Maximize
         maximize: {
-            state: function () {
+            state: function() {
                 return this.maximize();
             },
-            exec: function () {
+            exec: function() {
                 this.maximize(!this.maximize());
             },
-            txtExec: function () {
+            txtExec: function() {
                 this.maximize(!this.maximize());
             },
             tooltip: 'Maximize',
@@ -2564,13 +2533,13 @@
 
         // START_COMMAND: Source
         source: {
-            state: function () {
+            state: function() {
                 return this.sourceMode();
             },
-            exec: function () {
+            exec: function() {
                 this.toggleSourceMode();
             },
-            txtExec: function () {
+            txtExec: function() {
                 this.toggleSourceMode();
             },
             tooltip: 'View source',
@@ -2616,7 +2585,7 @@
          * @return {string}
          * @private
          */
-        var formatSignalName = function (signal) {
+        var formatSignalName = function(signal) {
             return 'signal' + signal.charAt(0).toUpperCase() + signal.slice(1);
         };
 
@@ -2630,10 +2599,10 @@
          * @return {*}
          * @private
          */
-        var callHandlers = function (args, returnAtFirst) {
+        var callHandlers = function(args, returnAtFirst) {
             args = [].slice.call(args);
 
-            var    idx, ret,
+            var idx, ret,
                 signal = formatSignalName(args.shift());
 
             for (idx = 0; idx < registeredPlugins.length; idx++) {
@@ -2656,7 +2625,7 @@
          * @name call
          * @memberOf PluginManager.prototype
          */
-        base.call = function () {
+        base.call = function() {
             callHandlers(arguments, false);
         };
 
@@ -2670,7 +2639,7 @@
          * @name callOnlyFirst
          * @memberOf PluginManager.prototype
          */
-        base.callOnlyFirst = function () {
+        base.callOnlyFirst = function() {
             return callHandlers(arguments, true);
         };
 
@@ -2683,8 +2652,8 @@
          * @name hasHandler
          * @memberOf PluginManager.prototype
          */
-        base.hasHandler = function (signal) {
-            var i  = registeredPlugins.length;
+        base.hasHandler = function(signal) {
+            var i = registeredPlugins.length;
             signal = formatSignalName(signal);
 
             while (i--) {
@@ -2705,7 +2674,7 @@
          * @name exists
          * @memberOf PluginManager.prototype
          */
-        base.exists = function (plugin) {
+        base.exists = function(plugin) {
             if (plugin in plugins) {
                 plugin = plugins[plugin];
 
@@ -2725,7 +2694,7 @@
          * @name isRegistered
          * @memberOf PluginManager.prototype
          */
-        base.isRegistered = function (plugin) {
+        base.isRegistered = function(plugin) {
             if (base.exists(plugin)) {
                 var idx = registeredPlugins.length;
 
@@ -2748,7 +2717,7 @@
          * @name register
          * @memberOf PluginManager.prototype
          */
-        base.register = function (plugin) {
+        base.register = function(plugin) {
             if (!base.exists(plugin) || base.isRegistered(plugin)) {
                 return false;
             }
@@ -2772,10 +2741,10 @@
          * @name deregister
          * @memberOf PluginManager.prototype
          */
-        base.deregister = function (plugin) {
-            var    removedPlugin,
+        base.deregister = function(plugin) {
+            var removedPlugin,
                 pluginIdx = registeredPlugins.length,
-                removed   = false;
+                removed = false;
 
             if (!base.isRegistered(plugin)) {
                 return removed;
@@ -2784,7 +2753,7 @@
             while (pluginIdx--) {
                 if (registeredPlugins[pluginIdx] instanceof plugins[plugin]) {
                     removedPlugin = registeredPlugins.splice(pluginIdx, 1)[0];
-                    removed       = true;
+                    removed = true;
 
                     if ('destroy' in removedPlugin) {
                         removedPlugin.destroy.call(thisObj);
@@ -2804,7 +2773,7 @@
          * @name destroy
          * @memberOf PluginManager.prototype
          */
-        base.destroy = function () {
+        base.destroy = function() {
             var i = registeredPlugins.length;
 
             while (i--) {
@@ -2814,7 +2783,7 @@
             }
 
             registeredPlugins = [];
-            thisObj    = null;
+            thisObj = null;
         };
     }
 
@@ -2837,7 +2806,7 @@
      * @return {Object}
      * @private
      */
-    var outerText = function (range, isLeft, length) {
+    var outerText = function(range, isLeft, length) {
         var nodeValue, remaining, start, end, node,
             text = '',
             next = range.startContainer,
@@ -2895,11 +2864,11 @@
      * @name RangeHelper
      */
     function RangeHelper(win, d) {
-        var    _createMarker, _prepareInput,
-            doc          = d || win.contentDocument || win.document,
-            startMarker  = 'sceditor-start-marker',
-            endMarker    = 'sceditor-end-marker',
-            base         = this;
+        var _createMarker, _prepareInput,
+            doc = d || win.contentDocument || win.document,
+            startMarker = 'sceditor-start-marker',
+            endMarker = 'sceditor-end-marker',
+            base = this;
 
         /**
          * Inserts HTML into the current range replacing any selected
@@ -2916,8 +2885,8 @@
          * @name insertHTML
          * @memberOf RangeHelper.prototype
          */
-        base.insertHTML = function (html, endHTML) {
-            var    node, div,
+        base.insertHTML = function(html, endHTML) {
+            var node, div,
                 range = base.selectedRange();
 
             if (!range) {
@@ -2928,8 +2897,8 @@
                 html += base.selectedHtml() + endHTML;
             }
 
-            div           = createElement('p', {}, doc);
-            node          = doc.createDocumentFragment();
+            div = createElement('p', {}, doc);
+            node = doc.createDocumentFragment();
             div.innerHTML = html;
 
             while (div.firstChild) {
@@ -2950,7 +2919,7 @@
          * @return {Node|string}
          * @private
          */
-        _prepareInput = function (node, endNode, returnHtml) {
+        _prepareInput = function(node, endNode, returnHtml) {
             var lastChild,
                 frag = doc.createDocumentFragment();
 
@@ -3020,9 +2989,9 @@
          * @name insertNode
          * @memberOf RangeHelper.prototype
          */
-        base.insertNode = function (node, endNode) {
-            var    input  = _prepareInput(node, endNode),
-                range  = base.selectedRange(),
+        base.insertNode = function(node, endNode) {
+            var input = _prepareInput(node, endNode),
+                range = base.selectedRange(),
                 parent$$1 = range.commonAncestorContainer;
 
             if (!input) {
@@ -3052,7 +3021,7 @@
          * @name cloneSelected
          * @memberOf RangeHelper.prototype
          */
-        base.cloneSelected = function () {
+        base.cloneSelected = function() {
             var range = base.selectedRange();
 
             if (range) {
@@ -3068,8 +3037,8 @@
          * @name selectedRange
          * @memberOf RangeHelper.prototype
          */
-        base.selectedRange = function () {
-            var    range, firstChild,
+        base.selectedRange = function() {
+            var range, firstChild,
                 sel = win.getSelection();
 
             if (!sel) {
@@ -3108,8 +3077,8 @@
          * @since 1.4.4
          * @memberOf RangeHelper.prototype
          */
-        base.hasSelection = function () {
-            var    sel = win.getSelection();
+        base.hasSelection = function() {
+            var sel = win.getSelection();
 
             return sel && sel.rangeCount > 0;
         };
@@ -3122,8 +3091,8 @@
          * @name selectedHtml
          * @memberOf RangeHelper.prototype
          */
-        base.selectedHtml = function () {
-            var    div,
+        base.selectedHtml = function() {
+            var div,
                 range = base.selectedRange();
 
             if (range) {
@@ -3144,7 +3113,7 @@
          * @name parentNode
          * @memberOf RangeHelper.prototype
          */
-        base.parentNode = function () {
+        base.parentNode = function() {
             var range = base.selectedRange();
 
             if (range) {
@@ -3172,8 +3141,8 @@
          * @since 1.4.1
          * @memberOf RangeHelper.prototype
          */
-        base.getFirstBlockParent = function (node) {
-            var func = function (elm) {
+        base.getFirstBlockParent = function(node) {
+            var func = function(elm) {
                 if (!isInline(elm, true)) {
                     return elm;
                 }
@@ -3195,9 +3164,9 @@
          * @name insertNodeAt
          * @memberOf RangeHelper.prototype
          */
-        base.insertNodeAt = function (start, node) {
-            var    currentRange = base.selectedRange(),
-                range        = base.cloneSelected();
+        base.insertNodeAt = function(start, node) {
+            var currentRange = base.selectedRange(),
+                range = base.cloneSelected();
 
             if (!range) {
                 return false;
@@ -3218,10 +3187,10 @@
          * @return {HTMLSpanElement}
          * @private
          */
-        _createMarker = function (id) {
+        _createMarker = function(id) {
             base.removeMarker(id);
 
-            var marker  = createElement('span', {
+            var marker = createElement('span', {
                 id: id,
                 className: 'sceditor-selection sceditor-ignore',
                 style: 'display:none;line-height:0'
@@ -3241,8 +3210,8 @@
          * @function
          * @name insertMarkers
          */
-        base.insertMarkers = function () {
-            var    currentRange = base.selectedRange();
+        base.insertMarkers = function() {
+            var currentRange = base.selectedRange();
             var startNode = _createMarker(startMarker);
 
             base.removeMarkers();
@@ -3267,7 +3236,7 @@
          * @name getMarker
          * @memberOf RangeHelper.prototype
          */
-        base.getMarker = function (id) {
+        base.getMarker = function(id) {
             return doc.getElementById(id);
         };
 
@@ -3279,7 +3248,7 @@
          * @name removeMarker
          * @memberOf RangeHelper.prototype
          */
-        base.removeMarker = function (id) {
+        base.removeMarker = function(id) {
             var marker = base.getMarker(id);
 
             if (marker) {
@@ -3294,7 +3263,7 @@
          * @name removeMarkers
          * @memberOf RangeHelper.prototype
          */
-        base.removeMarkers = function () {
+        base.removeMarkers = function() {
             base.removeMarker(startMarker);
             base.removeMarker(endMarker);
         };
@@ -3306,7 +3275,7 @@
          * @name saveRage
          * @memberOf RangeHelper.prototype
          */
-        base.saveRange = function () {
+        base.saveRange = function() {
             base.insertMarkers();
         };
 
@@ -3318,7 +3287,7 @@
          * @name selectRange
          * @memberOf RangeHelper.prototype
          */
-        base.selectRange = function (range) {
+        base.selectRange = function(range) {
             var lastChild;
             var sel = win.getSelection();
             var container = range.endContainer;
@@ -3359,11 +3328,11 @@
          * @name restoreRange
          * @memberOf RangeHelper.prototype
          */
-        base.restoreRange = function () {
-            var    isCollapsed,
+        base.restoreRange = function() {
+            var isCollapsed,
                 range = base.selectedRange(),
                 start = base.getMarker(startMarker),
-                end   = base.getMarker(endMarker);
+                end = base.getMarker(endMarker);
 
             if (!start || !end || !range) {
                 return false;
@@ -3393,7 +3362,7 @@
          * @name selectOuterText
          * @memberOf RangeHelper.prototype
          */
-        base.selectOuterText = function (left, right) {
+        base.selectOuterText = function(left, right) {
             var start, end,
                 range = base.cloneSelected();
 
@@ -3423,8 +3392,8 @@
          * @name selectOuterText
          * @memberOf RangeHelper.prototype
          */
-        base.getOuterText = function (before, length) {
-            var    range = base.cloneSelected();
+        base.getOuterText = function(before, length) {
+            var range = base.cloneSelected();
 
             if (!range) {
                 return '';
@@ -3456,7 +3425,7 @@
          * @memberOf RangeHelper.prototype
          */
         // eslint-disable-next-line max-params
-        base.replaceKeyword = function (
+        base.replaceKeyword = function(
             keywords,
             includeAfter,
             keywordsSorted,
@@ -3465,7 +3434,7 @@
             keypressChar
         ) {
             if (!keywordsSorted) {
-                keywords.sort(function (a, b) {
+                keywords.sort(function(a, b) {
                     return a[0].length - b[0].length;
                 });
             }
@@ -3473,29 +3442,29 @@
             var outerText, match, matchPos, startIndex,
                 leftLen, charsLeft, keyword, keywordLen,
                 whitespaceRegex = '(^|[\\s\xA0\u2002\u2003\u2009])',
-                keywordIdx      = keywords.length,
-                whitespaceLen   = requireWhitespace ? 1 : 0,
-                maxKeyLen       = longestKeyword ||
-                    keywords[keywordIdx - 1][0].length;
+                keywordIdx = keywords.length,
+                whitespaceLen = requireWhitespace ? 1 : 0,
+                maxKeyLen = longestKeyword ||
+                keywords[keywordIdx - 1][0].length;
 
             if (requireWhitespace) {
                 maxKeyLen++;
             }
 
             keypressChar = keypressChar || '';
-            outerText    = base.getOuterText(true, maxKeyLen);
-            leftLen      = outerText.length;
-            outerText   += keypressChar;
+            outerText = base.getOuterText(true, maxKeyLen);
+            leftLen = outerText.length;
+            outerText += keypressChar;
 
             if (includeAfter) {
                 outerText += base.getOuterText(false, maxKeyLen);
             }
 
             while (keywordIdx--) {
-                keyword    = keywords[keywordIdx][0];
+                keyword = keywords[keywordIdx][0];
                 keywordLen = keyword.length;
                 startIndex = Math.max(0, leftLen - keywordLen - whitespaceLen);
-                matchPos   = -1;
+                matchPos = -1;
 
                 if (requireWhitespace) {
                     match = outerText
@@ -3525,7 +3494,7 @@
                         base.selectOuterText(
                             charsLeft,
                             keywordLen - charsLeft -
-                                (/^\S/.test(keypressChar) ? 1 : 0)
+                            (/^\S/.test(keypressChar) ? 1 : 0)
                         );
 
                         base.insertHTML(keywords[keywordIdx][1]);
@@ -3550,7 +3519,7 @@
          * @name compare
          * @memberOf RangeHelper.prototype
          */
-        base.compare = function (rngA, rngB) {
+        base.compare = function(rngA, rngB) {
             if (!rngB) {
                 rngB = base.selectedRange();
             }
@@ -3571,7 +3540,7 @@
          * @name clear
          * @memberOf RangeHelper.prototype
          */
-        base.clear = function () {
+        base.clear = function() {
             var sel = win.getSelection();
 
             if (sel) {
@@ -3673,8 +3642,8 @@
      * @return {void}
      */
     function replace(root, emoticons, emoticonsCompat) {
-        var    doc           = root.ownerDocument;
-        var space         = '(^|\\s|\xA0|\u2002|\u2003|\u2009|$)';
+        var doc = root.ownerDocument;
+        var space = '(^|\\s|\xA0|\u2002|\u2003|\u2009|$)';
         var emoticonCodes = [];
         var emoticonRegex = {};
 
@@ -3683,7 +3652,7 @@
             return;
         }
 
-        each(emoticons, function (key) {
+        each(emoticons, function(key) {
             emoticonRegex[key] = new RegExp(space + regex(key) + space);
             emoticonCodes.push(key);
         });
@@ -3691,7 +3660,7 @@
         // Sort keys longest to shortest so that longer keys
         // take precedence (avoids bugs with shorter keys partially
         // matching longer ones)
-        emoticonCodes.sort(function (a, b) {
+        emoticonCodes.sort(function(a, b) {
             return b.length - a.length;
         });
 
@@ -3706,8 +3675,8 @@
 
                 if (node.nodeType === TEXT_NODE) {
                     for (var i = 0; i < emoticonCodes.length; i++) {
-                        var text  = node.nodeValue;
-                        var key   = emoticonCodes[i];
+                        var text = node.nodeValue;
+                        var key = emoticonCodes[i];
                         var index = emoticonsCompat ?
                             text.search(emoticonRegex[key]) :
                             text.indexOf(key);
@@ -3716,8 +3685,8 @@
                             // When emoticonsCompat is enabled this will be the
                             // position after any white space
                             var startIndex = text.indexOf(key, index);
-                            var fragment   = parseHTML(emoticons[key], doc);
-                            var after      = text.substr(startIndex + key.length);
+                            var fragment = parseHTML(emoticons[key], doc);
+                            var after = text.substr(startIndex + key.length);
 
                             fragment.appendChild(doc.createTextNode(after));
 
@@ -3733,8 +3702,8 @@
         }(root));
     }
 
-    var globalWin  = window;
-    var globalDoc  = document;
+    var globalWin = window;
+    var globalDoc = document;
 
     var IE_VER = ie;
 
@@ -3754,7 +3723,7 @@
     function wrapInlines(body, doc) {
         var wrapper;
 
-        traverse(body, function (node) {
+        traverse(body, function(node) {
             if (isInline(node, true)) {
                 if (!wrapper) {
                     wrapper = createElement('p', {}, doc);
@@ -4045,7 +4014,7 @@
          * Private functions
          * @private
          */
-        var    init,
+        var init,
             replaceEmoticons,
             handleCommand,
             saveRange,
@@ -4106,7 +4075,7 @@
          * Creates the editor iframe and textarea
          * @private
          */
-        init = function () {
+        init = function() {
             original._sceditor = base;
 
             // Load locale
@@ -4152,7 +4121,7 @@
 
             updateActiveButtons();
 
-            var loaded = function () {
+            var loaded = function() {
                 off(globalWin, 'load', loaded);
 
                 if (options.autofocus) {
@@ -4173,13 +4142,13 @@
             }
         };
 
-        initPlugins = function () {
-            var plugins   = options.plugins;
+        initPlugins = function() {
+            var plugins = options.plugins;
 
-            plugins       = plugins ? plugins.toString().split(',') : [];
+            plugins = plugins ? plugins.toString().split(',') : [];
             pluginManager = new PluginManager(base);
 
-            plugins.forEach(function (plugin) {
+            plugins.forEach(function(plugin) {
                 pluginManager.register(plugin.trim());
             });
         };
@@ -4189,13 +4158,13 @@
          * @private
          * @return void
          */
-        initLocale = function () {
+        initLocale = function() {
             var lang;
 
             locale = SCEditor.locale[options.locale];
 
             if (!locale) {
-                lang   = options.locale.split('-');
+                lang = options.locale.split('-');
                 locale = SCEditor.locale[lang[0]];
             }
 
@@ -4209,8 +4178,8 @@
          * Creates the editor iframe and textarea
          * @private
          */
-        initEditor = function () {
-            sourceEditor  = createElement('textarea');
+        initEditor = function() {
+            sourceEditor = createElement('textarea');
             wysiwygEditor = createElement('iframe', {
                 frameborder: 0,
                 allowfullscreen: true
@@ -4301,7 +4270,7 @@
          * Initialises options
          * @private
          */
-        initOptions = function () {
+        initOptions = function() {
             // auto-update original textbox on blur if option set to true
             if (options.autoUpdate) {
                 on(wysiwygBody, 'blur', autoUpdate);
@@ -4332,7 +4301,7 @@
          * Initialises events
          * @private
          */
-        initEvents = function () {
+        initEvents = function() {
             var form = original.form;
             var compositionEvents = 'compositionstart compositionend';
             var eventsToForward = 'keydown keyup keypress focus blur contextmenu';
@@ -4362,13 +4331,13 @@
                 on(wysiwygBody, 'keyup', emoticonsCheckWhitespace);
             }
 
-            on(wysiwygBody, 'blur', function () {
+            on(wysiwygBody, 'blur', function() {
                 if (!base.val()) {
                     addClass(wysiwygBody, 'placeholder');
                 }
             });
 
-            on(wysiwygBody, 'focus', function () {
+            on(wysiwygBody, 'focus', function() {
                 removeClass(wysiwygBody, 'placeholder');
             });
 
@@ -4382,7 +4351,7 @@
             on(wysiwygDocument, checkSelectionEvents, checkSelectionChanged);
             on(wysiwygDocument, 'beforedeactivate keyup mouseup', saveRange);
             on(wysiwygDocument, 'keyup', appendNewLine);
-            on(wysiwygDocument, 'focus', function () {
+            on(wysiwygDocument, 'focus', function() {
                 lastRange = null;
             });
 
@@ -4400,11 +4369,11 @@
          * Creates the toolbar and appends it to the container
          * @private
          */
-        initToolBar = function () {
-            var    group,
+        initToolBar = function() {
+            var group,
                 commands = base.commands,
-                exclude  = (options.toolbarExclude || '').split(','),
-                groups   = options.toolbar.split('|');
+                exclude = (options.toolbarExclude || '').split(','),
+                groups = options.toolbar.split('|');
 
             toolbar = createElement('div', {
                 className: 'sceditor-toolbar',
@@ -4415,14 +4384,14 @@
                 icons = new SCEditor.icons[options.icons]();
             }
 
-            each(groups, function (_, menuItems) {
+            each(groups, function(_, menuItems) {
                 group = createElement('div', {
                     className: 'sceditor-group'
                 });
 
-                each(menuItems.split(','), function (_, commandName) {
-                    var    button, shortcut,
-                        command  = commands[commandName];
+                each(menuItems.split(','), function(_, commandName) {
+                    var button, shortcut,
+                        command = commands[commandName];
 
                     // The commandName must be a valid command and not excluded
                     if (!command || exclude.indexOf(commandName) > -1) {
@@ -4430,10 +4399,10 @@
                     }
 
                     shortcut = command.shortcut;
-                    button   = _tmpl('toolbarButton', {
+                    button = _tmpl('toolbarButton', {
                         name: commandName,
                         dispName: base._(command.name ||
-                                command.tooltip || commandName)
+                            command.tooltip || commandName)
                     }, true).firstChild;
 
                     if (icons && icons.create) {
@@ -4448,7 +4417,7 @@
                     button._sceTxtMode = !!command.txtExec;
                     button._sceWysiwygMode = !!command.exec;
                     toggleClass(button, 'disabled', !command.exec);
-                    on(button, 'click', function (e) {
+                    on(button, 'click', function(e) {
                         if (!hasClass(button, 'disabled')) {
                             handleCommand(button, command);
                         }
@@ -4457,7 +4426,7 @@
                         e.preventDefault();
                     });
                     // Prevent editor losing focus when button clicked
-                    on(button, 'mousedown', function (e) {
+                    on(button, 'mousedown', function(e) {
                         base.closeDropDown();
                         e.preventDefault();
                     });
@@ -4465,7 +4434,7 @@
                     if (command.tooltip) {
                         attr(button, 'title',
                             base._(command.tooltip) +
-                                (shortcut ? ' (' + shortcut + ')' : '')
+                            (shortcut ? ' (' + shortcut + ')' : '')
                         );
                     }
 
@@ -4478,7 +4447,7 @@
                             name: commandName,
                             state: command.state
                         });
-                    // exec string commands can be passed to queryCommandState
+                        // exec string commands can be passed to queryCommandState
                     } else if (isString(command.exec)) {
                         btnStateHandlers.push({
                             name: commandName,
@@ -4504,39 +4473,39 @@
          * Creates the resizer.
          * @private
          */
-        initResize = function () {
-            var    minHeight, maxHeight, minWidth, maxWidth,
+        initResize = function() {
+            var minHeight, maxHeight, minWidth, maxWidth,
                 mouseMoveFunc, mouseUpFunc,
-                grip        = createElement('div', {
+                grip = createElement('div', {
                     className: 'sceditor-grip'
                 }),
                 // Cover is used to cover the editor iframe so document
                 // still gets mouse move events
-                cover       = createElement('div', {
+                cover = createElement('div', {
                     className: 'sceditor-resize-cover'
                 }),
-                moveEvents  = 'touchmove mousemove',
-                endEvents   = 'touchcancel touchend mouseup',
-                startX      = 0,
-                startY      = 0,
-                newX        = 0,
-                newY        = 0,
-                startWidth  = 0,
+                moveEvents = 'touchmove mousemove',
+                endEvents = 'touchcancel touchend mouseup',
+                startX = 0,
+                startY = 0,
+                newX = 0,
+                newY = 0,
+                startWidth = 0,
                 startHeight = 0,
-                origWidth   = width(editorContainer),
-                origHeight  = height(editorContainer),
-                isDragging  = false,
-                rtl         = base.rtl();
+                origWidth = width(editorContainer),
+                origHeight = height(editorContainer),
+                isDragging = false,
+                rtl = base.rtl();
 
             minHeight = options.resizeMinHeight || origHeight / 1.5;
             maxHeight = options.resizeMaxHeight || origHeight * 2.5;
-            minWidth  = options.resizeMinWidth  || origWidth  / 1.25;
-            maxWidth  = options.resizeMaxWidth  || origWidth  * 1.25;
+            minWidth = options.resizeMinWidth || origWidth / 1.25;
+            maxWidth = options.resizeMaxWidth || origWidth * 1.25;
 
-            mouseMoveFunc = function (e) {
+            mouseMoveFunc = function(e) {
                 // iOS uses window.event
                 if (e.type === 'touchmove') {
-                    e    = globalWin.event;
+                    e = globalWin.event;
                     newX = e.changedTouches[0].pageX;
                     newY = e.changedTouches[0].pageY;
                 } else {
@@ -4544,10 +4513,10 @@
                     newY = e.pageY;
                 }
 
-                var    newHeight = startHeight + (newY - startY),
-                    newWidth  = rtl ?
-                        startWidth - (newX - startX) :
-                        startWidth + (newX - startX);
+                var newHeight = startHeight + (newY - startY),
+                    newWidth = rtl ?
+                    startWidth - (newX - startX) :
+                    startWidth + (newX - startX);
 
                 if (maxWidth > 0 && newWidth > maxWidth) {
                     newWidth = maxWidth;
@@ -4576,7 +4545,7 @@
                 e.preventDefault();
             };
 
-            mouseUpFunc = function (e) {
+            mouseUpFunc = function(e) {
                 if (!isDragging) {
                     return;
                 }
@@ -4603,10 +4572,10 @@
             appendChild(editorContainer, cover);
             hide(cover);
 
-            on(grip, 'touchstart mousedown', function (e) {
+            on(grip, 'touchstart mousedown', function(e) {
                 // iOS uses window.event
                 if (e.type === 'touchstart') {
-                    e      = globalWin.event;
+                    e = globalWin.event;
                     startX = e.touches[0].pageX;
                     startY = e.touches[0].pageY;
                 } else {
@@ -4614,9 +4583,9 @@
                     startY = e.pageY;
                 }
 
-                startWidth  = width(editorContainer);
+                startWidth = width(editorContainer);
                 startHeight = height(editorContainer);
-                isDragging  = true;
+                isDragging = true;
 
                 addClass(editorContainer, 'resizing');
                 show(cover);
@@ -4631,17 +4600,15 @@
          * Prefixes and preloads the emoticon images
          * @private
          */
-        initEmoticons = function () {
-            var    emoticons = options.emoticons;
-            var root      = options.emoticonsRoot || '';
+        initEmoticons = function() {
+            var emoticons = options.emoticons;
+            var root = options.emoticonsRoot || '';
 
             if (emoticons) {
-                allEmoticons = extend(
-                    {}, emoticons.more, emoticons.dropdown, emoticons.hidden
-                );
+                allEmoticons = extend({}, emoticons.more, emoticons.dropdown, emoticons.hidden);
             }
 
-            each(allEmoticons, function (key, url) {
+            each(allEmoticons, function(key, url) {
                 allEmoticons[key] = _tmpl('emoticon', {
                     key: key,
                     // Prefix emoticon root to emoticon urls
@@ -4662,9 +4629,9 @@
          * Autofocus the editor
          * @private
          */
-        autofocus = function () {
-            var    range, txtPos,
-                node     = wysiwygBody.firstChild,
+        autofocus = function() {
+            var range, txtPos,
+                node = wysiwygBody.firstChild,
                 focusEnd = !!options.autofocusEnd;
 
             // Can't focus invisible elements
@@ -4742,7 +4709,7 @@
          * @name readOnly^2
          * @return {this}
          */
-        base.readOnly = function (readOnly) {
+        base.readOnly = function(readOnly) {
             if (typeof readOnly !== 'boolean') {
                 return !sourceEditor.readonly;
             }
@@ -4774,7 +4741,7 @@
          * @name rtl^2
          * @return {this}
          */
-        base.rtl = function (rtl) {
+        base.rtl = function(rtl) {
             var dir = rtl ? 'rtl' : 'ltr';
 
             if (typeof rtl !== 'boolean') {
@@ -4799,10 +4766,10 @@
          * Updates the toolbar to disable/enable the appropriate buttons
          * @private
          */
-        updateToolBar = function (disable) {
+        updateToolBar = function(disable) {
             var mode = base.inSourceMode() ? '_sceTxtMode' : '_sceWysiwygMode';
 
-            each(toolbarButtons, function (_, button) {
+            each(toolbarButtons, function(_, button) {
                 toggleClass(button, 'disabled', disable || !button[mode]);
             });
         };
@@ -4840,7 +4807,7 @@
          * @name width^3
          * @return {this}
          */
-        base.width = function (width$$1, saveWidth) {
+        base.width = function(width$$1, saveWidth) {
             if (!width$$1 && width$$1 !== 0) {
                 return width(editorContainer);
             }
@@ -4891,9 +4858,9 @@
          * @name dimensions^3
          * @return {this}
          */
-        base.dimensions = function (width$$1, height$$1, save) {
+        base.dimensions = function(width$$1, height$$1, save) {
             // set undefined width/height to boolean false
-            width$$1  = (!width$$1 && width$$1 !== 0) ? false : width$$1;
+            width$$1 = (!width$$1 && width$$1 !== 0) ? false : width$$1;
             height$$1 = (!height$$1 && height$$1 !== 0) ? false : height$$1;
 
             if (width$$1 === false && height$$1 === false) {
@@ -4954,7 +4921,7 @@
          * @name height^3
          * @return {this}
          */
-        base.height = function (height$$1, saveHeight) {
+        base.height = function(height$$1, saveHeight) {
             if (!height$$1 && height$$1 !== 0) {
                 return height(editorContainer);
             }
@@ -4983,7 +4950,7 @@
          * @name maximize^2
          * @return {this}
          */
-        base.maximize = function (maximize) {
+        base.maximize = function(maximize) {
             var maximizeSize = 'sceditor-maximize';
 
             if (isUndefined(maximize)) {
@@ -5011,7 +4978,7 @@
             return base;
         };
 
-        autoExpand = function () {
+        autoExpand = function() {
             if (options.autoExpand && !autoExpandThrottle) {
                 autoExpandThrottle = setTimeout(base.expandToContent, 200);
             }
@@ -5030,7 +4997,7 @@
          * @memberOf SCEditor.prototype
          * @see #resizeToContent
          */
-        base.expandToContent = function (ignoreMaxHeight) {
+        base.expandToContent = function(ignoreMaxHeight) {
             if (base.maximize()) {
                 return;
             }
@@ -5073,7 +5040,7 @@
          * @name destroy
          * @memberOf SCEditor.prototype
          */
-        base.destroy = function () {
+        base.destroy = function() {
             // Don't destroy if the editor has already been destroyed
             if (!pluginManager) {
                 return;
@@ -5081,8 +5048,8 @@
 
             pluginManager.destroy();
 
-            rangeHelper   = null;
-            lastRange     = null;
+            rangeHelper = null;
+            lastRange = null;
             pluginManager = null;
 
             if (dropdown) {
@@ -5124,9 +5091,9 @@
          * @name createDropDown
          * @memberOf SCEditor.prototype
          */
-        base.createDropDown = function (menuItem, name, content, ieFix) {
+        base.createDropDown = function(menuItem, name, content, ieFix) {
             // first click for create second click for close
-            var    dropDownCss,
+            var dropDownCss,
                 dropDownClass = 'sceditor-' + name;
 
             // Will re-focus the editor. This is needed for IE
@@ -5144,7 +5111,7 @@
             // text it's just not nice.
             if (ieFix !== false) {
                 each(find(content, ':not(input):not(textarea)'),
-                    function (_, node) {
+                    function(_, node) {
                         if (node.nodeType === ELEMENT_NODE) {
                             attr(node, 'unselectable', 'on');
                         }
@@ -5164,7 +5131,7 @@
             css(dropdown, dropDownCss);
             appendChild(dropdown, content);
             appendChild(editorContainer, dropdown);
-            on(dropdown, 'click focusin', function (e) {
+            on(dropdown, 'click focusin', function(e) {
                 // stop clicks within the dropdown from being handled
                 e.stopPropagation();
             });
@@ -5172,7 +5139,7 @@
             // If try to focus the first input immediately IE will
             // place the cursor at the start of the editor instead
             // of focusing on the input.
-            setTimeout(function () {
+            setTimeout(function() {
                 if (dropdown) {
                     var first = find(dropdown, 'input,textarea')[0];
                     if (first) {
@@ -5186,7 +5153,7 @@
          * Handles any document click and closes the dropdown if open
          * @private
          */
-        handleDocumentClick = function (e) {
+        handleDocumentClick = function(e) {
             // ignore right clicks
             if (e.which !== 3 && dropdown && !e.defaultPrevented) {
                 autoUpdate();
@@ -5199,13 +5166,13 @@
          * Handles the WYSIWYG editors paste event
          * @private
          */
-        handlePasteEvt = function (e) {
+        handlePasteEvt = function(e) {
             var isIeOrEdge = IE_VER || edge;
             var editable = wysiwygBody;
             var clipboard = e.clipboardData;
-            var loadImage = function (file) {
+            var loadImage = function(file) {
                 var reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = function(e) {
                     handlePasteData({
                         html: '<img src="' + e.target.result + '" />'
                     });
@@ -5237,8 +5204,8 @@
                 data$$1.html = data$$1['text/html'];
 
                 handlePasteData(data$$1);
-            // If contentsFragment exists then we are already waiting for a
-            // previous paste so let the handler for that handle this one too
+                // If contentsFragment exists then we are already waiting for a
+                // previous paste so let the handler for that handle this one too
             } else if (!pasteContentFragment) {
                 // Save the scroll position so can be restored
                 // when contents is restored
@@ -5251,7 +5218,7 @@
                     appendChild(pasteContentFragment, editable.firstChild);
                 }
 
-                setTimeout(function () {
+                setTimeout(function() {
                     var html = editable.innerHTML;
 
                     editable.innerHTML = '';
@@ -5271,14 +5238,13 @@
          * @param {Object} data
          * @private
          */
-        handlePasteData = function (data$$1) {
+        handlePasteData = function(data$$1) {
             var pasteArea = createElement('div', {}, wysiwygDocument);
-
             pluginManager.call('pasteRaw', data$$1);
             trigger(editorContainer, 'pasteraw', data$$1);
 
             if (data$$1.html) {
-                pasteArea.innerHTML = data$$1.html;
+                pasteArea.innerHTML = data$$1.text;
 
                 // fix any invalid nesting
                 fixNesting(pasteArea);
@@ -5317,7 +5283,7 @@
          * @name closeDropDown
          * @memberOf SCEditor.prototype
          */
-        base.closeDropDown = function (focus) {
+        base.closeDropDown = function(focus) {
             if (dropdown) {
                 remove(dropdown);
                 dropdown = null;
@@ -5346,10 +5312,10 @@
          * @name wysiwygEditorInsertHtml
          * @memberOf SCEditor.prototype
          */
-        base.wysiwygEditorInsertHtml = function (
+        base.wysiwygEditorInsertHtml = function(
             html, endHtml, overrideCodeBlocking
         ) {
-            var    marker, scrollTop, scrollTo,
+            var marker, scrollTop, scrollTo,
                 editorHeight = height(wysiwygEditor);
 
             base.focus();
@@ -5369,10 +5335,10 @@
             replaceEmoticons();
 
             // Scroll the editor after the end of the selection
-            marker   = find(wysiwygBody, '#sceditor-end-marker')[0];
+            marker = find(wysiwygBody, '#sceditor-end-marker')[0];
             show(marker);
             scrollTop = wysiwygBody.scrollTop;
-            scrollTo  = (getOffset(marker).top +
+            scrollTo = (getOffset(marker).top +
                 (marker.offsetHeight * 1.5)) - editorHeight;
             hide(marker);
 
@@ -5399,7 +5365,7 @@
          * @name wysiwygEditorInsertText
          * @memberOf SCEditor.prototype
          */
-        base.wysiwygEditorInsertText = function (text, endText) {
+        base.wysiwygEditorInsertText = function(text, endText) {
             base.wysiwygEditorInsertHtml(
                 entities(text), entities(endText)
             );
@@ -5420,7 +5386,7 @@
          * @name insertText
          * @memberOf SCEditor.prototype
          */
-        base.insertText = function (text, endText) {
+        base.insertText = function(text, endText) {
             if (base.inSourceMode()) {
                 base.sourceEditorInsertText(text, endText);
             } else {
@@ -5454,10 +5420,10 @@
          * @name sourceEditorInsertText
          * @memberOf SCEditor.prototype
          */
-        base.sourceEditorInsertText = function (text, endText) {
+        base.sourceEditorInsertText = function(text, endText) {
             var scrollTop, currentValue,
                 startPos = sourceEditor.selectionStart,
-                endPos   = sourceEditor.selectionEnd;
+                endPos = sourceEditor.selectionEnd;
 
             scrollTop = sourceEditor.scrollTop;
             sourceEditor.focus();
@@ -5490,7 +5456,7 @@
          * @name getRangeHelper
          * @memberOf SCEditor.prototype
          */
-        base.getRangeHelper = function () {
+        base.getRangeHelper = function() {
             return rangeHelper;
         };
 
@@ -5504,7 +5470,7 @@
          * @name sourceEditorCaret
          * @memberOf SCEditor.prototype
          */
-        base.sourceEditorCaret = function (position) {
+        base.sourceEditorCaret = function(position) {
             sourceEditor.focus();
 
             if (position) {
@@ -5550,7 +5516,7 @@
          * @name val^2
          * @memberOf SCEditor.prototype
          */
-        base.val = function (val, filter) {
+        base.val = function(val, filter) {
             if (!isString(val)) {
                 return base.inSourceMode() ?
                     base.getSourceEditorValue(false) :
@@ -5617,7 +5583,7 @@
          * @memberOf SCEditor.prototype
          */
         // eslint-disable-next-line max-params
-        base.insert = function (
+        base.insert = function(
             start, end, filter, convertEmoticons, allowMixed
         ) {
             if (base.inSourceMode()) {
@@ -5627,7 +5593,7 @@
 
             // Add the selection between start and end
             if (end) {
-                var    html = rangeHelper.selectedHtml();
+                var html = rangeHelper.selectedHtml();
 
                 if (filter !== false && 'fragmentToSource' in format) {
                     html = format
@@ -5666,8 +5632,8 @@
          * @name getWysiwygEditorValue
          * @memberOf SCEditor.prototype
          */
-        base.getWysiwygEditorValue = function (filter) {
-            var    html;
+        base.getWysiwygEditorValue = function(filter) {
+            var html;
             // Create a tmp node to store contents so it can be modified
             // without affecting anything else.
             var tmp = createElement('div', {}, wysiwygDocument);
@@ -5700,7 +5666,7 @@
          * @name getBody
          * @memberOf SCEditor.prototype
          */
-        base.getBody = function () {
+        base.getBody = function() {
             return wysiwygBody;
         };
 
@@ -5713,7 +5679,7 @@
          * @name getContentAreaContainer
          * @memberOf SCEditor.prototype
          */
-        base.getContentAreaContainer = function () {
+        base.getContentAreaContainer = function() {
             return wysiwygEditor;
         };
 
@@ -5732,7 +5698,7 @@
          * @name getSourceEditorValue
          * @memberOf SCEditor.prototype
          */
-        base.getSourceEditorValue = function (filter) {
+        base.getSourceEditorValue = function(filter) {
             var val = sourceEditor.value;
 
             if (filter !== false && 'toHtml' in format) {
@@ -5751,7 +5717,7 @@
          * @name setWysiwygEditorValue
          * @memberOf SCEditor.prototype
          */
-        base.setWysiwygEditorValue = function (value) {
+        base.setWysiwygEditorValue = function(value) {
             if (!value) {
                 value = '<p>' + (IE_VER ? '' : '<br />') + '</p>';
             }
@@ -5772,7 +5738,7 @@
          * @name setSourceEditorValue
          * @memberOf SCEditor.prototype
          */
-        base.setSourceEditorValue = function (value) {
+        base.setSourceEditorValue = function(value) {
             sourceEditor.value = value;
 
             triggerValueChanged();
@@ -5787,7 +5753,7 @@
          * @since 1.4.0
          * @memberOf SCEditor.prototype
          */
-        base.updateOriginal = function () {
+        base.updateOriginal = function() {
             original.value = base.val();
         };
 
@@ -5796,7 +5762,7 @@
          * with their emoticon images
          * @private
          */
-        replaceEmoticons = function () {
+        replaceEmoticons = function() {
             if (options.emoticonsEnabled) {
                 replace(wysiwygBody, allEmoticons, options.emoticonsCompat);
             }
@@ -5810,7 +5776,7 @@
          * @name inSourceMode
          * @memberOf SCEditor.prototype
          */
-        base.inSourceMode = function () {
+        base.inSourceMode = function() {
             return hasClass(editorContainer, 'sourceMode');
         };
 
@@ -5831,7 +5797,7 @@
          * @name sourceMode^2
          * @memberOf SCEditor.prototype
          */
-        base.sourceMode = function (enable) {
+        base.sourceMode = function(enable) {
             var inSourceMode = base.inSourceMode();
 
             if (typeof enable !== 'boolean') {
@@ -5853,7 +5819,7 @@
          * @since 1.4.0
          * @memberOf SCEditor.prototype
          */
-        base.toggleSourceMode = function () {
+        base.toggleSourceMode = function() {
             var isInSourceMode = base.inSourceMode();
 
             // don't allow switching to WYSIWYG if doesn't support it
@@ -5890,7 +5856,7 @@
          * @return {string}
          * @private
          */
-        sourceEditorSelectedText = function () {
+        sourceEditorSelectedText = function() {
             sourceEditor.focus();
 
             return sourceEditor.value.substring(
@@ -5903,7 +5869,7 @@
          * Handles the passed command
          * @private
          */
-        handleCommand = function (caller, cmd) {
+        handleCommand = function(caller, cmd) {
             // check if in text mode and handle text commands
             if (base.inSourceMode()) {
                 if (cmd.txtExec) {
@@ -5931,7 +5897,7 @@
          * where the cursor was and what was selected
          * @private
          */
-        saveRange = function () {
+        saveRange = function() {
             /* this is only needed for IE */
             if (IE_VER) {
                 lastRange = rangeHelper.selectedRange();
@@ -5947,9 +5913,9 @@
          * @name execCommand
          * @memberOf SCEditor.prototype
          */
-        base.execCommand = function (command, param) {
-            var    executed    = false,
-                commandObj  = base.commands[command];
+        base.execCommand = function(command, param) {
+            var executed = false,
+                commandObj = base.commands[command];
 
             base.focus();
 
@@ -5961,7 +5927,7 @@
 
             try {
                 executed = wysiwygDocument.execCommand(command, false, param);
-            } catch (ex) { }
+            } catch (ex) {}
 
             // show error if execution failed and an error message exists
             if (!executed && commandObj && commandObj.errorMessage) {
@@ -5980,15 +5946,15 @@
          * This is because only IE has a selection changed event.
          * @private
          */
-        checkSelectionChanged = function () {
+        checkSelectionChanged = function() {
             function check() {
                 // Don't create new selection if there isn't one (like after
                 // blur event in iOS)
                 if (wysiwygWindow.getSelection() &&
                     wysiwygWindow.getSelection().rangeCount <= 0) {
                     currentSelection = null;
-                // rangeHelper could be null if editor was destroyed
-                // before the timeout had finished
+                    // rangeHelper could be null if editor was destroyed
+                    // before the timeout had finished
                 } else if (rangeHelper && !rangeHelper.compare(currentSelection)) {
                     currentSelection = rangeHelper.cloneSelected();
 
@@ -6039,14 +6005,14 @@
          * the nodechanged event if it has
          * @private
          */
-        checkNodeChanged = function () {
+        checkNodeChanged = function() {
             // check if node has changed
-            var    oldNode,
+            var oldNode,
                 node = rangeHelper.parentNode();
 
             if (currentNode !== node) {
-                oldNode          = currentNode;
-                currentNode      = node;
+                oldNode = currentNode;
+                currentNode = node;
                 currentBlockNode = rangeHelper.getFirstBlockParent(node);
 
                 trigger(editorContainer, 'nodechanged', {
@@ -6067,7 +6033,7 @@
          * @name currentNode
          * @memberOf SCEditor.prototype
          */
-        base.currentNode = function () {
+        base.currentNode = function() {
             return currentNode;
         };
 
@@ -6083,7 +6049,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.4
          */
-        base.currentBlockNode = function () {
+        base.currentBlockNode = function() {
             return currentBlockNode;
         };
 
@@ -6091,30 +6057,30 @@
          * Updates if buttons are active or not
          * @private
          */
-        updateActiveButtons = function () {
+        updateActiveButtons = function() {
             var firstBlock, parent$$1;
             var activeClass = 'active';
-            var doc         = wysiwygDocument;
-            var isSource    = base.sourceMode();
+            var doc = wysiwygDocument;
+            var isSource = base.sourceMode();
 
             if (base.readOnly()) {
-                each(find(toolbar, activeClass), function (_, menuItem) {
+                each(find(toolbar, activeClass), function(_, menuItem) {
                     removeClass(menuItem, activeClass);
                 });
                 return;
             }
 
             if (!isSource) {
-                parent$$1     = rangeHelper.parentNode();
+                parent$$1 = rangeHelper.parentNode();
                 firstBlock = rangeHelper.getFirstBlockParent(parent$$1);
             }
 
             for (var j = 0; j < btnStateHandlers.length; j++) {
-                var state      = 0;
-                var btn        = toolbarButtons[btnStateHandlers[j].name];
-                var stateFn    = btnStateHandlers[j].state;
+                var state = 0;
+                var btn = toolbarButtons[btnStateHandlers[j].name];
+                var stateFn = btnStateHandlers[j].state;
                 var isDisabled = (isSource && !btn._sceTxtMode) ||
-                            (!isSource && !btn._sceWysiwygMode);
+                    (!isSource && !btn._sceWysiwygMode);
 
                 if (isString(stateFn)) {
                     if (!isSource) {
@@ -6145,7 +6111,7 @@
          *
          * @private
          */
-        handleKeyPress = function (e) {
+        handleKeyPress = function(e) {
             // FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=501496
             if (e.defaultPrevented) {
                 return;
@@ -6170,7 +6136,7 @@
                     // IE < 11 so need to make sure the <br> that was inserted
                     // isn't the last node of a block.
                     if (!IE_BR_FIX$2) {
-                        var parent$$1  = br.parentNode;
+                        var parent$$1 = br.parentNode;
                         var lastChild = parent$$1.lastChild;
 
                         // Sometimes an empty next node is created after the <br>
@@ -6204,11 +6170,11 @@
          * @return {void}
          * @private
          */
-        appendNewLine = function () {
+        appendNewLine = function() {
             // Check all nodes in reverse until either add a new line
             // or reach a non-empty textnode or BR at which point can
             // stop checking.
-            rTraverse(wysiwygBody, function (node) {
+            rTraverse(wysiwygBody, function(node) {
                 // Last block, add new line after if has styling
                 if (node.nodeType === ELEMENT_NODE &&
                     !/inline/.test(css(node, 'display'))) {
@@ -6236,7 +6202,7 @@
          * Handles form reset event
          * @private
          */
-        handleFormReset = function () {
+        handleFormReset = function() {
             base.val(original.value);
         };
 
@@ -6244,7 +6210,7 @@
          * Handles any mousedown press in the WYSIWYG editor
          * @private
          */
-        handleMouseDown = function () {
+        handleMouseDown = function() {
             base.closeDropDown();
             lastRange = null;
         };
@@ -6261,15 +6227,15 @@
          * @name _
          * @memberOf SCEditor.prototype
          */
-        base._ = function () {
-            var    undef,
+        base._ = function() {
+            var undef,
                 args = arguments;
 
             if (locale && locale[args[0]]) {
                 args[0] = locale[args[0]];
             }
 
-            return args[0].replace(/\{(\d+)\}/g, function (str, p1) {
+            return args[0].replace(/\{(\d+)\}/g, function(str, p1) {
                 return args[p1 - 0 + 1] !== undef ?
                     args[p1 - 0 + 1] :
                     '{' + p1 + '}';
@@ -6281,7 +6247,7 @@
          * @private
          * @return void
          */
-        handleEvent = function (e) {
+        handleEvent = function(e) {
             if (pluginManager) {
                 // Send event to all plugins
                 pluginManager.call(e.type + 'Event', e, base);
@@ -6291,7 +6257,7 @@
             var name = (e.target === sourceEditor ? 'scesrc' : 'scewys') + e.type;
 
             if (eventHandlers[name]) {
-                eventHandlers[name].forEach(function (fn) {
+                eventHandlers[name].forEach(function(fn) {
                     fn.call(base, e);
                 });
             }
@@ -6333,10 +6299,10 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.1
          */
-        base.bind = function (events, handler, excludeWysiwyg, excludeSource) {
+        base.bind = function(events, handler, excludeWysiwyg, excludeSource) {
             events = events.split(' ');
 
-            var i  = events.length;
+            var i = events.length;
             while (i--) {
                 if (isFunction(handler)) {
                     var wysEvent = 'scewys' + events[i];
@@ -6381,10 +6347,10 @@
          * @since 1.4.1
          * @see bind
          */
-        base.unbind = function (events, handler, excludeWysiwyg, excludeSource) {
+        base.unbind = function(events, handler, excludeWysiwyg, excludeSource) {
             events = events.split(' ');
 
-            var i  = events.length;
+            var i = events.length;
             while (i--) {
                 if (isFunction(handler)) {
                     if (!excludeWysiwyg) {
@@ -6425,7 +6391,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.1
          */
-        base.blur = function (handler, excludeWysiwyg, excludeSource) {
+        base.blur = function(handler, excludeWysiwyg, excludeSource) {
             if (isFunction(handler)) {
                 base.bind('blur', handler, excludeWysiwyg, excludeSource);
             } else if (!base.sourceMode()) {
@@ -6459,7 +6425,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.1
          */
-        base.focus = function (handler, excludeWysiwyg, excludeSource) {
+        base.focus = function(handler, excludeWysiwyg, excludeSource) {
             if (isFunction(handler)) {
                 base.bind('focus', handler, excludeWysiwyg, excludeSource);
             } else if (!base.inSourceMode()) {
@@ -6525,7 +6491,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.1
          */
-        base.keyDown = function (handler, excludeWysiwyg, excludeSource) {
+        base.keyDown = function(handler, excludeWysiwyg, excludeSource) {
             return base.bind('keydown', handler, excludeWysiwyg, excludeSource);
         };
 
@@ -6543,7 +6509,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.1
          */
-        base.keyPress = function (handler, excludeWysiwyg, excludeSource) {
+        base.keyPress = function(handler, excludeWysiwyg, excludeSource) {
             return base
                 .bind('keypress', handler, excludeWysiwyg, excludeSource);
         };
@@ -6562,7 +6528,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.1
          */
-        base.keyUp = function (handler, excludeWysiwyg, excludeSource) {
+        base.keyUp = function(handler, excludeWysiwyg, excludeSource) {
             return base.bind('keyup', handler, excludeWysiwyg, excludeSource);
         };
 
@@ -6579,7 +6545,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.1
          */
-        base.nodeChanged = function (handler) {
+        base.nodeChanged = function(handler) {
             return base.bind('nodechanged', handler, false, true);
         };
 
@@ -6595,7 +6561,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.1
          */
-        base.selectionChanged = function (handler) {
+        base.selectionChanged = function(handler) {
             return base.bind('selectionchanged', handler, false, true);
         };
 
@@ -6620,7 +6586,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.5
          */
-        base.valueChanged = function (handler, excludeWysiwyg, excludeSource) {
+        base.valueChanged = function(handler, excludeWysiwyg, excludeSource) {
             return base
                 .bind('valuechanged', handler, excludeWysiwyg, excludeSource);
         };
@@ -6629,11 +6595,11 @@
          * Emoticons keypress handler
          * @private
          */
-        emoticonsKeyPress = function (e) {
-            var    replacedEmoticon,
-                cachePos       = 0,
+        emoticonsKeyPress = function(e) {
+            var replacedEmoticon,
+                cachePos = 0,
                 emoticonsCache = base.emoticonsCache,
-                curChar        = String.fromCharCode(e.which);
+                curChar = String.fromCharCode(e.which);
 
             // TODO: Make configurable
             if (closest(currentBlockNode, 'code')) {
@@ -6643,11 +6609,11 @@
             if (!emoticonsCache) {
                 emoticonsCache = [];
 
-                each(allEmoticons, function (key, html) {
+                each(allEmoticons, function(key, html) {
                     emoticonsCache[cachePos++] = [key, html];
                 });
 
-                emoticonsCache.sort(function (a, b) {
+                emoticonsCache.sort(function(a, b) {
                     return a[0].length - b[0].length;
                 });
 
@@ -6676,7 +6642,7 @@
          * Makes sure emoticons are surrounded by whitespace
          * @private
          */
-        emoticonsCheckWhitespace = function () {
+        emoticonsCheckWhitespace = function() {
             checkWhitespace(currentBlockNode, rangeHelper);
         };
 
@@ -6698,7 +6664,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.2
          */
-        base.emoticons = function (enable) {
+        base.emoticons = function(enable) {
             if (!enable && enable !== false) {
                 return options.emoticonsEnabled;
             }
@@ -6720,7 +6686,7 @@
                 var emoticons =
                     find(wysiwygBody, 'img[data-sceditor-emoticon]');
 
-                each(emoticons, function (_, img) {
+                each(emoticons, function(_, img) {
                     var text = data(img, 'sceditor-emoticon');
                     var textNode = wysiwygDocument.createTextNode(text);
                     img.parentNode.replaceChild(textNode, img);
@@ -6753,7 +6719,7 @@
          * @memberOf SCEditor.prototype
          * @since 1.4.3
          */
-        base.css = function (css$$1) {
+        base.css = function(css$$1) {
             if (!inlineCss) {
                 inlineCss = createElement('style', {
                     id: 'inline'
@@ -6780,8 +6746,8 @@
          * Handles the keydown event, used for shortcuts
          * @private
          */
-        handleKeyDown = function (e) {
-            var    shortcut   = [],
+        handleKeyDown = function(e) {
+            var shortcut = [],
                 SHIFT_KEYS = {
                     '`': '~',
                     '1': '!',
@@ -6882,9 +6848,9 @@
                     104: '8',
                     105: '9'
                 },
-                which     = e.which,
+                which = e.which,
                 character = SPECIAL_KEYS[which] ||
-                    String.fromCharCode(which).toLowerCase();
+                String.fromCharCode(which).toLowerCase();
 
             if (e.ctrlKey || e.metaKey) {
                 shortcut.push('ctrl');
@@ -6924,11 +6890,11 @@
          * @param  {String|Function} cmd
          * @return {sceditor}
          */
-        base.addShortcut = function (shortcut, cmd) {
+        base.addShortcut = function(shortcut, cmd) {
             shortcut = shortcut.toLowerCase();
 
             if (isString(cmd)) {
-                shortcutHandlers[shortcut] = function () {
+                shortcutHandlers[shortcut] = function() {
                     handleCommand(toolbarButtons[cmd], base.commands[cmd]);
 
                     return false;
@@ -6945,7 +6911,7 @@
          * @param  {string} shortcut
          * @return {sceditor}
          */
-        base.removeShortcut = function (shortcut) {
+        base.removeShortcut = function(shortcut) {
             delete shortcutHandlers[shortcut.toLowerCase()];
 
             return base;
@@ -6957,8 +6923,8 @@
          * Will remove block styling like quotes/code ect if at the start.
          * @private
          */
-        handleBackSpace = function (e) {
-            var    node, offset, range, parent$$1;
+        handleBackSpace = function(e) {
+            var node, offset, range, parent$$1;
 
             // 8 is the backspace key
             if (options.disableBlockRemove || e.which !== 8 ||
@@ -6966,7 +6932,7 @@
                 return;
             }
 
-            node   = range.startContainer;
+            node = range.startContainer;
             offset = range.startOffset;
 
             if (offset !== 0 || !(parent$$1 = currentStyledBlockNode()) ||
@@ -7000,7 +6966,7 @@
          * Gets the first styled block node that contains the cursor
          * @return {HTMLElement}
          */
-        currentStyledBlockNode = function () {
+        currentStyledBlockNode = function() {
             var block = currentBlockNode;
 
             while (!hasStyling(block) || isInline(block, true)) {
@@ -7020,7 +6986,7 @@
          * @param  {HTMLElement} block
          * @since 1.4.4
          */
-        base.clearBlockFormatting = function (block) {
+        base.clearBlockFormatting = function(block) {
             block = block || currentStyledBlockNode();
 
             if (!block || is(block, 'body')) {
@@ -7030,7 +6996,7 @@
             rangeHelper.saveRange();
 
             block.className = '';
-            lastRange       = null;
+            lastRange = null;
 
             attr(block, 'style', '');
 
@@ -7054,15 +7020,15 @@
          * @param {boolean} saveRange If to call rangeHelper.saveRange().
          * @private
          */
-        triggerValueChanged = function (saveRange) {
+        triggerValueChanged = function(saveRange) {
             if (!pluginManager ||
                 (!pluginManager.hasHandler('valuechangedEvent') &&
                     !triggerValueChanged.hasHandler)) {
                 return;
             }
 
-            var    currentHtml,
-                sourceMode   = base.sourceMode(),
+            var currentHtml,
+                sourceMode = base.sourceMode(),
                 hasSelection = !sourceMode && rangeHelper.hasSelection();
 
             // Composition end isn't guaranteed to fire but must have
@@ -7104,7 +7070,7 @@
          * Should be called whenever there is a blur event
          * @private
          */
-        valueChangedBlur = function () {
+        valueChangedBlur = function() {
             if (valueChangedKeyUpTimer) {
                 triggerValueChanged();
             }
@@ -7115,10 +7081,10 @@
          * @param  {Event} e The keypress event
          * @private
          */
-        valueChangedKeyUp = function (e) {
-            var which         = e.which,
-                lastChar      = valueChangedKeyUp.lastChar,
-                lastWasSpace  = (lastChar === 13 || lastChar === 32),
+        valueChangedKeyUp = function(e) {
+            var which = e.which,
+                lastChar = valueChangedKeyUp.lastChar,
+                lastWasSpace = (lastChar === 13 || lastChar === 32),
                 lastWasDelete = (lastChar === 8 || lastChar === 46);
 
             valueChangedKeyUp.lastChar = which;
@@ -7134,7 +7100,7 @@
                 } else {
                     valueChangedKeyUp.triggerNext = true;
                 }
-            // 8 = backspace & 46 = del
+                // 8 = backspace & 46 = del
             } else if (which === 8 || which === 46) {
                 if (!lastWasDelete) {
                     triggerValueChanged();
@@ -7152,14 +7118,14 @@
             // Trigger the event 1.5s after the last keypress if space
             // isn't pressed. This might need to be lowered, will need
             // to look into what the slowest average Chars Per Min is.
-            valueChangedKeyUpTimer = setTimeout(function () {
+            valueChangedKeyUpTimer = setTimeout(function() {
                 if (!isComposing) {
                     triggerValueChanged();
                 }
             }, 1500);
         };
 
-        handleComposition = function (e) {
+        handleComposition = function(e) {
             isComposing = /start/i.test(e.type);
 
             if (!isComposing) {
@@ -7167,7 +7133,7 @@
             }
         };
 
-        autoUpdate = function () {
+        autoUpdate = function() {
             base.updateOriginal();
         };
 
@@ -7194,72 +7160,72 @@
      * @name sceditor.command
      */
     SCEditor.command =
-    /** @lends sceditor.command */
-    {
-        /**
-         * Gets a command
-         *
-         * @param {string} name
-         * @return {Object|null}
-         * @since v1.3.5
-         */
-        get: function (name) {
-            return defaultCmds[name] || null;
-        },
+        /** @lends sceditor.command */
+        {
+            /**
+             * Gets a command
+             *
+             * @param {string} name
+             * @return {Object|null}
+             * @since v1.3.5
+             */
+            get: function(name) {
+                return defaultCmds[name] || null;
+            },
 
-        /**
-         * <p>Adds a command to the editor or updates an existing
-         * command if a command with the specified name already exists.</p>
-         *
-         * <p>Once a command is add it can be included in the toolbar by
-         * adding it's name to the toolbar option in the constructor. It
-         * can also be executed manually by calling
-         * {@link sceditor.execCommand}</p>
-         *
-         * @example
-         * SCEditor.command.set("hello",
-         * {
-         *     exec: function () {
-         *         alert("Hello World!");
-         *     }
-         * });
-         *
-         * @param {string} name
-         * @param {Object} cmd
-         * @return {this|false} Returns false if name or cmd is false
-         * @since v1.3.5
-         */
-        set: function (name, cmd) {
-            if (!name || !cmd) {
-                return false;
+            /**
+             * <p>Adds a command to the editor or updates an existing
+             * command if a command with the specified name already exists.</p>
+             *
+             * <p>Once a command is add it can be included in the toolbar by
+             * adding it's name to the toolbar option in the constructor. It
+             * can also be executed manually by calling
+             * {@link sceditor.execCommand}</p>
+             *
+             * @example
+             * SCEditor.command.set("hello",
+             * {
+             *     exec: function () {
+             *         alert("Hello World!");
+             *     }
+             * });
+             *
+             * @param {string} name
+             * @param {Object} cmd
+             * @return {this|false} Returns false if name or cmd is false
+             * @since v1.3.5
+             */
+            set: function(name, cmd) {
+                if (!name || !cmd) {
+                    return false;
+                }
+
+                // merge any existing command properties
+                cmd = extend(defaultCmds[name] || {}, cmd);
+
+                cmd.remove = function() {
+                    SCEditor.command.remove(name);
+                };
+
+                defaultCmds[name] = cmd;
+                return this;
+            },
+
+            /**
+             * Removes a command
+             *
+             * @param {string} name
+             * @return {this}
+             * @since v1.3.5
+             */
+            remove: function(name) {
+                if (defaultCmds[name]) {
+                    delete defaultCmds[name];
+                }
+
+                return this;
             }
-
-            // merge any existing command properties
-            cmd = extend(defaultCmds[name] || {}, cmd);
-
-            cmd.remove = function () {
-                SCEditor.command.remove(name);
-            };
-
-            defaultCmds[name] = cmd;
-            return this;
-        },
-
-        /**
-         * Removes a command
-         *
-         * @param {string} name
-         * @return {this}
-         * @since v1.3.5
-         */
-        remove: function (name) {
-            if (defaultCmds[name]) {
-                delete defaultCmds[name];
-            }
-
-            return this;
-        }
-    };
+        };
 
     /**
      * SCEditor
@@ -7322,7 +7288,7 @@
         },
         plugins: PluginManager.plugins,
         formats: SCEditor.formats,
-        create: function (textarea, options) {
+        create: function(textarea, options) {
             options = options || {};
 
             // Don't allow the editor to be initialised
@@ -7336,7 +7302,7 @@
                 (new SCEditor(textarea, options));
             }
         },
-        instance: function (textarea) {
+        instance: function(textarea) {
             return textarea._sceditor;
         }
     };

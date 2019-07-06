@@ -1,42 +1,243 @@
 @charset "UTF-8";
 
 /* Mobile view */
-
-@media screen and (min-width: 280px) and (max-width: 1024px) {
-
+@media screen and (min-width: 280px) and (max-width: 600px) {
     #header {
         width: 100%;
-        margin-bottom: 10px;
+        margin: 10px 0px;
     }
 
     /* Login Information */
+    .login-user a {
+        text-overflow: ellipsis;
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 
-    .login_user>ul>li>.login_menu {
-        padding: 15px 15px 17px 15px;
+    .login-user>ul>li>.login-menu {
+        padding: 10px 15px 10px 15px;
         font-size: 1em;
         font-weight: 700;
     }
 
-    .login_user>ul>li>.login_username {
-        padding-left: 5px;
-        padding-right: 5px;
+    .login-user li a {
+        padding: 10px 20px;
+    }
+
+    .login-user .login-menu span:first-child  {
+        display: none;
+    }
+
+    .home-icon {
+        width: 30px;
+        height: 30px;
+        display: block;
+    }
+
+    .login-username {
+        display: none;
+    }
+
+    .user-icon {
+        display: none;
+        width: 30px;
+        height: 30px;
+    }
+
+    .login-user .login-li .login-menu {
+        padding: 15px;
+        font-size: 1.25em;
+    }
+
+    .login-user .login-li .login-menu span {
+        display: block;
+    }
+
+    /* Notification */
+    .notification {
+        display: block;
+    }
+
+    .notification-link:hover {
+        color: #FFFFFF;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .notification-icon {
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+    }
+
+    #notif_wrapper {
+        margin-left: -180px;
+        width: 100%;
+        top: 45px;
+        border: none;
+    }
+
+    #notif_wrapper:before {
+        margin-left: 204px;
+    }
+
+    /* Setting */
+    .setting {
+        display: block;
     }
 
     /* User Info */
-
-    .user_detail {
-        font-size: 15px;
-        padding: 5px 55px;
+    .profile-header {
+        line-height: 1.5;
+        min-height: 125px;
+        overflow: visible;
+        padding: 15px 15px 10px 140px;
+        position: relative;
+        margin: 0px;
     }
 
-    .repo {
+    .profile-header .avatar {
+        width: 110px;
+        height: 110px;
+        border-radius: 3px;
+        display: inline-block;
+        line-height: 1;
+        overflow: hidden;
+        vertical-align: middle;
+        left: 15px;
+        margin-right: 15px;
+        position: absolute;
+        top: 15px;
+    }
+
+    .profile-header .name {
+        margin-top: 0em;
+    }
+
+    .profile-header .display-name {
+        color: #24292e;
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .profile-header .username {
+        color: #586069;
+        font-size: 16px;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .user-identity>dt {
+        float: none;
+        color: #7D7D7D;
+        max-width: 100%;
+        margin-right: 0px;
+    }
+
+    .user-identity>dd {
+        float: right;
+        margin-left: 0px;
+        text-align: right;
+        max-width: 100%;
+    }
+
+    .user-detail {
+        font-size: 10px;
+        padding: 5px 0px;
+        width: max-content;
+        border-spacing: 5px;
+    }
+
+    .user-detail-box {
+        display: table-row;
+    }
+
+    .user-bio {
+        display: table-cell;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 2px;
+        border-color: #c5c5c5;
+        padding: 2px;
+        max-width: 155px;
+        font-size: 12px;
+        color: #24292e;
+    }
+
+    .user-status {
+        display: table-cell;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 2px;
+        border-color: #c5c5c5;
+        padding: 2px;
+        max-width: 230px;
+        font-size: 12px;
+        color: #24292e;
+    }
+
+    .user-joined>dt {
+        margin-right: 0px;
+    }
+
+    .user-joined>dd {
+        float: initial;
+        margin-left: initial;
+    }
+
+    /* Pagination */
+    .pagination {
+        float: initial;
+    }
+
+    .pagination-list li a {
+        min-width: 15px;
+        min-height: 20px;
+        line-height: 25px;
+        padding: 0 5px;
+    }
+
+    /* Article List */
+    #content {
+        float: none;
+        width: 95%;
+        padding-left: 0px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .member-article {
         width: 100%;
         padding-left: 10px;
         padding-right: 10px;
     }
 
-    #content {
+    .member-article li {
+        margin-bottom: 10px;
+    }
+
+    .member-article-list {
         width: 100%;
         padding-left: 0px;
+    }
+
+    /* Article Empty */
+    .novalue {
+        margin: 1em auto;
+        padding: 5px;
+    }
+
+    .novalue>a {
+        font-size: 1em;
+        padding: 0px;
+    }
+
+    /* Other */
+    .change-language {
+        width: 90%;
+    }
+
+    .language {
+        width: 70%;
     }
 }

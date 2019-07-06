@@ -1,17 +1,30 @@
 <?php
 class Language
 {
-    private $lang_set;
+    private $lang_set = array();
+    private $path;
+    private $lang_file_list;
+    private $another_lang_file;
+    private static $config_id = 1;
 
     public function __construct($path)
     {
-        $this->lang_set = '';
         $this->path = $path;
     }
 
-    private function setCookie($lang)
+    private function setCookie($lang, $security)
     {
-        setcookie('language', $lang, time()+86400, $this->path.'/', null, true, true);
+        setcookie('language', $lang, time()+86400, $this->path.'/', null, $security, true);
+    }
+
+    public function setLanguageFile($file_list)
+    {
+        $this->lang_file_list = $file_list;
+    }
+
+    public function addLanguageFile($file_list)
+    {
+        $this->lang_file_list = $file_list;
     }
 
     public function getLinks($params = array())
@@ -24,68 +37,86 @@ class Language
         return $query_url;
     }
 
-    public function loadBrowserLanguage($browserLanguage)
+    public function loadLanguage($language)
     {
-        switch ($browserLanguage) {
-            case ($browserLanguage == 'en'):
-                $this->lang_set = '/language/en_US.php';
+        switch ($language) {
+            case ($language == 'en' || $language == 'en_US'):
+                foreach ($this->lang_file_list as $value) {
+                    $this->lang_set[$value] = '/language/en_US/en_US.'.$value.'.php';
+                }
+                $current_lang = 'en_US';
                 break;
-            case ($browserLanguage == 'zh'):
-                $this->lang_set = '/language/zh_TW.php';
+            case ($language == 'zh' || $language == 'zh_TW'):
+                foreach ($this->lang_file_list as $value) {
+                    $this->lang_set[$value] = '/language/zh_TW/zh_TW.'.$value.'.php';
+                }
+                $current_lang = 'zh_TW';
                 break;
-            case ($browserLanguage == 'ja'):
-                $this->lang_set = '/language/ja_JP.php';
+            case ($language == 'ja' || $language == 'ja_JP'):
+                foreach ($this->lang_file_list as $value) {
+                    $this->lang_set[$value] = '/language/ja_JP/ja_JP.'.$value.'.php';
+                }
+                $current_lang = 'ja_JP';
                 break;
-            case ($browserLanguage == 'th'):
-                $this->lang_set = '/language/th_TH.php';
+            case ($language == 'th' || $language == 'th_TH'):
+                foreach ($this->lang_file_list as $value) {
+                    $this->lang_set[$value] = '/language/th_TH/th_TH.'.$value.'.php';
+                }
+                $current_lang = 'th_TH';
                 break;
             default:
-                $this->lang_set = '/language/en_US.php';
+                foreach ($this->lang_file_list as $value) {
+                    $this->lang_set[$value] = '/language/en_US/en_US.'.$value.'.php';
+                }
+                $current_lang = 'en_US';
                 break;
         }
+        $this->current_lang = $current_lang;
         return $this->lang_set;
     }
 
-    public function loadCookieLanguage($cookieLang)
+    public function getCurrentLang()
     {
-        switch ($cookieLang) {
-            case ($cookieLang == 'en_US'):
-                $this->lang_set = '/language/en_US.php';
-                break;
-            case ($cookieLang == 'zh_TW'):
-                $this->lang_set = '/language/zh_TW.php';
-                break;
-            case ($cookieLang == 'ja_JP'):
-                $this->lang_set = '/language/ja_JP.php';
-                break;
-            case ($cookieLang == 'th_TH'):
-                $this->lang_set = '/language/th_TH.php';
-                break;
-            default:
-                $this->lang_set = '/language/en_US.php';
-                break;
-        }
-        return $this->lang_set;
+        $current_lang = $this->current_lang;
+        return $current_lang;
     }
 
-    public function setLanguage($getLang)
+    public function setLanguage($getLang, $getSecurity)
     {
         switch ($getLang) {
             case ($getLang === 'zh_TW'):
-                $this->setCookie('zh_TW');
+                $this->setCookie('zh_TW', $getSecurity);
                 break;
             case ($getLang === 'en_US'):
-                $this->setCookie('en_US');
+                $this->setCookie('en_US', $getSecurity);
                 break;
             case ($getLang === 'ja_JP'):
-                $this->setCookie('ja_JP');
+                $this->setCookie('ja_JP', $getSecurity);
                 break;
             case ($getLang === 'th_TH'):
-                $this->setCookie('th_TH');
+                $this->setCookie('th_TH', $getSecurity);
                 break;
             default:
-                $this->setCookie('en_US');
+                $this->setCookie('en_US', $getSecurity);
                 break;
+        }
+    }
+
+    public function getWebLanguage($connectdb)
+    {
+        $lang['query'] = 'SELECT web_language FROM global_config WHERE id = ?';
+        $lang['stmt'] = $connectdb->stmt_init();
+        if ($lang['stmt']->prepare($lang['query'])) {
+            $lang['stmt']->bind_param('i', self::$config_id);
+            $lang['stmt']->execute();
+            $lang['stmt']->bind_result($web_language);
+            $lang['result'] = $lang['stmt']->get_result();
+            $lang['row'] = $lang['result']->fetch_assoc();
+            if ($lang['row']['web_language'] != '') {
+                return $lang['row']['web_language'];
+            } else {
+                return 'en_US';
+            }
         }
     }
 }

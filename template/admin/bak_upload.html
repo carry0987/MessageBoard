@@ -1,0 +1,204 @@
+    <link href="{loadcss ../component/switch.css}" rel="stylesheet" type="text/css">
+    <link href="{loadcss ../component/radio.css}" rel="stylesheet" type="text/css">
+    <div class="main-content">
+        <div class="title">
+            <span>{$LANG['common']['upload']}</span>
+        </div>
+        <div class="main">
+            <div class="mode">
+                <div class="mode-button">
+                    <a href="admin.php?mod=upload">{$LANG['common']['main_setting']}</a>
+                </div>
+                <div class="mode-button">
+                    <a href="admin.php?mod=upload&amp;show_thumbnail=yes">{$LANG['common']['thumbnail']}</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-admin">
+            <div class="widget widget-mode">
+                <div class="title">
+                    <span>{$LANG['admin-upload']['upload_function']}</span>
+                </div>
+                <div class="chart">
+                    <div class="type-list">
+                        <form action="admin.php?update=upload_enable" method="post" id="upload_enable">
+                            <input type="text" id="change_type" name="change_type" hidden="hidden" value="{$upload['current_type']}" />
+                            <input type="text" id="change_library" name="change_library" hidden="hidden" value="{$upload['current_library']}" />
+                            <div class="setting-option">
+                                <div class="type-list-box option-set">
+<!--{if $upload['set'] === true}-->
+                                    <div class="radio">
+                                        <input id="enable" name="upload_set" type="radio" value="enable" checked="checked" />
+                                        <label for="enable" class="set-label radio-label">{$LANG['common']['enable']}</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input id="disable" name="upload_set" type="radio" value="disable" />
+                                        <label for="disable" class="set-label radio-label">{$LANG['common']['disable']}</label>
+                                    </div>
+<!--{else}-->
+                                    <div class="radio">
+                                        <input id="enable" name="upload_set" type="radio" value="enable" />
+                                        <label for="enable" class="set-label radio-label">{$LANG['common']['enable']}</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input id="disable" name="upload_set" type="radio" value="disable" checked="checked" />
+                                        <label for="disable" class="set-label radio-label">{$LANG['common']['disable']}</label>
+                                    </div>
+<!--{/if}-->
+                                </div>
+                            </div>
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--{if isset($show_thumbnail) && $show_thumbnail === true}-->
+            <div class="widget widget-mode">
+                <div class="title">
+                    <span>{$LANG['admin-upload']['thumbnail_test']}</span>
+                </div>
+                <div class="chart">
+                    <div class="setting-list">
+                        <div class="notification-box-info" style="margin: 0em 0em 0em 0em">
+                            <p>{$LANG['admin']['current_mode']}: {$image_library_list[$upload['current_library']]}</p>
+                        </div>
+                        <form id="uploadForm" enctype="multipart/form-data">
+                            <div class="setting-list-box">
+                                <input multiple="multiple" class="setting-list-input" type="file" name="image[]" id="fileInput" />
+                                <button class="setting-list-test" type="submit" name="thumb_submit">{$LANG['common']['test']}</button>
+                                <div class="loading" style="display: none;">
+                                    <img src="{$base_url}/static/icon/loading_spin.svg" />
+                                </div>
+                            </div>
+                        </form>
+                        <div class="notification-box" style="margin: 0.5em 0em 0em 0em">
+                            <p></p>
+                        </div>
+                        <div class="gallery" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget widget-mode">
+                <div class="title">
+                    <span>{$LANG['admin-upload']['thumbnail_setting']}</span>
+                </div>
+                <div class="chart">
+                    <div class="type-list">
+                        <form action="admin.php?update=upload_setting" method="post" name="upload_setting">
+                            <div class="sub-config-list">
+                                <input type="text" id="current_library" hidden="hidden" disabled="disabled" value="{$upload['current_library']}" />
+                                <label class="setting-list-title">{$LANG['admin-upload']['image_library']}</label>
+                                <!--{loop $image_library_list $library_list['value'] $library_list['key']}-->
+                                <!--{eval $current_library = ($library_list['value'] === $upload['current_library']) ? 'checked="checked"' : '';}-->
+                                <div class="radio">
+                                    <input id="{$library_list['key']}" name="image_library" type="radio" value="{$library_list['value']}" {$current_library} />
+                                    <label for="{$library_list['key']}" class="select-label radio-label">{$LANG['admin-upload'][$library_list['key']]}</label>
+                                </div>
+                                <div class="description-notification announce">
+                                    <p>{$LANG['admin-upload'][$library_list['key'].'_description']}</p>
+                                </div>
+                                <!--{/loop}-->
+                                <div class="horizon"></div>
+                                <div class="setting-option">
+                                    <div class="setting-list-box">
+                                        <label class="setting-list-title">{$LANG['admin-upload']['thumbnail_height']}</label>
+                                        <input id="thumbnail_height" class="setting-list-input" type="text" name="thumbnail_height" maxlength="3" value="{$upload['thumbnail_height']}" />
+                                    </div>
+                                    <div class="setting-list-description">
+                                        <p>{$LANG['admin-upload']['thumbnail_height_description']}</p>
+                                    </div>
+                                    <div class="horizon"></div>
+                                    <div class="setting-list-box">
+                                        <label class="setting-list-title">{$LANG['admin-upload']['thumbnail_width']}</label>
+                                        <input id="thumbnail_width" class="setting-list-input" type="text" name="thumbnail_width" maxlength="3" value="{$upload['thumbnail_width']}" />
+                                    </div>
+                                    <div class="setting-list-description">
+                                        <p>{$LANG['admin-upload']['thumbnail_width_description']}</p>
+                                    </div>
+                                </div>
+                                <div class="horizon"></div>
+                                <div class="setting-save">
+                                    <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--{else}-->
+            <div class="widget">
+                <div class="title">
+                    <span>{$LANG['admin-upload']['upload_type']}</span>
+                </div>
+                <div class="chart">
+                    <div class="type-list">
+                        <div class="type-list-box type-select">
+                            <input type="text" id="current_type" hidden="hidden" disabled="disabled" value="{$upload['current_type']}" />
+<!--{loop $upload_type_list $type_list['value']}-->
+<!--{eval $current_type = ($type_list['value'] === $upload['current_type']) ? 'checked="checked"' : '';}-->
+                            <div class="radio">
+                                <input id="{$type_list['value']}" name="upload_select" type="radio" value="{$type_list['value']}" {$current_type} />
+                                <label for="{$type_list['value']}" class="select-label radio-label">{$LANG['admin-upload'][$type_list['value'].'_upload']}</label>
+                            </div>
+<!--{/loop}-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget" id="show-setting">
+            </div>
+            <div class="widget setting-loading">
+                <div class="title loading-title">
+                    <span>{$LANG['common']['setting']}</span>
+                </div>
+                <div class="chart-loading-box">
+                    <div class="loading-overlay">
+                        <div class="overlay-content">
+                            <span style="display: block;">{$LANG['common']['loading']}</span>
+                            <img src="static/icon/loading_spin.svg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--{/if}-->
+        </div>
+    </div>
+    <script src="{loadjs admin-upload.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        // File upload via Ajax
+        $('#uploadForm').on('submit', function(e) {
+            var getFileName = $('#fileInput').val();
+            if (getFileName) {
+                e.preventDefault();
+                var testData = {};
+                testData['url'] = 'admin.php?mod=upload&show_thumbnail=yes&upload=image';
+                testData['data'] = new FormData(this);
+                testData['type'] = 'json';
+                testData['success'] = "{$LANG['common']['test_success']}";
+                testData['failed'] = "{$LANG['common']['test_failed']}";
+                testThumbnail(testData);
+            } else {
+                return false;
+            }
+        });
+        // File type validation
+        $('#fileInput').change(function() {
+            var fileLength = this.files.length;
+            var match= ['image/jpeg','image/png','image/jpg','image/gif'];
+            var i;
+            for (i = 0; i < fileLength; i++) { 
+                var file = this.files[i];
+                var imagefile = file.type;
+                if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]) || (imagefile == match[3]))) {
+                    alert('Please select a valid image file (JPEG/JPG/PNG/GIF)');
+                    $('#fileInput').val('');
+                    return false;
+                }
+            }
+        });
+    });
+    </script>

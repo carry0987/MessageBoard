@@ -1,0 +1,105 @@
+<!--{if isset($seo['type'])}-->
+                <div class="title setting-title">
+                    <span>{$LANG['common']['setting']}</span>
+                </div>
+<!--{if $seo['type'] === 'sitemap'}-->
+                <div class="chart">
+                    <div class="setting-list">
+                        <form action="admin.php?update=seo_setting" method="post" name="seo_setting">
+                            <input type="text" name="seo_type" value="{$seo['type']}" hidden="hidden">
+<!--{loop $seo['option'] $key $value}-->
+<!--{eval $title_key = str_replace('enable', 'sitemap_function', $key);}-->
+                            <div class="setting-option">
+                                <label class="setting-list-title">{$LANG['admin-seo'][$title_key]}</label>
+                                <div class="type-list-box option-set">
+<!--{loop $sitemap[$key] $option['key'] $option['value']}-->
+<!--{eval $current_set = ($seo['option'][$key] === $option['key']) ? 'checked="checked"' : '';}-->
+                                    <div class="radio radio-inline">
+<!--{eval $function_key = str_replace('enable', 'sitemap_function', $key);}-->
+                                        <input id="{$function_key}_{$option['value']}" name="{$function_key}_set" type="radio" value="{$option['key']}" {$current_set} />
+                                        <label for="{$function_key}_{$option['value']}" class="set-label radio-label">{$LANG['common'][$option['value']]}</label>
+                                    </div>
+<!--{/loop}-->
+                                </div>
+                                <div class="setting-list-description">
+                                    <p class="description-font">{$LANG['admin-seo'][$function_key.'_description']}</p>
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+<!--{/loop}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-seo']['sitemap_path']}</label>
+                                    <input class="setting-list-input" type="text" name="sitemap_path" maxlength="150" value="{$seo['sitemap']['sitemap_path']}" />
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-seo']['sitemap_path_description']}</p>
+                                </div>
+                                <div class="setting-note">
+                                    <span class="file_path">{$base_url}<span class="show_path"></span></span>
+                                </div>
+                                <div class="button">
+                                    <div class="button-font" id="sitemap_send">
+                                        <a class="button-link submit-link" href="javascript:void(0);">
+                                            <span>{$LANG['admin-seo']['generate_sitemap']}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="notification-box" style="margin-top: 1em">
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                $(document).ready(function() {
+                    var get_path = $('input[name=sitemap_path]').val();
+                    $('.setting-note>.file_path>.show_path').text('/'+get_path);
+                    //Check input change
+                    $('input[name=sitemap_path]').keyup(function() {
+                        var file_path = $(this).val();
+                        $('.setting-note>.file_path>.show_path').text('/'+file_path);
+                    });
+                    $('input[name=sitemap_path]').keydown(function() {
+                        var file_path = $(this).val();
+                        $('.setting-note>.file_path>.show_path').text('/'+file_path);
+                    });
+                });
+                </script>
+                <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#sitemap_send>a').click(function() {
+                        var seo_type = $('.type-select>.radio input:checked').attr('value');
+                        var get_current_path = $('input[name=sitemap_path]').val();
+                        $.ajax({
+                            url: 'admin.php?mod=seo',
+                            data: {'generate_sitemap': true, 'show_seo_type': seo_type, 'get_sitemap_path': get_current_path},
+                            type: 'POST',
+                            success: function(result) {
+                                if (result == 1) {
+                                    $('.notification-box').removeClass('warning');
+                                    $('.notification-box').addClass('success');
+                                    $('.notification-box>p').text("{$LANG['admin-seo']['generate_success']}");
+                                } else {
+                                    $('.notification-box').removeClass('success');
+                                    $('.notification-box').addClass('warning');
+                                    $('.notification-box>p').text("{$LANG['admin-seo']['generate_failed']}");
+                                }
+                                setTimeout(function() {
+                                    $('.notification-box').fadeOut(300)
+                                }, 2000);
+                            },
+                            error: function() {
+                                return false;
+                            }
+                        });
+                    });
+                });
+                </script>
+<!--{/if}-->
+<!--{/if}-->

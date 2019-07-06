@@ -1,85 +1,207 @@
-<script src="https://www.google.com/recaptcha/api.js?hl={$current_language}&onload=onloadCallback&render=explicit" type="text/javascript" async defer></script>
-<script type="text/javascript">
-var onloadCallback = function() {
-    grecaptcha.render("html_element", {
-        "sitekey": "{$siteKey}",
-        "theme": "white"
-    });
-};
-</script>
 <div class="signup_div">
     <div class="alert">
         <span id="checkbox"></span>
     </div>
     <form id="signup_form" action="./signup.php" method="post">
-        <input type="text" class="signup_input" name="username" id="username" placeholder="{$lang_username}" maxlength="20" />
-        <input type="password" class="signup_input" name="password" id="password" placeholder="{$lang_password}" maxlength="20" />
-        <input type="password" class="signup_input" name="pdr" id="pdr" placeholder="{$lang_confirm}" maxlength="20" />
-        <input type="text" class="signup_input" name="email" id="email" placeholder="{$lang_email}" maxlength="30" />
+        <input type="text" class="signup_input" name="display_name" id="display_name" placeholder="{$LANG['common']['display_name']}" maxlength="20" autocomplete="off" />
+        <div class="username-input">
+            <input type="text" class="signup_input no-bottom" name="username" id="username" placeholder="{$LANG['common']['username']}" maxlength="20" autocomplete="off" />
+            <div class="show-username">
+                <span id="show_username"></span>
+            </div>
+        </div>
+        <input type="password" class="signup_input" name="password" id="password" placeholder="{$LANG['common']['password']}" maxlength="20" autocomplete="off" />
+        <input type="password" class="signup_input" name="pdr" id="pdr" placeholder="{$LANG['common']['password_confirm']}" maxlength="20" autocomplete="off" />
+        <input type="text" class="signup_input signup-email" name="email" id="email" placeholder="{$LANG['common']['email']}" maxlength="80" autocomplete="off" />
+        <dir class="user_language_box">
+            <div class="user_language">
+                <span class="lang_label">Language: </span>
+                <select class="lang_select" name="user_lang">
+                    <option value="en_US">English</option>
+                    <option value="zh_TW">繁體中文</option>
+                    <option value="ja_JP">日本語</option>
+                    <option value="th_TH">Thai</option>
+                </select>
+            </div>
+        </dir>
+<!--{if isset($captcha['set']) && $captcha['set'] === true}-->
+<!--{if $captcha['type'] === 'simple_captcha'}-->
+        <div class="simple-captcha">
+            <img src="signup.php?rand=<?=rand();?>.jpg" id="captcha-image" ref="noopener">
+        </div>
+        <div class="captcha-refresh">
+            <p>{$LANG['common']['captcha_not_clear']}<a href="javascript: refreshCaptcha();"> {$LANG['common']['refresh']}</a></p>
+        </div>
+        <script type="text/javascript">
+        function refreshCaptcha() {
+            var img = document.getElementById('captcha-image');
+            var img_attr = img.getAttribute('src');
+            img.src = img_attr.substring(0, img_attr.lastIndexOf('?')) + '?rand=' + Math.random() * 1000;
+            document.getElementById('simple_captcha_valid').style.backgroundColor = '#ffffff';
+            document.getElementById('simple_captcha_valid').value = '';
+        }
+        </script>
+        <br />
+        <input type="text" class="signup_input" name="captcha_valid" id="simple_captcha_valid" placeholder="{$LANG['common']['captcha']}" autocomplete="off" />
+<!--{elseif $captcha['type'] === 'google_recaptcha'}-->
+<!--{if $siteKey !== false && $secretKey !== false}-->
+        <script src="https://www.google.com/recaptcha/api.js?hl={$LANG['common']['current_language']}&onload=onloadCallback&render=explicit" type="text/javascript" async defer></script>
+        <script type="text/javascript">
+        var onloadCallback = function() {
+            grecaptcha.render("html_element", {
+                "sitekey": "{$siteKey}",
+                "theme": "white"
+            });
+        };
+        </script>
         <div id="html_element"></div>
+<!--{/if}-->
+<!--{elseif $captcha['type'] === 'svg_captcha'}-->
+        <div id="error"></div>
+        <div id="svg_captcha"></div>
+        <div class="captcha-refresh">
+            <p>{$LANG['common']['captcha_not_clear']}<a href="javascript: refreshCaptcha();"> {$LANG['common']['refresh']}</a></p>
+        </div>
+        <script type="text/javascript">
+        function refreshCaptcha() {
+            $("#svg_captcha").load('signup.php?svg_rand='+ Math.random() * 1000, function(response, status, xhr) {
+                document.getElementById('svg_captcha_valid').style.backgroundColor = '#ffffff';
+                document.getElementById('svg_captcha_valid').value = '';
+            });
+        };
+        $(window).on('load', refreshCaptcha);
+        </script>
+        <br />
+        <input type="text" class="signup_input" name="captcha_valid" id="svg_captcha_valid" placeholder="{$LANG['common']['captcha']}" autocomplete="off" />
+<!--{/if}-->
+<!--{/if}-->
         <div class="signup_submit">
-          <button type="submit" name="submit">{$lang_signup}</button>
+          <button type="submit" name="submit">{$LANG['common']['signup']}</button>
         </div>
     </form>
+<!--{if $social_login['set'] === true}-->
+    <div class="social_login_title">
+        <h3>{$LANG['common']['login_with_social']}</h3>
+    </div>
+    <div class="social_login">
+        <div class="social_login_box">
+            <a href="./login.php?login_with=github" title="Login with GitHub" class="social_login_link" rel="noopener noreferrer">
+                <img class="social_login_img" src="{$base_url}/static/icon/login_github_button.svg" alt="Login With Github" />
+            </a>
+        </div>
+    </div>
+<!--{/if}-->
     <div class="horizon"></div>
     <div class="signup_link">
-        <span>{$lang_have_account} </span>
-        <a href="./login.php">{$lang_login}</a>
+        <span>{$LANG['common']['have_account']} </span>
+        <a href="./login.php">{$LANG['common']['login']}</a>
     </div>
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
     $("#signup_form").submit(function() {
+        var display_name = $('#display_name').val();
         var username = $('#username').val();
         var password1 = $('#password').val();
         var password2 = $('#pdr').val();
         var email_input = $('#email').val();
-        var regex = new RegExp("^[A-Za-z0-9]+$");
+        var regex = new RegExp("^[A-Za-z0-9_!@#$%^&*]+$");
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (username == '') {
-            alert('{$lang_username_empty}');
+        if (display_name == '') {
+            alert('{$LANG['common']['display_name_empty']}');
             return false;
-        } else if (username.length < 2) {
-            alert('{$lang_username_length}');
+        } else if (username == '') {
+            alert('{$LANG['common']['username_empty']}');
             return false;
-        }else if (password1 == '' || password2 == '') {
-            alert('{$lang_password_empty}');
+        } else if (username.length < 3) {
+            alert('{$LANG['common']['username_length']}');
+            return false;
+        } else if (!regex.test(username)) {
+            alert('{$LANG['common']['username_rule']}');
+            return false;
+        } else if (password1 == '' || password2 == '') {
+            alert('{$LANG['common']['password_empty']}');
             return false;
         } else if (password1 != password2) {
-            alert('{$lang_repassword_error}');
+            alert('{$LANG['common']['repassword_error']}');
             return false;
         } else if (password1.length < 8 || password2.length < 8 || !regex.test(password1) || !regex.test(password2)) {
-            alert('{$lang_password_rule}');
+            alert('{$LANG['common']['password_rule']}');
             document.getElementById('password').value = "";
             document.getElementById('pdr').value = "";
             return false;
         } else if (email == '') {
-            alert('{$lang_email_empty}');
+            alert('{$LANG['common']['email_empty']}');
             return false;
         } else if (!re.test(email_input)) {
-            alert('{$lang_email_format_error}');
+            alert('{$LANG['common']['email_format_error']}');
+            return false;
+        } else if (email.length >= 80) {
+            alert('{$LANG['common']['email_length_error']}');
             return false;
         }
         return true;
     });
 
-    $('#username').blur(function() {
-        var username = $('#username').val();
-        $.get("./signup.php", {check_username: username}, function(data) {
-            if (data == 1) {
-                $('#checkbox').html("<span style='color: red'>{$lang_duplicate_username}</span>");
-                return false;
-            } else if (username == '') {
-                $('#checkbox').html("<span style='color: red'>{$lang_username_empty}</span>");
-                return false;
-            } else if (username.length < 2) {
-                $('#checkbox').html("<span style='color: red'>{$lang_username_length}</span>");
-                return false;
+    $('#display_name').blur(function() {
+        var display_name = $('#display_name').val();
+        if (display_name == '') {
+            $('#checkbox').html("<span style='color: red'>{$LANG['common']['display_name_empty']}</span>");
+            return false;
+        } else if (display_name.length < 2) {
+            $('#checkbox').html("<span style='color: red'>{$LANG['common']['display_name_length']}</span>");
+            return false;
+        } else {
+            $('#checkbox').html("");
+            return true;
+        }
+    });
+
+    $('#username').on('keyup keypress blur change', function(event) {
+        var regex = new RegExp("^[A-Za-z0-9_]+$");
+        var username = $('#username').val().split(' ').join('_');
+        if (!regex.test(username)) {
+            $('#show_username').html('&commat;'+username.replace(/[^a-zA-Z0-9_]+/g, ""));
+            if (username != '') {
+                $('.username-input').css('margin-bottom', '0.5em');
             } else {
-                $('#checkbox').html("");
-                return true;
+                $('#show_username').html('');
+                $('.username-input').css('margin-bottom', '1em');
             }
-        });
+        } else {
+            $('#show_username').html('&commat;'+username);
+            if (username != '') {
+                $('.username-input').css('margin-bottom', '0.5em');
+            } else {
+                $('#show_username').html('');
+                $('.username-input').css('margin-bottom', '1em');
+            }
+        }
+    });
+
+    $('#username').blur(function() {
+        var regex = new RegExp("^[A-Za-z0-9_]+$");
+        var username = $('#username').val();
+        if (username == '') {
+            $('#checkbox').html("<span style='color: red'>{$LANG['common']['username_empty']}</span>");
+            return false;
+        } else if (username.length < 2) {
+            $('#checkbox').html("<span style='color: red'>{$LANG['common']['username_length']}</span>");
+            return false;
+        } else if (!regex.test(username)) {
+            $('#checkbox').html("<span style='color: red'>{$LANG['common']['username_rule']}</span>");
+            return false;
+        } else {
+            $.get('./signup.php', {check_username: username}, function(data) {
+                if (data == false) {
+                    $('#checkbox').html("<span style='color: red'>{$LANG['common']['duplicate_username']}</span>");
+                    return false;
+                } else {
+                    $('#checkbox').html("");
+                    return true;
+                }
+            });
+        }
     });
 
     $("#password").blur(function() {
@@ -89,7 +211,7 @@ $(document).ready(function() {
             $('#checkbox').html("<span style='color: red'>Word Count : 20</span>");
             return false;
         } else if (password == '') {
-            $('#checkbox').html("<span style='color: red'>{$lang_password_empty}</span>");
+            $('#checkbox').html("<span style='color: red'>{$LANG['common']['password_empty']}</span>");
             return false;
         } else {
             $('#checkbox').html("");
@@ -97,11 +219,11 @@ $(document).ready(function() {
         }
     });
 
-    $("#admin_psw_confirm").blur(function() {
-        var password1 = $('#admin_psw').val();
-        var password2 = $('#admin_psw_confirm').val();
+    $("#pdr").blur(function() {
+        var password1 = $('#password').val();
+        var password2 = $('#pdr').val();
         if (password1 !== password2) {
-            $('#checkbox').html("<span style='color: red'>{$lang_repassword_error}</span>");
+            $('#checkbox').html("<span style='color: red'>{$LANG['common']['repassword_error']}</span>");
             return false;
         } else {
             $('#checkbox').html("");
@@ -116,18 +238,44 @@ $(document).ready(function() {
 
     $('#email').blur(function() {
         var email = $('#email').val();
-        $.get("./signup.php", {check_email: email}, function(data) {
-            if (data == 1) {
-                $('#checkbox').html("<span style='color: red'>{$lang_duplicate_email}</span>");
+        $.get('./signup.php', {check_email: email}, function(data) {
+            if (data == false) {
+                $('#checkbox').html("<span style='color: red'>{$LANG['common']['duplicate_email']}</span>");
                 return false;
             } else if (email == '') {
-                $('#checkbox').html("<span style='color: red'>{$lang_email_empty}</span>");
+                $('#checkbox').html("<span style='color: red'>{$LANG['common']['email_empty']}</span>");
                 return false;
             } else if (!isValidEmailAddress(email)) {
-                $('#checkbox').html("<span style='color: red'>{$lang_email_format_error}</span>");
+                $('#checkbox').html("<span style='color: red'>{$LANG['common']['email_format_error']}</span>");
                 return false;
             } else {
                 $('#checkbox').html("");
+                return true;
+            }
+        });
+    });
+
+    $('#simple_captcha_valid').blur(function() {
+        var simple_captcha_valid = $('#simple_captcha_valid').val();
+        $.post('./signup.php', {check_simple_captcha: simple_captcha_valid}, function(data) {
+            if (data == 0) {
+                $('#simple_captcha_valid').css('background-color', '#f3000038');
+                return false;
+            } else {
+                $('#simple_captcha_valid').css('background-color', '#0080004a');
+                return true;
+            }
+        });
+    });
+
+    $('#svg_captcha_valid').blur(function() {
+        var svg_captcha_valid = $('#svg_captcha_valid').val();
+        $.post('./signup.php', {check_svg_captcha: svg_captcha_valid}, function(data) {
+            if (data == 0) {
+                $('#svg_captcha_valid').css('background-color', '#f3000038');
+                return false;
+            } else {
+                $('#svg_captcha_valid').css('background-color', '#0080004a');
                 return true;
             }
         });

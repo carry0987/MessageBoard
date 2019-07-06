@@ -1,0 +1,76 @@
+<!--{if isset($show_category) && $show_category === true}-->
+    <fieldset class="breadcrumb">
+        <ol class="crumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="crust" itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
+                <a href="{$base_url}" class="crumb" itemtype="https://schema.org/Thing" itemprop="item">
+                    <span class="crumb-img" itemprop="name">
+                        <span class="main-name">{$meta['name']}</span>
+                        <img class="breadcrumb-img" src="{$base_url}/static/icon/home.svg" alt="Home" />
+                    </span>
+                </a>
+                <span class="arrow"><span></span></span>
+                <meta itemprop="position" content="1" />
+            </li>
+            <li class="crust" itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem">
+                <a href="{$base_url}/category.php?cid={$category_id}" class="crumb" itemtype="https://schema.org/Thing" itemprop="item">
+                    <span class="crumb-category" itemprop="name">{$category_name}</span>
+                </a>
+                <meta itemprop="position" content="2" />
+            </li>
+        </ol>
+    </fieldset>
+<!--{/if}-->
+<!--{if isset($show_category) && $show_category === true}-->
+    <div class="category">
+        <a class="category-name" href="./category.php?cid={$category_id}">
+            <span>{$category_name}</span>
+        </a>
+        <div class="total-board">
+            <span>{$LANG['common']['total_board']}:<span class="total-board">{$total_board}</span></span>
+        </div>
+        <div class="category-description">
+            <span>{$category_description}</span>
+        </div>
+        <div class="category-board-list">
+            <div class="category-board-title">
+                <span>{$LANG['common']['board_list']}</span>
+            </div>
+            <div class="category-board-name">
+                <ol>
+<!--{if isset($board)}-->
+<!--{loop $board $boards}-->
+                    <li class="category-board-li">
+                        <div class="category-board-box">
+                            <span class="board-box-name">
+                                <a href="./board.php?bid={$boards['bid']}" target="_blank" rel="noopener noreferrer">
+                                    <span>{$boards['board_name']}</span>
+                                </a>
+                            </span>
+                            <span class="description">
+                                <p class="p1">{$boards['board_description']}</p>
+                            </span>
+                            <p class="p2">{$boards['create_date']}</p>
+                        </div>
+                    </li>
+<!--{/loop}-->
+<!--{if count($board) % 2 !== 0}-->
+                    <li class="category-hide"></li>
+<!--{/if}-->
+<!--{/if}-->
+                </ol>
+            </div>
+        </div>
+<!--{if $total_board == 0}-->
+        <div class="board">
+            <div class="novalue">
+                <a>{$LANG['common']['index_content_empty']}</a>
+            </div>
+        </div>
+<!--{/if}-->
+    </div>
+    </div>
+<!--{else}-->
+    <div class="novalue" style="margin-top: 1em;">
+        <a>{$LANG['common']['category_not_exist']}</a>
+    </div>
+<!--{/if}-->

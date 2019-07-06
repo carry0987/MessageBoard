@@ -1,0 +1,283 @@
+@charset "UTF-8";
+
+/* RWD Table view */
+.chart table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.chart table caption {
+    font-size: 1.5em;
+    margin: .25em 0 .75em;
+}
+
+.chart table tr {
+    background-color: #fbfbfb;
+    border: 1px solid #ddd;
+    padding: .35em;
+}
+
+.chart thead>tr {
+    background-color: #e5f5ff;
+}
+
+.chart table th {
+    line-height: 21.25px;
+}
+
+.chart table th,
+.chart table td {
+    padding: .625em;
+    text-align: center;
+}
+
+.chart .table-list-style .list-block {
+    text-overflow: ellipsis;
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 85px;
+    margin: 0px auto;
+    padding: 0px 5px;
+}
+
+.chart .table-list-style .list-block-date {
+    text-overflow: ellipsis;
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 85px;
+    margin: 0px auto;
+}
+
+.chart .table-list-style .list-block-min {
+    text-overflow: ellipsis;
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 55px;
+    margin: 0px auto;
+}
+
+.chart .table-list-style .description {
+    min-height: 17.5px;
+    text-overflow: ellipsis;
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 200px;
+    margin: 0px auto;
+}
+
+.chart td>a,
+.chart .table-list-style a {
+    font-weight: bold;
+    line-height: 1px;
+    color: #4993C5;
+    text-decoration: none;
+}
+
+.chart .table-list-style span  {
+    line-height: 1px;
+}
+
+.chart td>a:hover,
+.chart .table-list-style a:hover {
+    color: #656565;
+    text-decoration: underline;
+}
+
+.chart .data-block {
+    border: none;
+}
+
+.chart .data-block tbody tr {
+    background-color: #FFFFFF;
+    border: none;
+}
+
+.chart .data-block tbody tr:first-child td {
+    padding: .625em 0em .625em 0em;
+}
+
+.chart .data-block th {
+    padding: .625em 0em;
+    line-height: 21.25px;
+}
+
+.chart .data-block th:first-child {
+    line-height: normal;
+}
+
+.chart .data-block td {
+    padding: 0em 0em .625em 0em;
+}
+
+.chart .table-date {
+    width: 10%;
+    max-width: 15%;
+    overflow: hidden;
+    font-size: 1em;
+}
+
+.chart .data-block tr .table-block>div {
+    padding: 0.75em 0em;
+    border-style: solid;
+    border-color: #ddd;
+    border-width: 1px 0;
+}
+
+.chart .data-block tr td .checkbox-node {
+    padding: 0.6em 0em;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-width: 1px 0px 1px 1px;
+}
+
+.chart .data-block tr td .data-list-action {
+    padding: 0.55em 0em;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-width: 1px 1px 1px 0px;
+}
+
+.chart table th {
+    font-size: 1em;
+    letter-spacing: normal;
+    text-transform: uppercase;
+}
+
+.chart table td img {
+    text-align: center;
+}
+
+@media screen and (max-width: 1024px) {
+    .chart .table-list-style .list-block {
+        max-width: 125px;
+    }
+
+    .chart .table-list-style .list-block-date {
+        max-width: 120px;
+    }
+
+    .chart .table-list-style .list-block-min {
+        max-width: 75px;
+    }
+
+    .chart .table-list-style .description {
+        max-width: 200px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .chart .table-list-style .list-block {
+        max-width: 180px;
+    }
+
+    .chart .table-list-style .list-block-date {
+        max-width: 150px;
+    }
+
+    .chart .table-list-style .list-block-min {
+        max-width: 95px;
+    }
+
+    .chart .table-list-style .description {
+        max-width: 200px;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .chart table {
+        border: 0;
+    }
+
+    .chart table caption {
+        font-size: 1.3em;
+    }
+
+    .chart table thead {
+        display: none;
+    }
+
+    .chart table tr {
+        display: block;
+        margin-bottom: .625em;
+    }
+
+    .chart table tr:last-child {
+        margin-bottom: 0em;
+    }
+
+    .chart table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+
+    .chart table td:before {
+        content: attr(data-label);
+        letter-spacing: 0.5px;
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-right: 10px;
+    }
+
+    .chart table td:last-child {
+        border-bottom: 0;
+    }
+
+    .chart .table-date {
+        width: auto;
+        max-width: initial;
+        font-size: .8em;
+    }
+
+    .chart .data-block tr {
+        background-color: #e5f5ff;
+        border: 1px solid #ddd;
+        padding: .35em;
+    }
+
+    .chart .data-block tbody tr {
+        background-color: #fbfbfb;
+        border: 1px solid #ccc;
+    }
+
+    .chart .data-block th,
+    .chart .data-block td {
+        padding: .625em;
+    }
+
+    .chart .data-block tr .table-block>div {
+        padding: 0em;
+        border: none;
+    }
+
+    .chart .data-check-td {
+        display: none;
+    }
+
+    .chart .table-list-style .list-block,
+    .chart .table-list-style .list-block-date,
+    .chart .table-list-style .list-block-min,
+    .chart .table-list-style .description {
+        min-height: 1em;
+        width: auto;
+        padding-left: 0px;
+        margin: 0px 0px 0px auto;
+    }
+
+    .chart .table-list-style .list-block-date {
+        max-width: initial;
+    }
+
+    .chart .table-list-style .list-block-min {
+        max-width: initial;
+    }
+}

@@ -1,0 +1,120 @@
+<!--{if isset($upload['type'])}-->
+                <div class="title setting-title">
+                    <span>{$LANG['common']['setting']}</span>
+                </div>
+<!--{if $upload['type'] === 'local'}-->
+                <div class="chart">
+                    <div class="setting-list">
+                        <form action="admin.php?update=upload_setting" method="post" name="upload_setting">
+                            <input type="text" name="upload_type" value="{$upload['type']}" hidden="hidden">
+<!--{loop $upload_option $option['title'] $option['value']}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-upload'][$option['title']]}</label>
+<!--{if $option['title'] === 'allowed_ext' || $option['title'] === 'disallowed_ext'}-->
+                                    <textarea id="{$option['title']}" class="setting-input-min" type="text" name="{$option['title']}" rows="3" cols="25" maxlength="300">{$option['value']}</textarea>
+                                </div>
+                                <div class="setting-list-description" style="display: block;">
+                                    <p>{$LANG['admin-upload'][$option['title'].'_description']}</p>
+                                </div>
+<!--{else}-->
+                                    <input id="{$option['title']}" class="setting-list-input" type="text" name="{$option['title']}" maxlength="{$maxInput[$option['title']]}" value="{$option['value']}" />
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-upload'][$option['title'].'_description']}</p>
+                                </div>
+<!--{/if}-->
+                            </div>
+                            <div class="horizon"></div>
+<!--{/loop}-->
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+<!--{elseif $upload['type'] === 'remote'}-->
+                <div class="chart">
+                    <div class="setting-list">
+                        <form action="admin.php?update=upload_setting" method="post" name="upload_setting" id="upload_setting">
+                            <input type="text" name="upload_type" value="{$upload['type']}" hidden="hidden">
+<!--{loop $upload_option $option['title'] $option['value']}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+<!--{if $option['title'] === 'use_ssl' || $option['title'] === 'pasv'}-->
+<!--{eval $enable = ($option['value'] === 1) ? 'checked="checked"' : '';}-->
+<!--{eval $disable = ($option['value'] === 0) ? 'checked="checked"' : '';}-->
+                                    <label class="setting-list-title">{$LANG['admin-upload'][$option['title']]}</label>
+                                    <div class="type-list-box">
+                                        <div class="radio radio-inline">
+                                            <input id="{$option['title']}_enable" name="{$option['title']}" type="radio" value="1" {$enable} />
+                                            <label for="{$option['title']}_enable" class="set-label radio-label">{$LANG['common']['enable']}</label>
+                                        </div>
+                                        <div class="radio radio-inline">
+                                            <input id="{$option['title']}_disable" name="{$option['title']}" type="radio" value="0" {$disable} />
+                                            <label for="{$option['title']}_disable" class="set-label radio-label">{$LANG['common']['disable']}</label>
+                                        </div>
+                                        <div class="setting-list-description">
+                                            <p>{$LANG['admin-upload'][$option['title'].'_description']}</p>
+                                        </div>
+                                    </div>
+<!--{else}-->
+                                    <label for="{$option['title']}" class="setting-list-title">{$LANG['admin-upload'][$option['title']]}</label>
+<!--{if $option['title'] === 'allowed_ext' || $option['title'] === 'disallowed_ext'}-->
+                                    <textarea id="{$option['title']}" class="setting-input-min" type="text" name="{$option['title']}" rows="3" cols="25" maxlength="300">{$option['value']}</textarea>
+                                </div>
+                                <div class="setting-list-description" style="display: block;">
+                                    <p>{$LANG['admin-upload'][$option['title'].'_description']}</p>
+                                </div>
+<!--{elseif $option['title'] === 'ftp_pw'}-->
+                                    <input id="{$option['title']}" class="setting-list-input" type="password" name="{$option['title']}" maxlength="{$maxInput[$option['title']]}" value="{$option['value']}" autocomplete="new-password" />
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-upload'][$option['title'].'_description']}</p>
+                                </div>
+<!--{else}-->
+                                    <input id="{$option['title']}" class="setting-list-input" type="text" name="{$option['title']}" maxlength="{$maxInput[$option['title']]}" value="{$option['value']}" />
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-upload'][$option['title'].'_description']}</p>
+                                </div>
+<!--{/if}-->
+<!--{/if}-->
+                            </div>
+                            <div class="horizon"></div>
+<!--{/loop}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-upload']['test_upload']}</label>
+                                    <button class="setting-list-test" type="button" id="testFTP">{$LANG['common']['test']}</button>
+                                    <div class="loading" style="display: none;">
+                                        <img src="{$base_url}/static/icon/loading_spin.svg" />
+                                    </div>
+                                </div>
+                                <div class="notification-box" style="margin: 0.5em 0em 0em 0em">
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+<!--{/if}-->
+<!--{/if}-->
+                <script type="text/javascript">
+                $('#testFTP').on('click', function() {
+                    var values = {};
+                    var data = {};
+                    $.each($('#upload_setting').serializeArray(), function(i, field) {
+                        values[field.name] = field.value;
+                    });
+                    data['values'] = values;
+                    data['url'] = 'admin.php?update=upload_setting';
+                    data['success'] = "{$LANG['common']['test_success']}";
+                    data['failed'] = "{$LANG['common']['test_failed']}";
+                    testFTP(data);
+                });
+                </script>

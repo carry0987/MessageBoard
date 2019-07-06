@@ -171,7 +171,8 @@ div.sceditor-grip {
   color: #333;
   line-height: 1;
   font-weight: bold;
-  height: 250px;
+  height: 150px;
+  min-height: 150px;
   border-radius: 4px;
   background-clip: padding-box;
 }
@@ -368,6 +369,7 @@ div.sceditor-more-emoticons {
 }
 .sceditor-emoticons img,
 .sceditor-more-emoticons img {
+  width: 30px;
   padding: 0;
   cursor: pointer;
   margin: 2px;
@@ -527,4 +529,11 @@ div.sceditor-group {
 .rtl div.sceditor-grip {
   right: auto;
   left: 0;
+}
+
+@media screen and (min-width: 280px) and (max-width: 680px) {
+    .sceditor-container {
+        height: 260px;
+        min-height: 230px;
+    }
 }

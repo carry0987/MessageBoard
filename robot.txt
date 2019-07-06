@@ -1,0 +1,14 @@
+#
+# robots.txt for MessageBoard v2.0.0
+#
+
+User-agent: *
+Disallow: /config/
+Disallow: /data/
+Disallow: /install/
+Disallow: /language/
+Disallow: /source/
+Disallow: /template/
+Disallow: /admin.php
+Disallow: /member.php
+Disallow: /logout.php

@@ -1,0 +1,26 @@
+<?php
+$LANG['admin-email'] = array(
+    'email_type' => '寄送方式',
+    'localhost' => '本地伺服器',
+    'smtp' => 'Gmail SMTP',
+    'email_test' => '郵件測試',
+    'send_test_email' => '發送測試信件',
+    'send_to' => '發送至',
+    'test_success' => '測試成功',
+    'test_failed' => '測試失敗',
+    'charset' => '編碼',
+    'charset_description' => '信件編碼，預設為UTF-8',
+    'send_from' => '信件來源',
+    'send_from_description' => '信件來源，預設為admin&commat;{web_url}',
+    'send_name' => '寄送者名稱',
+    'send_name_description' => '寄送者名稱，預設為{web_name}',
+    'smtp_send_name' => 'SMTP 寄送者名稱',
+    'smtp_send_name_description' => 'SMTP 寄送者名稱，預設為Admin',
+    'smtp_host' => 'SMTP 伺服器',
+    'smtp_host_description' => 'SMTP 伺服器，預設為smtp.google.com',
+    'smtp_user' => 'SMTP 使用者名稱',
+    'smtp_user_description' => 'SMTP 使用者名稱，即您的Gmail帳號',
+    'smtp_pw' => 'SMTP 密碼',
+    'smtp_pw_description' => 'SMTP 密碼，注意並非您的Gmail密碼，而是應用程式密碼',
+    'smtp_pw_url' => '您可以於{app_pw_url}申請'
+);

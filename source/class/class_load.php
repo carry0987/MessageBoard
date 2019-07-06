@@ -1,6 +1,7 @@
 <?php
 class Load
 {
+    private $files;
     public function loadClass()
     {
         $this->files = func_get_args();
@@ -17,11 +18,19 @@ class Load
         }
     }
 
-    public function loadInclude()
+    public function loadAjax()
     {
         $this->files = func_get_args();
         foreach ($this->files as $file) {
-            require dirname(dirname(__FILE__))."/include/include_$file.php";
+            require dirname(dirname(__FILE__))."/ajax/ajax_$file.php";
+        }
+    }
+
+    public function loadSocialClass()
+    {
+        $this->files = func_get_args();
+        foreach ($this->files as $file) {
+            require dirname(dirname(__FILE__))."/social/social_$file.php";
         }
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 48 48" style="enable-background:new 0 0 1000 1000;" xmlns="http://www.w3.org/2000/svg">
+    <style type="text/css">
+    .st0 {
+        fill: none;
+    }
+
+    .st1 {
+        clip-path: url(#SVGID_2_);
+        fill: #335792;
+    }
+    </style>
+    <title>Login With Facebook</title>
+    <rect x="248.6" y="315" class="st0" width="553.4" height="377.9" />
+    <g transform="matrix(0.054385, 0, 0, 0.054385, -3.284842, -5.079538)">
+        <defs>
+            <rect id="SVGID_1_" x="60.4" y="93.4" width="882.6" height="882.6" />
+        </defs>
+        <clipPath id="SVGID_2_">
+            <rect id="" x="60.4" y="93.4" width="882.6" height="882.6" transform="matrix(1, 0, 0, 1, 0, 0)" style="overflow: visible;" />
+        </clipPath>
+        <path class="st1" d="M609.2,534.9h-70.4v251.7H434.6V534.9H385v-88.9h49.6v-57.5c0-41.2,19.5-105.6,105.2-105.6l77.2,0.3v86.3H561 c-9.1,0-22.1,4.6-22.1,24.2v52.3h79.5L609.2,534.9z M501.7,93.4c-243.7,0-441.3,197.6-441.3,441.3S257.9,976,501.7,976 S943,778.4,943,534.7S745.4,93.4,501.7,93.4" />
+    </g>
+</svg>

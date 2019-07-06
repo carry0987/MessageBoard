@@ -1,0 +1,17 @@
+<div class="error-box">
+    <div class="error-inbox">
+        <div class="error-icon">
+            <img src="{$base_url}/static/icon/error.svg" alt="Error" />
+        </div>
+        <div class="error-info">
+            <span>{$LANG['common']['user_banned']}</span>
+        </div>
+        <div class="error-back">
+            <!--{if isset($back['bid'])}-->
+            <span><a href="{$base_url}/board.php?bid={$back['bid']}">{$LANG['common']['back_page']}</a></span>
+            <!--{elseif isset($back['aid'])}-->
+            <span><a href="{$base_url}/article.php?aid={$back['aid']}">{$LANG['common']['back_page']}</a></span>
+            <!--{/if}-->
+        </div>
+    </div>
+</div>

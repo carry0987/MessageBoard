@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+    <title>User Icon</title>
+    <style type="text/css">
+    .st0 {
+        fill: #FFFFFF;
+    }
+    </style>
+    <path class="st0" d="M416,320h-32c-35.344,0-64-28.656-64-64v-4.031c29-34.219,48-85.922,48-123.969C368,66.141,352,0,256,0S144,66.141,144,128
+    c0,38.047,19.016,89.734,48,123.953V256c0,35.344-28.656,64-64,64H96c0,0-58,16-96,96v64c0,17.688,14.313,32,32,32h448
+    c17.688,0,32-14.313,32-32v-64C474,336,416,320,416,320z" />
+</svg>

@@ -1,0 +1,119 @@
+<!--{if isset($captcha['type'])}-->
+                <div class="title setting-title">
+                    <span>{$LANG['common']['setting']}</span>
+                </div>
+<!--{if $captcha['type'] === 'simple_captcha'}-->
+                <div class="chart">
+                    <div class="setting-list">
+                        <form action="admin.php?update=captcha_setting" method="post" name="captcha_setting">
+                            <input type="text" name="captcha_type" value="{$captcha['type']}" hidden="hidden">
+<!--{loop $captcha_option $option['title'] $option['value']}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-captcha'][$option['title']]}</label>
+                                    <input class="setting-list-input" type="text" name="{$option['title']}" maxlength="50" value="{$option['value']}" />
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-captcha'][$option['title'].'_description']}</p>
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+<!--{/loop}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-captcha']['check_sensitive']}</label>
+                                    <div class="type-list-box sensitive-set">
+<!--{loop $check_sensitive $sensitive['key'] $sensitive['value']}-->
+<!--{eval $current_sensitive = ($sensitive['key'] === $simpleCaptcha['check_sensitive']) ? 'checked="checked"' : '';}-->
+                                        <div class="radio radio-inline">
+                                            <input id="sensitive_{$sensitive['value']}" name="sensitive_set" type="radio" value="{$sensitive['key']}" {$current_sensitive} />
+                                            <label for="sensitive_{$sensitive['value']}" class="set-label radio-label">{$LANG['common'][$sensitive['value']]}</label>
+                                        </div>
+<!--{/loop}-->
+                                    </div>
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-captcha']['check_sensitive_description']}</p>
+                                </div>
+                                <div class="horizon"></div>
+                            </div>
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+<!--{elseif $captcha['type'] === 'google_recaptcha'}-->
+                <div class="chart">
+                    <div class="setting-list">
+<!--{block lang_param['recaptcha_url']}-->
+    <a href="https://www.google.com/recaptcha" class="link" target="_blank" rel="noopener noreferrer">{$LANG['common']['here']}</a>
+<!--{/block}-->
+                        <div class="notification-box announce">
+                            <p>{lang $LANG['admin-captcha']['recaptcha_description'] $lang_param}</p>
+                        </div>
+                        <form action="admin.php?update=captcha_setting" method="post" name="captcha_setting">
+                            <input type="text" name="captcha_type" value="{$captcha['type']}" hidden="hidden">
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-captcha']['recaptcha_siteKey']}</label>
+                                    <input class="setting-list-input" type="text" name="site_key" maxlength="60" value="{$reCaptcha['site_key']}" />
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-captcha']['recaptcha_secretKey']}</label>
+                                    <input class="setting-list-input" type="text" name="secret_key" maxlength="60" value="{$reCaptcha['secret_key']}" />
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+<!--{elseif $captcha['type'] === 'svg_captcha'}-->
+                <div class="chart">
+                    <div class="setting-list">
+                        <form action="admin.php?update=captcha_setting" method="post" name="captcha_setting">
+                            <input type="text" name="captcha_type" value="{$captcha['type']}" hidden="hidden">
+<!--{loop $captcha_option $option['title'] $option['value']}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-captcha'][$option['title']]}</label>
+                                    <input class="setting-list-input" type="text" name="{$option['title']}" maxlength="4" value="{$option['value']}" />
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-captcha'][$option['title'].'_description']}</p>
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+<!--{/loop}-->
+                            <div class="setting-option">
+                                <div class="setting-list-box">
+                                    <label class="setting-list-title">{$LANG['admin-captcha']['difficulty']}</label>
+                                    <div class="type-list-box difficulty-set">
+<!--{loop $svg_difficulty $difficulty['key'] $difficulty['value']}-->
+<!--{eval $current_difficulty = ($difficulty['key'] === $svgCaptcha['difficulty']) ? 'checked="checked"' : '';}-->
+                                        <div class="radio radio-inline">
+                                            <input id="{$difficulty['value']}" name="difficulty_set" type="radio" value="{$difficulty['key']}" {$current_difficulty} />
+                                            <label for="{$difficulty['value']}" class="set-label radio-label">{$LANG['admin-captcha'][$difficulty['value']]}</label>
+                                        </div>
+<!--{/loop}-->
+                                    </div>
+                                </div>
+                                <div class="setting-list-description">
+                                    <p>{$LANG['admin-captcha']['difficulty_description']}</p>
+                                </div>
+                            </div>
+                            <div class="horizon"></div>
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+<!--{/if}-->
+<!--{/if}-->

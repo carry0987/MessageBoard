@@ -1,85 +1,168 @@
 <body>
     <div id="main">
-        <div class="login_user">
+        <div class="login-user">
             <ul>
                 <li>
-                    <a class="login_menu" href="{$base_url}/" rel="nofollow">
+                    <a class="login-menu" href="{$base_url}/" rel="nofollow">
                         <span>{$meta['name']}</span>
+                        <img class="home-icon" src="{$base_url}/static/icon/homepage.svg" alt="Home Icon" />
                     </a>
                 </li>
-                <li>
-                    <a class="login_menu login_username" href="{$base_url}/member.php?uid={$_GET['uid']}" rel="nofollow">
-                        <span>{$member_name}</span>
+                <!--{if $login['uid'] !== false}-->
+                <li class="setting">
+                    <a class="setting-link" href="{$base_url}">
+                        <img class="setting-icon" src="{$base_url}/static/icon/setting.svg" alt="Setting" />
                     </a>
                 </li>
-                <li>
-                    <a class="notification" href="{$base_url}">
-                        <img class="notification_icon" src="{$base_url}/static/icon/notification.svg" alt="Notification" />
+                <li class="notification">
+                    <a id="notif_box" class="notification-link" href="javascript:void(0);">
+                        <img class="notification-icon" src="{$base_url}/static/icon/notification-envelope.svg" alt="Notification" />
+                        <span class="notification-count"></span>
+                    </a>
+                    <div id="notif_wrapper">
+                        <div id="notificationTitle">
+                            <span>{$LANG['common']['notification']}</span>
+                        </div>
+                        <div id="notificationsBody" class="notifications">
+                            <ol></ol>
+                            <div class="notif-loading">
+                                <img src="static/icon/loading_spin.svg" />
+                            </div>
+                        </div>
+                        <div id="notificationFooter">
+                            <a href="#">{$LANG['common']['see_all']}</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="login-username">
+                    <a class="login-menu" href="{$base_url}/member.php?uid={$_GET['uid']}" rel="nofollow">
+                        <span>{$member['row']['username']}</span>
+                        <img class="user-icon" src="{$base_url}/static/icon/user.svg" alt="User Icon" />
                     </a>
                 </li>
+                <!--{else}-->
+                <li class="login-li">
+                    <a class="login-menu" href="{$base_url}/signup.php" rel="nofollow">
+                        <span>{$LANG['common']['signup']}</span>
+                    </a>
+                </li>
+                <li class="login-li">
+                    <a class="login-menu" href="{$base_url}/login.php" rel="nofollow">
+                        <span>{$LANG['common']['login']}</span>
+                    </a>
+                </li>
+                <!--{/if}-->
             </ul>
         </div>
+        <!--{if $login['uid'] !== false}-->
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function(event) {
+            //Get new notification
+            autoCheckNotif('{$base_url}/index.php');
+            var get_time = setInterval(function() {
+                autoCheckNotif('{$base_url}/index.php');
+            }, 5000);
+        });
+        </script>
+        <!--{/if}-->
         <div id="header">
-            <div class="image">
-                <img src="{$base_url}/static/icon/default_avatar.svg" />
-            </div>
-            <div class="name">
-                <span>{$member_name}</span>
-                <br />
-<!--{if $member_admin == true}-->
-                <span>{$lang_admin}</span>
-<!--{elseif $member_admin == false}-->
-                <span>{$lang_member}</span>
-<!--{/if}-->
-            </div>
-            <div class="user_detail">
-                <dl class="user_joined">
-                    <dt>{$lang_join_date}：</dt>
-                    <dd>{$member_join_date}</dd>
+            <div class="profile-header" itemscope itemtype="http://schema.org/Person">
+                <img class="avatar" src="{$base_url}/static/icon/default_avatar.svg" itemprop="image" />
+                <a href="{$base_url}/member.php?uid={$_GET['uid']}" itemprop="url" style="display: none;"></a>
+                <div class="name">
+                    <h1 class="display-name" itemprop="name">{$member['row']['display_name']}</h1>
+                    <h3 class="username" itemprop="additionalName">&commat;{$member['row']['username']}</h3>
+                </div>
+                <dl class="user-identity" title="{$LANG['common']['user_identity']}">
+                    <!--{if $member['row']['is_admin'] === 1}-->
+                    <dt>{$LANG['common']['admin']}</dt>
+                    <!--{elseif $member['row']['is_admin'] === 0}-->
+                    <dt>{$LANG['common']['member']}</dt>
+                    <!--{/if}-->
                 </dl>
-                <dl class="user_article">
-                    <dt>{$lang_last_login}：</dt>
-                    <dd>{$member_last_login}</dd>
-                </dl>
+            </div>
+            <div class="user-detail">
+                <div class="user-detail-box">
+                    <!--{if !empty($member_bio)}-->
+                    <div class="user-bio" title="{$LANG['common']['user_bio']}">
+                        <span>{$member_bio}</span>
+                    </div>
+                    <!--{/if}-->
+                    <div class="user-status">
+                        <dl class="user-joined">
+                            <dt>{$LANG['common']['join_date']}：</dt>
+                            <dd>{$member_join_date}</dd>
+                        </dl>
+                        <dl class="user-last-login">
+                            <dt>{$LANG['common']['last_login']}：</dt>
+                            <dd>{$member_last_login}</dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="content">
-            <div class="repo-title">
-<!--{if isset($show_article) && $show_article === true}-->
-                <div class="pages">
-<!--{if $show_prev != 0}-->
-                    <a class="pages_tag" href="./member.php?uid={$_GET['uid']}&amp;page={$show_prev}">{$lang_prev_page}</a>
-<!--{/if}-->
-<!--{loop $page_numbers $pages}-->
-                    <a class="{$pages['class']}" href="./member.php?uid={$_GET['uid']}&amp;page={$pages['page']}">{$pages['page']}</a>
-<!--{/loop}-->
-<!--{if $show_next != 0}-->
-                    <a class="pages_tag" href="./member.php?uid={$_GET['uid']}&amp;page={$show_next}">{$lang_next_page}</a>
-<!--{/if}-->
+            <div class="list-title">
+                <div>
+                    <span>{$LANG['common']['article_list']}</span>
                 </div>
-<!--{/if}-->
+                <!--{if isset($show_article) && $show_article === true}-->
+                <!--{if ($paginator->getNumPages() > 1)}-->
+                <div class="pagination">
+                    <ul class="pagination-list">
+                        <!--{if ($paginator->getPrevUrl())}-->
+                        <li class="page-item">
+                            <a class="page-link" href="{echo $paginator->getPrevUrl()}">{$LANG['common']['prev_page']}</a>
+                        </li>
+                        <!--{/if}-->
+                        <!--{loop $paginator->getPages() $page}-->
+                        <!--{if $page['url']}-->
+                        <!--{eval $pages['class'] = $page['isCurrent'] ? 'active' : '';}-->
+                        <li class="page-item {$pages['class']}">
+                            <a class="page-link" href="{$page['url']}">{$page['num']}</a>
+                        </li>
+                        <!--{else}-->
+                        <li class="page-item-disable"><a class="link-disable">{$page['num']}</a></li>
+                        <!--{/if}-->
+                        <!--{/loop}-->
+                        <!--{if ($paginator->getNextUrl())}-->
+                        <li class="page-item">
+                            <a class="page-link" href="{echo $paginator->getNextUrl()}">{$LANG['common']['next_page']}</a>
+                        </li>
+                        <!--{/if}-->
+                    </ul>
+                </div>
+                <!--{/if}-->
+                <!--{/if}-->
             </div>
-<!--{if $show_article === true}-->
-            <div class="repo">
-                <ol>
-<!--{loop $article_pages $article_list}-->
+            <!--{if isset($show_article) && $show_article === true && count($article_result) != 0}-->
+            <div class="member-article">
+                <ul>
+                    <!--{loop $article_result $article_list}-->
                     <li>
-                        <div class="repositories">
+                        <div class="member-article-list">
                             <span>
-                                <a href="{$base_url}/article.php?aid={$article_list['aid']}" target="_blank" rel="noopener">
+                                <a href="{$base_url}/article.php?aid={$article_list['aid']}" target="_blank" rel="noopener noreferrer">
                                     <span>{$article_list['title']}</span>
                                 </a>
                             </span>
-                            <p class="p1">{$article_list['content_preview']}</p>
-                            <p class="p2">
+                            <p class="p1">
                                 <span>{$article_list['post_date']}</span>
                             </p>
                         </div>
                     </li>
-<!--{/loop}-->
-                </ol>
+                    <!--{/loop}-->
+                </ul>
             </div>
-<!--{/if}-->
+            <!--{elseif $total_article != 0 && count($article_result) == 0}-->
+            <div class="novalue">
+                <a>{$LANG['common']['page_not_found']}</a>
+            </div>
+            <!--{elseif $total_article == 0}-->
+            <div class="novalue">
+                <a>{$LANG['common']['index_content_empty']}</a>
+            </div>
+            <!--{/if}-->
         </div>
     </div>
 </body>

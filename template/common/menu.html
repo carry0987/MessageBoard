@@ -2,21 +2,21 @@
             <ul>
 <!--{if !empty($login['username'])}-->
                 <li>
-                    <a href="{$base_url}/member.php?uid={$login['uid']}">{$login['username']}</a>
+                    <a href="{$base_url}/member.php?uid={$login['uid']}" rel="nofollow">{$login['username']}</a>
                 </li>
 <!--{/if}-->
 <!--{if $login['admin'] === true}-->
                 <li>
-                    <a href="{$base_url}/admin.php">{$lang_admin}</a>
+                    <a href="{$base_url}/admin.php" rel="nofollow">{$LANG['admin']['control_panel']}</a>
                 </li>
 <!--{/if}-->
 <!--{if empty($login['username'])}-->
                 <li>
-                    <a href="{$base_url}/login.php">{$lang_login}</a>
+                    <a href="{$base_url}/login.php">{$LANG['common']['login']}</a>
                 </li>
 <!--{else}-->
                 <li>
-                    <a href="{$base_url}/logout.php">{$lang_logout}</a>
+                    <a href="{$base_url}/logout.php" rel="nofollow">{$LANG['common']['logout']}</a>
                 </li>
 <!--{/if}-->
             </ul>

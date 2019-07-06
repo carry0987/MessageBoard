@@ -1,17 +1,23 @@
-    <div class="info_success">
-        <div class="info_title">
-            <span>{$lang_success}</span>
+    <div class="main-content">
+        <div class="title">
+            <span>{$LANG['common'][$back['mod']]}</span>
         </div>
-        <div class="info_info">
-            <div class="info_message">
-                <div class="title">
-                    <span>{$lang_update_info}</span>
-                </div>
-                <div class="chart">{$lang_update_success}</div>
-                <div class="post_button">
-                    <a class="post_link" href="{$base_url}/admin.php">
-                        <span>Back</span>
-                    </a>
+        <div class="main-admin">
+            <div class="widget">
+                <div class="info-message">
+                    <div class="title">
+                        <span>{$LANG['common']['success']}</span>
+                    </div>
+                    <div class="chart">
+                        <div class="info-box">
+                            <span>{$LANG['common']['update_success']}</span>
+                        </div>
+                    </div>
+                    <div class="common-button">
+                        <a href="{$base_url}/admin.php?mod={$back['mod']}">
+                            <span>{$LANG['common']['back']}</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

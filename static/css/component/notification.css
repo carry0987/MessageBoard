@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+/* Notification box */
+.notification-bar {
+    margin: 0px;
+}
+
+.notification-box {
+    margin: 0px 0px 15px 0px;
+}
+
+.description-notification {
+    margin: 0px 0px 0px 0px;
+}
+
+.description-notification img {
+    width: 16px;
+    height: 16px;
+    line-height: 0;
+    vertical-align: middle;
+}
+
+.description-notification>p {
+    margin: 0px;
+    display: inline;
+    vertical-align: middle;
+}
+
+.notification-box>p {
+    margin: 5px;
+}
+
+.notification-box-info>p {
+    margin: 5px;
+}
+
+.note {
+    color: #666;
+    font-size: 16px;
+    border: 1px solid #fdeba5;
+    background-color: #fef4c8;
+    padding: 0.5em 1em 0.5em 1em;
+}
+
+.announce {
+    color: #666;
+    font-size: 16px;
+    border: 1px solid #bee5f8;
+    background-color: #d7effb;
+    padding: 0.5em 1em 0.5em 1em;
+}
+
+.success {
+    color: #666;
+    font-size: 16px;
+    border: 1px solid #def1bf;
+    background-color: #e8f6d2;
+    padding: 0.5em 1em 0.5em 1em;
+}
+
+.warning {
+    color: #666;
+    font-size: 16px;
+    border: 1px solid #ffdbdb;
+    background-color: #ffe7e7;
+    padding: 0.5em 1em 0.5em 1em;
+}
+
+/* Mobile view */
+@media screen and (min-width: 280px) and (max-width: 680px) {
+    .description-notification {
+        margin: 10px 0px 10px 0px;
+    }
+}
+
+/* Tablet view */
+@media screen and (min-width: 680px) and (max-width: 860px) {
+    .description-notification {
+        margin: 10px 0px 10px 0px;
+    }
+}
