@@ -141,10 +141,10 @@ button:focus {
     background-color: red;
     color: #ffffff;
     font-weight: bold;
-    margin-left: 5px;
     border-radius: 10px;
     position: absolute;
-    margin-top: -30px;
+    margin-left: 20px;
+    margin-top: -2px;
     font-size: 11px;
     display: none;
 }

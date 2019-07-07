@@ -46,6 +46,8 @@ function autoCheckNotif(url) {
             if (result != false && result > 0) {
                 $('.notification-count').show();
                 $('.notification-count').text(result);
+            } else {
+                $('.notification-count').hide();
             }
         },
         error: function() {
