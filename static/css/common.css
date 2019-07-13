@@ -1035,11 +1035,12 @@ button:focus {
     margin-top: 5px;
 }
 
-.content-box>.article-date {
+.content-box>.article-footer {
+    display: table;
+    width: 100%;
     text-align: right;
     font-size: 10pt;
     color: #5d5c5c;
-    padding-top: 10px;
     margin-top: 8px;
     border-style: dashed;
     border-color: #c7c7c7;
@@ -1049,14 +1050,47 @@ button:focus {
     border-right-width: 0px;
 }
 
-.content-box>.article-date a {
+.content-box>.article-footer>.article-action {
+    padding: 0.5em 5px;
+    display: table-cell;
+    text-align: left;
+    width: auto;
+    background-color: transparent;
+}
+
+.content-box>.article-footer>.article-action>a {
     text-decoration: none;
     text-align: right;
-    font-size: 10pt;
+    font-size: 15px;
+    color: #5d5c5c;
+    line-height: 0;
+    letter-spacing: -2px;
+}
+
+.content-box>.article-footer>.article-action>a:hover {
+    color: #101010;
+}
+
+.content-box>.article-footer>.article-action>a>img,
+.content-box>.article-footer>.article-action>a>span {
+    vertical-align: middle;
+    letter-spacing: 0px;
+}
+
+.content-box>.article-footer>.article-date {
+    padding: 0.5em 5px;
+    display: table-cell;
+    text-align: right;
+}
+
+.content-box>.article-footer>.article-date a {
+    text-decoration: none;
+    text-align: right;
+    font-size: 15px;
     color: #5d5c5c;
 }
 
-.content-box>.article-date a:hover {
+.content-box>.article-footer>.article-date a:hover {
     text-decoration: underline;
     color: #101010;
 }
@@ -2106,7 +2140,7 @@ button:focus {
     display: none;
 }
 
-.reply-detail {
+.reply-footer {
     border-style: dashed;
     border-color: #c7c7c7;
     border-top-width: 1px;
@@ -2115,15 +2149,53 @@ button:focus {
     border-right-width: 0px;
     color: #5d5c5c;
     text-align: right;
-    padding: 5px 5px;
+    display: table;
+    width: 100%;
 }
 
-.reply-detail a {
+.content-box>.reply-footer>.reply-action {
+    padding: 5px 0px;
+    display: table-cell;
+    text-align: left;
+    width: auto;
+    background-color: transparent;
+}
+
+.content-box>.reply-footer>.reply-action>a {
+    text-decoration: none;
+    text-align: right;
+    font-size: 15px;
+    color: #5d5c5c;
+    line-height: 0;
+    letter-spacing: -2px;
+}
+
+.content-box>.reply-footer>.reply-action>a:hover {
+    color: #101010;
+}
+
+.content-box>.reply-footer>.reply-action>a>img,
+.content-box>.reply-footer>.reply-action>a>span {
+    vertical-align: middle;
+    letter-spacing: 0px;
+    width: 18px;
+    height: 18px;
+}
+
+.reply-detail {
+    display: table-cell;
+}
+
+.reply-detail>span {
+    font-size: 10pt;
+}
+
+.reply-detail>a {
     color: #5d5c5c;
     text-decoration: none;
 }
 
-.reply-detail a:hover {
+.reply-detail>a:hover {
     color: #101010;
     text-decoration: underline;
 }
@@ -2250,6 +2322,45 @@ button:focus {
 
 .btn-primary:hover {
     background-color: #619ad8;
+}
+
+.btn-normal {
+    float: left;
+    color: #7b7b7b;
+    background-color: #d2d2d2;
+    border-color: #868686;
+}
+
+.btn-normal:hover {
+    color: #f1f1f1;
+    background-color: #b3b1b1;
+}
+
+.action-confirm {
+    display: none;
+}
+
+.action-confirm a {
+    padding: 3px;
+    color: #fff;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.action-confirm>.confirm-btn.normal {
+    background-color: #34495e;
+}
+
+.action-confirm>.confirm-btn.warning {
+    background-color: #d9534f;
+}
+
+.action-confirm>.delete-loading {
+    display: none;
+    width: 18px;
+    line-height: 0;
+    vertical-align: middle;
+    padding-bottom: 2px;
 }
 /* End Article Action */
 

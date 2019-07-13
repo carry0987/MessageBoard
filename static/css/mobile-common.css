@@ -55,6 +55,7 @@
     #notif_wrapper {
         margin-left: -200px;
         width: 100%;
+        max-width: 320px;
         top: 40px;
         border: none;
     }
@@ -366,12 +367,16 @@
         margin-top: 5px;
     }
 
-    .content-box>.article-date {
+    .content-box>.article-footer>.article-date {
         padding: 8px;
     }
 
-    .content-box>.article-date>span {
+    .content-box>.article-footer>.article-date>span {
         float: none;
+    }
+
+    .content-box>.reply-footer>.reply-action {
+        padding-bottom: 0px;
     }
 
     .content-block .reply-main {

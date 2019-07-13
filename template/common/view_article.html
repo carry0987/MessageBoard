@@ -148,11 +148,23 @@
                         </div>
                         <div class="content-box">
                             <article>{$reply['content']}</article>
-                            <div class="article-date">
-                                <span>{$reply['post_date']}</span>
-                                <a href="#article-main">
-                                    <span>#1</span>
-                                </a>
+                            <div class="article-footer">
+                                <!--{if isset($show_edit) && $show_edit === true}-->
+                                <!--
+                                <div class="article-action">
+                                    <a id="deleteArticle" href="javascript: void(0);">
+                                        <img src="static/icon/trashcan-default.svg" alt="Delete Icon" />
+                                        <span>{$LANG['common']['delete']}</span>
+                                    </a>
+                                </div>
+                                -->
+                                <!--{/if}-->
+                                <div class="article-date">
+                                    <span>{$reply['post_date']}</span>
+                                    <a href="#article-main">
+                                        <span>#1</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -170,7 +182,7 @@
                             </div>
                             <h3 class="author">
                                 <div class="author-name">
-                                    <a href="member.php?uid={$article_author_id}" title="{$reply['display_name']} (&commat;{$reply['username']})">
+                                    <a href="member.php?uid={$reply['user_id']}" title="{$reply['display_name']} (&commat;{$reply['username']})">
                                         <span>{$reply['display_name']}</span>
                                         <span>&commat;{$reply['username']}</span>
                                     </a>
@@ -198,10 +210,26 @@
                         </div>
                         <div class="content-box">
                             <article>{$reply['content']}</article>
-                            <div class="reply-detail">
-                                <a href="#reply-{$reply['reply_id']}" onclick="highlight(this)">
-                                    <span>#{echo $i++}</span>
-                                </a>
+                            <div class="reply-footer">
+                                <!--{if $login['uid'] !== false && $reply['user_id'] === $login['uid']}-->
+                                <div class="reply-action">
+                                    <a href="javascript:void(0);" onclick="deleteData({$article_id}, {$reply['reply_id']}, 'reply')">
+                                        <img src="static/icon/trashcan-default.svg" alt="Delete Icon" />
+                                        <span>{$LANG['common']['delete']}</span>
+                                    </a>
+                                    <div class="action-confirm">
+                                        <a class="confirm-btn normal" href="javascript:void(0);">{$LANG['common']['cancel']}</a>
+                                        <a class="confirm-btn warning" href="javascript:void(0);">{$LANG['common']['delete']}</a>
+                                        <img class="delete-loading" src="static/icon/loading_spin.svg" />
+                                    </div>
+                                </div>
+                                <!--{/if}-->
+                                <div class="reply-detail">
+                                    <span>{$reply['reply_date']}</span>
+                                    <a href="#reply-{$reply['reply_id']}" onclick="highlight(this)">
+                                        <span>#{echo $i++}</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -209,6 +237,10 @@
                 <!--{/if}-->
                 <!--{/loop}-->
             </ol>
+        </div>
+        <div class="delete-info notification-box announce" style="display: none;">
+            <p id="success">{$LANG['common']['delete_success']}</p>
+            <p id="failed">{$LANG['common']['delete_failed']}</p>
         </div>
         <!--{/if}-->
         <!--{if $current_page <= $total_pages}-->
@@ -328,6 +360,10 @@
                     }
                 }
             }
+
+            $('#deleteArticle').on('click', function() {
+                deleteData(false, {$article_id}, 'article', "{$LANG['common']['delete_info']}");
+            });
         });
         </script>
         <!--{if $login['uid'] === false}-->

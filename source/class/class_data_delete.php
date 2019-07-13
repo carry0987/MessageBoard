@@ -41,18 +41,23 @@ class DataDelete
 
     public function deleteArticle($article_id)
     {
+        $article_id = (int) $article_id;
+        $result = false;
         $delete['query'] = 'DELETE FROM article WHERE aid = ?';
         $delete['stmt'] = $this->connectdb->stmt_init();
         try {
             $delete['stmt']->prepare($delete['query']);
             $delete['stmt']->bind_param('i', $article_id);
             $delete['stmt']->execute();
+            $result = true;
         } catch (mysqli_sql_exception $e) {
+            $result = false;
             echo '<h1>Service unavailable</h1>'."\n";
             echo '<h2>Error Info :'.$e->getMessage().'</h2>'."\n";
             echo '<h3>Error Code :'.$e->getCode().'</h3>'."\n";
             exit();
         }
+        return $result;
     }
 
     public function deleteBoard($board_id)
@@ -105,18 +110,23 @@ class DataDelete
 
     public function deleteReply($reply_id)
     {
+        $reply_id = (int) $reply_id;
+        $result = false;
         $delete['query'] = 'DELETE FROM reply WHERE reply_id = ?';
         $delete['stmt'] = $this->connectdb->stmt_init();
         try {
             $delete['stmt']->prepare($delete['query']);
             $delete['stmt']->bind_param('i', $reply_id);
             $delete['stmt']->execute();
+            $result = true;
         } catch (mysqli_sql_exception $e) {
+            $result = false;
             echo '<h1>Service unavailable</h1>'."\n";
             echo '<h2>Error Info :'.$e->getMessage().'</h2>'."\n";
             echo '<h3>Error Code :'.$e->getCode().'</h3>'."\n";
             exit();
         }
+        return $result;
     }
 
     public function deleteComment($comment_id)

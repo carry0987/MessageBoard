@@ -1,5 +1,5 @@
 <?php
-class SitemapGenerator
+class Sitemap
 {
     public static $document = null;
     private static $options = array();
@@ -52,6 +52,29 @@ class SitemapGenerator
         }
     }
 
+    //Delete item to xml
+    public function deleteSitemapNode($result = array())
+    {
+        $deleteResult = false;
+        if (!empty($result) && is_array($result)) {
+            $get_urlset = self::$document->getElementsByTagName('loc');
+            foreach ($get_urlset as $node) {
+                $removeNode[] = $node->nodeValue;
+                foreach ($removeNode as $value) {
+                    if ($value == $result['loc'].$result['dataID']) {
+                        try {
+                            $deleteResult = $node->parentNode->parentNode->removeChild($node->parentNode);
+                            $deleteResult = true;
+                        } catch (Exception $e) {
+                            $deleteResult = false;
+                        }
+                    }
+                }
+            }
+        }
+        return $deleteResult;
+    }
+
     //Update sitemap
     public function updateSitemap($result = array())
     {
@@ -59,7 +82,7 @@ class SitemapGenerator
         if ($this->checkSitemap(self::$options['xml_file']) === true) {
             //Open and load a XML file
             $this->loadSitemap(self::$options['xml_file']);
-            // Apply some modification
+            //Apply some modification
             foreach ($result as $sitemapData) {
                 if ($sitemapData !== false) {
                     $this->addSitemapNode($sitemapData);
@@ -74,6 +97,29 @@ class SitemapGenerator
         }
         return $updateResult;
     }
+
+    //Delete sitemap
+    public function deleteSitemap($result = array())
+    {
+        $deleteResult = false;
+        if ($this->checkSitemap(self::$options['xml_file']) === true) {
+            //Open and load a XML file
+            $this->loadSitemap(self::$options['xml_file']);
+            //Apply some modification
+            foreach ($result as $sitemapData) {
+                if ($sitemapData !== false) {
+                    $deleteResult = $this->deleteSitemapNode($sitemapData);
+                }
+            }
+            if ($deleteResult !== false) {
+                $this->generateXML();
+            }
+        } else {
+            $deleteResult = false;
+        }
+        return $deleteResult;
+    }
+
 
     public function generateXML()
     {

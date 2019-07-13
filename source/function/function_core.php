@@ -53,8 +53,8 @@ function generateSitemap($array, $sitemapSet, $add = false)
         'xml_file' => $sitemapSet['path'],
         'timezone' => $sitemapSet['timezone']
     );
-    if (class_exists('SitemapGenerator')) {
-        $seo = new SitemapGenerator($sitemapOption, $add);
+    if (class_exists('Sitemap')) {
+        $seo = new Sitemap($sitemapOption, $add);
         if ($add === true) {
             return $seo->updateSitemap($array);
         } else {
@@ -67,6 +67,24 @@ function generateSitemap($array, $sitemapSet, $add = false)
     } else {
         return false;
     }
+}
+
+function deleteSitemap($sitemapData, $sitemapSet)
+{
+    //Set Sitemap
+    $sitemapOption = array(
+        'version' => '1.0',
+        'charset' => 'UTF-8',
+        'xml_file' => $sitemapSet['path'],
+        'timezone' => $sitemapSet['timezone']
+    );
+    if (class_exists('Sitemap')) {
+        $seo = new Sitemap($sitemapOption);
+        $result = $seo->deleteSitemap($sitemapData);
+    } else {
+        $result = false;
+    }
+    return $result;
 }
 
 function checkPage($value)

@@ -67,13 +67,39 @@ class Check
         }
     }
 
-    public function checkAuthor($article_id, $get_uid = '')
+    public function checkArticleAuthor($article_id, $get_uid = '')
     {
         $check['query'] = 'SELECT user_id FROM article WHERE aid = ?';
         $check['stmt'] = $this->connectdb->stmt_init();
         try {
             $check['stmt']->prepare($check['query']);
             $check['stmt']->bind_param('i', $article_id);
+            $check['stmt']->execute();
+            $check['stmt']->bind_result($user_id);
+            $check['stmt']->fetch();
+            if ($user_id === $get_uid) {
+                $checkResult = true;
+            } else {
+                $checkResult = false;
+            }
+            $check['stmt']->free_result();
+        } catch (mysqli_sql_exception $e) {
+            echo '<h1>Service unavailable</h1>'."\n";
+            echo '<h2>Error Info :'.$e->getMessage().'</h2>'."\n";
+            echo '<h3>Error Code :'.$e->getCode().'</h3>'."\n";
+            $checkResult = false;
+            exit();
+        }
+        return $checkResult;
+    }
+
+    public function checkReplyAuthor($reply_id, $get_uid = '')
+    {
+        $check['query'] = 'SELECT user_id FROM reply WHERE reply_id = ?';
+        $check['stmt'] = $this->connectdb->stmt_init();
+        try {
+            $check['stmt']->prepare($check['query']);
+            $check['stmt']->bind_param('i', $reply_id);
             $check['stmt']->execute();
             $check['stmt']->bind_result($user_id);
             $check['stmt']->fetch();

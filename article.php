@@ -2,7 +2,7 @@
 require dirname(__FILE__).'/source/class/class_core.php';
 require dirname(__FILE__).'/source/class/class_load.php';
 $load = new Load;
-$load->loadClass('template', 'check', 'data_read', 'data_update', 'data_create', 'data_delete', 'pagination');
+$load->loadClass('template', 'check', 'data_read', 'data_update', 'data_create', 'data_delete', 'pagination', 'sitemap');
 $load->loadFunction('filter', 'core', 'bbcode');
 
 //Template setting
@@ -30,7 +30,7 @@ if (isset($_GET['aid'])) {
         $checkProperty = true;
         if ($check->checkProperty($article_id) === 1) {
             $showPrivate = true;
-            if ($check->checkAuthor($article_id, $login['uid']) === true) {
+            if ($check->checkArticleAuthor($article_id, $login['uid']) === true) {
                 $checkProperty = true;
             } else {
                 $checkProperty = false;
@@ -45,7 +45,7 @@ if (isset($_GET['aid'])) {
         if (isset($_GET['action'])) {
             if ($_GET['action'] === 'edit_article') {
                 if (!empty($login['username']) && !empty($login['uid'])) {
-                    if ($check->checkAuthor($article_id, $login['uid']) === true || $login['admin'] === true) {
+                    if ($check->checkArticleAuthor($article_id, $login['uid']) === true || $login['admin'] === true) {
                         $edit_post = true;
                         $propertyList = array('public' => 0, 'private' => 1);
                         $current = DataRead::getInstance();
@@ -75,7 +75,7 @@ if (isset($_GET['aid'])) {
                             $getAuthor->getConnection($conn);
                             $notifAuthor = $getAuthor->getArticleAuthor($article_id);
                             $notifAuthor = ($notifAuthor !== false) ? $notifAuthor : false;
-                            if (!empty($replyResult) && $notifAuthor !== false && $check->checkAuthor($article_id, $login['uid']) === false) {
+                            if (!empty($replyResult) && $notifAuthor !== false && $check->checkArticleAuthor($article_id, $login['uid']) === false) {
                                 $notifArray = array(
                                     'user_id' => $notifAuthor,
                                     'notif_from' => $login['uid'],
@@ -107,6 +107,33 @@ if (isset($_GET['aid'])) {
                             $back['aid'] = $article_id;
                             $display = 'view_banned';
                         }
+                    }
+                }
+            } elseif ($_GET['action'] === 'delete') {
+                if (isset($_POST['target'])) {
+                    $dataDelete = DataDelete::getInstance();
+                    $dataDelete->getConnection($conn);
+                    switch ($_POST['target']) {
+                        case 'article':
+                            if (isset($_POST['deleteID'])) {
+                                if ($check->checkArticleAuthor($_POST['deleteID'], $login['uid']) === true) {
+                                    exit($dataDelete->deleteArticle($_POST['deleteID']));
+                                } else {
+                                    exit(false);
+                                }
+                            }
+                            break;
+                        case 'reply':
+                            if (isset($_POST['deleteID'])) {
+                                if ($check->checkReplyAuthor($_POST['deleteID'], $login['uid']) === true) {
+                                    exit($dataDelete->deleteReply($_POST['deleteID']));
+                                } else {
+                                    exit(false);
+                                }
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -143,7 +170,7 @@ if (isset($_GET['aid'])) {
                 $display = 'view_input_error';
             }
             if ($edit_permit !== false) {
-                if ($check->checkAuthor($article_id, $login['uid']) === true) {
+                if ($check->checkArticleAuthor($article_id, $login['uid']) === true) {
                     $property = (isset($_POST['property'])) ? $_POST['property'] : 0;
                     $property = ($check->checkPinned($article_id) === 3) ? 3 : $_POST['property'];
                     $property = (!isset($_POST['pinned'])) ? $_POST['property'] : 3;
@@ -165,6 +192,41 @@ if (isset($_GET['aid'])) {
                 $edit_article = DataUpdate::getInstance();
                 $edit_article->getConnection($conn);
                 $edit_article->updateArticle($article_id, $edit_info);
+                //Edit Sitemap
+                $sitemapConfig = DataRead::getInstance();
+                $sitemapConfig->getConnection($conn);
+                $read_query = array(
+                    'config' => 'SELECT enable,auto_update,sitemap_path FROM seo_sitemap_config WHERE id = ?'
+                );
+                $seo['sitemap'] = $sitemapConfig->getConfig($read_query);
+                if ($seo['sitemap'] !== false) {
+                    if ($seo['sitemap']['enable'] === 1 && $seo['sitemap']['auto_update'] === 1) {
+                        $sitemap['path'] = $seo['sitemap']['sitemap_path'];
+                        $sitemap['timezone'] = $SYSTEM['system_timezone'];
+                        $sitemap['path'] = ltrim($sitemap['path'], '/\\');
+                        if (file_exists(dirname(__FILE__).'/'.$sitemap['path'])) {
+                            if ($edit_info['set_sitemap'] === 0) {
+                                $sitemapArray = array(array('loc' => $base_url.'/article.php?aid=', 'dataID' => (int) $article_id));
+                                deleteSitemap($sitemapArray, $sitemap);
+                            } else {
+                                $sitemapArray = array(
+                                    $sitemapConfig->getSitemapArray('article', 'aid', $base_url, $article_id)
+                                );
+                                generateSitemap($sitemapArray, $sitemap, true);
+                            }
+                        } else {
+                            $home_page[] = array('loc' => $base_url.'/', 'lastmod' => time(), 'changefreq' => 'always', 'priority' => '1.0');
+                            $sitemapArray = array(
+                                $home_page,
+                                $sitemapConfig->getSitemapArray('category', 'cid', $base_url),
+                                $sitemapConfig->getSitemapArray('board', 'bid', $base_url),
+                                $sitemapConfig->getSitemapArray('article', 'aid', $base_url)
+                            );
+                            generateSitemap($sitemapArray, $sitemap, false);
+                        }
+                    }
+                }
+                //Check pinned
                 if (isset($_POST['pinned'])) {
                     $articlePinned['pinned_sort'] = (isset($_POST['pinned_sort']) && !empty($_POST['pinned_sort'])) ? $_POST['pinned_sort'] : 1;
                     $articlePinnedArray = DataRead::getInstance();
@@ -202,7 +264,7 @@ if (isset($_GET['aid'])) {
             }
         }
     }
-    $show_edit = ($check->checkAuthor($article_id, $login['uid']) === true || $login['admin'] === true) ? true : false ;
+    $show_edit = ($check->checkArticleAuthor($article_id, $login['uid']) === true || $login['admin'] === true) ? true : false ;
     //Check page value
     if (!empty($_GET['page']) && ctype_digit($_GET['page'])) {
         if ($_GET['page'] == '1' || $_GET['page'] == '' || $_GET['page'] == '0') {
@@ -309,6 +371,7 @@ if ($stmt->prepare($query) && $checkProperty === true) {
         $getReply = $replyData->getArticleReply($article_id);
         if ($getReply !== false) {
             foreach ($getReply as $key => $value) {
+                $getReply[$key]['reply_date'] = getDateTime($SYSTEM['system_timezone'], $SYSTEM['user_timezone'], $value['reply_date'], 'Y-m-d H:i');
                 $getReply[$key]['join_date'] = getDateTime($SYSTEM['system_timezone'], $SYSTEM['user_timezone'], $value['join_date'], 'Y-m-d');
                 $getReply[$key]['article_count'] = $replyData->getArticleByUser($value['user_id']);
             }

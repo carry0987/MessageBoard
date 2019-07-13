@@ -207,3 +207,71 @@ function createReply(data) {
         }
     });
 }
+
+function deleteData(articleID, deleteID, target, deleteInfo) {
+    if (articleID === false) {
+        articleID = deleteID;
+    }
+    if (deleteInfo === undefined) {
+        deleteInfo = '';
+    }
+    if (target == 'reply') {
+        $('#reply-'+deleteID+' .reply-action>a').hide();
+        $('#reply-'+deleteID+' .reply-detail>span').hide();
+        var confirm = $('#reply-'+deleteID+' .reply-action>.action-confirm');
+        confirm.show();
+        confirm.on('click', 'a.normal', function() {
+            confirm.hide();
+            $('#reply-'+deleteID+' .reply-action>a').show();
+            $('#reply-'+deleteID+' .reply-detail>span').show();
+        });
+        confirm.on('click', 'a.warning', function() {
+            var deleteDetail = $('#reply-'+deleteID);
+            $.ajax({
+                url: 'article.php?aid='+articleID+'&action=delete',
+                data: {'target': 'reply', 'deleteID': deleteID},
+                type: 'POST',
+                beforeSend: function() {
+                    $('.delete-loading').show();
+                },
+                success: function(result) {
+                    if (result == 1) {
+                        $('.delete-loading').hide();
+                        deleteDetail.children('.reply-main').remove();
+                        deleteDetail.html($('.delete-info')[0].outerHTML);
+                        deleteDetail.children('.delete-info').show();
+                        $('.delete-info>#success').show();
+                        $('.delete-info>#failed').hide();
+                        if (deleteDetail.length) {
+                            $([document.documentElement, document.body]).animate({
+                                scrollTop: deleteDetail.prev().offset().top
+                            }, 500);
+                            setTimeout(function() {
+                                deleteDetail.fadeOut(300);
+                                window.location.reload(true);
+                            }, 3000);
+                        }
+                    }
+                },
+                error: function() {
+                    $('.delete-loading').hide();
+                    deleteDetail.children('.reply-main').remove();
+                    deleteDetail.html($('.delete-info')[0].outerHTML);
+                    deleteDetail.children('.delete-info').show();
+                    $('.delete-info>#success').hide();
+                    $('.delete-info>#failed').show();
+                    if (deleteDetail.length) {
+                        $([document.documentElement, document.body]).animate({
+                            scrollTop: deleteDetail.prev().offset().top
+                        }, 500);
+                        setTimeout(function() {
+                            deleteDetail.fadeOut(300);
+                            window.location.reload(true);
+                        }, 3000);
+                    }
+                    return false;
+                }
+            });
+        });
+    }
+}
