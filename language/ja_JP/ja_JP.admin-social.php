@@ -1,16 +1,16 @@
 <?php
 $LANG['admin-social'] = array
 (
-    'login_with_social' => '以社群帳號登入',
-    'social_type' => '社群類別',
+    'login_with_social' => 'ソーシャルアカウントでログイン',
+    'social_type' => 'ソーシャルタイプ',
     'github' => 'Github',
-    'facebook' => '臉書',
-    'twitter' => '推特',
+    'facebook' => 'facebook',
+    'twitter' => 'twitter',
     'google' => 'Google',
-    'client_id' => '授權 ID',
-    'client_id_description' => '授權 ID, 請勿外流',
-    'client_secret' => '授權金鑰',
-    'client_secret_description' => '授權金鑰, 請勿外流',
-    'redirect_url' => '回調網址',
-    'redirect_url_description' => '您的應用程序的回調網址'
+    'client_id' => '認証ID',
+    'client_id_description' => '認証ID, それを開示しないでください',
+    'client_secret' => '認証キー',
+    'client_secret_description' => '認証キー, それを開示しないでください',
+    'redirect_url' => 'リダイレクトURL',
+    'redirect_url_description' => 'あなたのアプリケーションのリダイレクトURL'
 );

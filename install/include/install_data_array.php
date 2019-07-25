@@ -21,7 +21,7 @@ $insert[12] = time();
 $hostUrl = str_replace('www.', '', $_SERVER['HTTP_HOST']);
 
 //SMTP Config
-$smtp['host'] = 'smtp.google.com';
+$smtp['host'] = 'smtp.gmail.com';
 $smtp['user'] = 'example@gmail.com';
 $smtp['pw'] = '';
 $smtp['from'] = 'example@gmail.com';

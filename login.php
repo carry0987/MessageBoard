@@ -483,9 +483,10 @@ if (isset($_GET['pw'])) {
             $rememberMe = new RememberMe(SYSTEM_PATH);
             $rememberMe->getConnection($conn);
             $cookie_expiration_time = time() + (30 * 24 * 60 * 60);
+            $year_time = time() + (1 * 365 * 24 * 3600);
             //Set Auth Cookies if 'Remember Me' checked
             if (!empty($_POST['remember_me'])) {
-                $rememberMe->setCookie('user_login', $login_id, $cookie_expiration_time);
+                $rememberMe->setCookie('user_login', $login_id, $year_time);
                 $random_password = $rememberMe->getToken(16);
                 $rememberMe->setCookie('random_pw', $random_password, $cookie_expiration_time);
                 $random_pw_hash = password_hash($random_password, PASSWORD_DEFAULT);
@@ -497,7 +498,7 @@ if (isset($_GET['pw'])) {
                     $rememberMe->updateToken($login_id, $selector, $random_pw_hash);
                 } else {
                     $random_selector = $rememberMe->getToken(16);
-                    $rememberMe->setCookie('random_selector', $random_selector, $cookie_expiration_time);
+                    $rememberMe->setCookie('random_selector', $random_selector, $year_time);
                     //Insert new token
                     $rememberMe->insertToken($login_id, $random_selector, $random_pw_hash, $expiry_date);
                 }

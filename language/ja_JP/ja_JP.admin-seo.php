@@ -1,20 +1,20 @@
 <?php
 $LANG['admin-seo'] = array
 (
-    'seo_type' => 'SEO類別',
-    'sitemap' => 'Sitemap (網站地圖)',
+    'seo_type' => 'SEO タイプ',
+    'sitemap' => 'サイトマップ ',
     'meta_tag' => 'Meta Tag',
-    'url_rewrite' => '網址重寫 (偽靜態)',
-    'mod_rewrite_check' => '注意: 您的伺服器需開啟網址重寫功能',
-    'sitemap_function' => 'Sitemap (網站地圖)',
-    'sitemap_function_description' => 'Sitemap (網站地圖), 開啟後將自動生成sitemap.xml',
-    'auto_update' => '自動更新',
-    'auto_update_description' => '添加新文章時自動更新網站地圖',
-    'sitemap_path' => '文件路徑',
-    'sitemap_path_description' => '網站地圖的文件路徑',
-    'send_sitemap' => '提交 Sitemap',
-    'generate_sitemap' => '生成 Sitemap',
-    'generate_success' => '檔案建立成功',
-    'generate_failed' => '檔案建立失敗',
-    'url_rewrite_description' => '網址重寫 (偽靜態), 開啟後會將動態網址轉換為靜態網址'
+    'url_rewrite' => 'URLの書き換え (疑似静的)',
+    'mod_rewrite_check' => '注意：サーバーはURL書き換えを有効にする必要があります。',
+    'sitemap_function' => 'サイトマップ ',
+    'sitemap_function_description' => 'サイトマップ , 開いたときに自動的にsitemap.xmlを生成します',
+    'auto_update' => '自動アップデート',
+    'auto_update_description' => '新しい記事が追加されたときにサイトマップを自動的に更新する',
+    'sitemap_path' => 'ファイルパス',
+    'sitemap_path_description' => 'サイトマップのファイルパス',
+    'send_sitemap' => 'サイトマップを提出する',
+    'generate_sitemap' => 'サイトマップを生成する',
+    'generate_success' => 'ファイル作成成功',
+    'generate_failed' => 'ファイル作成失敗',
+    'url_rewrite_description' => 'URLの書き換え (疑似静的), オンにすると動的URLから静的URLに切り替える'
 );

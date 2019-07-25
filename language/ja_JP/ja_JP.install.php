@@ -1,13 +1,13 @@
 <?php
 $LANG['install'] = array
 (
-    'installing' => 'インストール中',
-    'installed' => '既にインストールしています！',
-    'install_messageboard' => 'メッセージボードをインストールする',
-    'install_next' => '次に',
-    'install_success' => 'インストール成功！',
-    'install_remove' => 'Please manually remove the install folder',
-    'install_error' => 'インストール失敗！',
-    'please_reinstall_messageboard' => '再インストールしてください！',
+    'installing' => 'インストール',
+    'installed' => 'あなたはすでにインストールしました！',
+    'install_messageboard' => '掲示板をインストールする',
+    'install_next' => '次のステップ',
+    'install_success' => 'インストール成功しました。',
+    'install_remove' => '手動で　install　フォルダを削除してください',
+    'install_error' => 'インストールに失敗しました。',
+    'please_reinstall_messageboard' => '掲示板を再インストールしてください。',
     'reinstall' => '再インストール'
 );
