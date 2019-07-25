@@ -2,7 +2,7 @@
 
 /* Main CSS */
 * {
-    font-family: Arial, sans-serif, '黑體-繁';
+    font-family: Arial, system-ui, '黑體-繁', sans-serif;
     box-sizing: border-box;
 }
 

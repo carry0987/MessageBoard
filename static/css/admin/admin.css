@@ -9,7 +9,7 @@ body {
     display: block;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial, system-ui, '黑體-繁', sans-serif;
     background-color: #D5DAE5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
