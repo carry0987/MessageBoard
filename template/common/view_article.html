@@ -35,11 +35,13 @@
     </fieldset>
     <div class="content">
         <h1 class="article-title"><a href="article.php?aid={$article_id}" title="{$article_title}">{$article_title}</a></h1>
-        <p class="content-from">{$LANG['common']['board_from']} '{$board_from}',</p>
+        <!--{eval $langParam['board_name'] = $board_from}-->
+        <p class="content-from">{lang $LANG['common']['board_from'] $langParam} ,</p>
         <p class="content-author">
-            <span>{$LANG['common']['started_by']}</span>
+            <!--{block langParam['display_name']}-->
             <a href="member.php?uid={$article_author_id}" title="{$author_info['row']['display_name']} (&commat;{$author_info['row']['username']})">{$author_info['row']['display_name']}</a>
-            <span>,</span>
+            <!--{/block}-->
+            <span>{lang $LANG['common']['started_by'] $langParam} , </span>
         </p>
         <p class="content-date">{$post_date}</p>
         <!--{if isset($showPrivate)}-->

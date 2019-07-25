@@ -26,6 +26,7 @@
 .info-box {
     display: flex;
     flex-flow: row wrap;
+    word-break: break-word;
 }
 
 .info-message {

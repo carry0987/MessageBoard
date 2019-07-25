@@ -2,7 +2,7 @@
 
 /* Main Style */
 body {
-    font-family: Arial, sans-serif, '黑體-繁';
+    font-family: '黑體-繁', Arial, system-ui, sans-serif;
     margin: 0px;
     background-color: #EFEFEF;
 }
@@ -774,13 +774,27 @@ button:focus {
     margin-bottom: 0px;
 }
 
-.content-from,
+.content-from span {
+    display: inherit;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 300px;
+    vertical-align: middle;
+}
+
+.content-author {
+    margin-top: 0px;
+    line-height: 1;
+}
+
 .content-author,
 .content-date {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     max-width: 480px;
+    display: inline;
 }
 
 .content-from {
@@ -792,24 +806,27 @@ button:focus {
     color: #666666;
     margin-left: 0.5em;
     margin-right: 0.5em;
-    display: inline-block;
 }
 
-.content-author>a {
+.content-author>span>a {
     font-weight: bold;
     color: #656565;
     text-decoration: none;
     overflow: hidden;
 }
 
-.content-author>a:hover {
+.content-author>span>a:hover {
     color: #4993c5;
     text-decoration: underline;
 }
 
 .content-date {
     color: #666666;
-    display: inline-block;
+}
+
+.content-date,
+.content-from {
+    margin-top: 5px;
 }
 
 .content-main {
@@ -1029,10 +1046,6 @@ button:focus {
     margin-top: 0em;
     margin-bottom: 0em;
     font-weight: normal;
-}
-
-.content>p {
-    margin-top: 5px;
 }
 
 .content-box>.article-footer {
