@@ -2,12 +2,23 @@
     <link href="{loadcss ../component/radio.css}" rel="stylesheet" type="text/css">
     <div class="main-content">
         <div class="title">
-            <span>{$LANG['common']['captcha']}</span>
+            <span>{$LANG['admin']['security_config']}</span>
+        </div>
+        <div class="main">
+            <div class="mode">
+                <div class="mode-button">
+                    <a href="admin.php?mod=security&amp;show=captcha">{$LANG['common']['captcha']}</a>
+                </div>
+                <div class="mode-button">
+                    <a href="admin.php?mod=security&amp;show=signup">{$LANG['common']['signup']}</a>
+                </div>
+            </div>
         </div>
         <div class="main-admin">
-            <div class="widget">
+<!--{if isset($securityShow) && $securityShow === 'captcha'}-->
+            <div class="widget widget-mode">
                 <div class="title">
-                    <span>{$LANG['admin-captcha']['captcha_function']}</span>
+                    <span>{$LANG['admin-security']['captcha_function']}</span>
                 </div>
                 <div class="chart">
                     <div class="type-list">
@@ -49,7 +60,7 @@
             </div>
             <div class="widget">
                 <div class="title">
-                    <span>{$LANG['admin-captcha']['captcha_apply']}</span>
+                    <span>{$LANG['admin-security']['captcha_apply']}</span>
                 </div>
                 <div class="chart">
                     <div class="type-list type-switch">
@@ -72,7 +83,7 @@
             </div>
             <div class="widget">
                 <div class="title">
-                    <span>{$LANG['admin-captcha']['captcha_type']}</span>
+                    <span>{$LANG['admin-security']['captcha_type']}</span>
                 </div>
                 <div class="chart">
                     <div class="type-list">
@@ -82,7 +93,7 @@
 <!--{eval $current_type = ($type_list['value'] === $captcha['current_type']) ? 'checked="checked"' : '';}-->
                             <div class="radio">
                                 <input id="{$type_list['value']}" name="captcha_select" type="radio" value="{$type_list['value']}" {$current_type} />
-                                <label for="{$type_list['value']}" class="select-label radio-label">{$LANG['admin-captcha'][$type_list['value']]}</label>
+                                <label for="{$type_list['value']}" class="select-label radio-label">{$LANG['admin-security'][$type_list['value']]}</label>
                             </div>
 <!--{/loop}-->
                         </div>
@@ -104,6 +115,32 @@
                     </div>
                 </div>
             </div>
+            <script src="{loadjs admin-captcha.js}" type="text/javascript"></script>
+<!--{else}-->
+            <div class="widget widget-mode">
+                <div class="title">
+                    <span>{$LANG['admin-security']['signup_email']}</span>
+                </div>
+                <div class="chart">
+                    <div class="setting-list">
+                        <form action="admin.php?update=signup_email" method="post" id="signup_email">
+                            <div class="setting-option-min">
+                                <label>{$LANG['admin-security']['allow_domain']}</label>
+                                <textarea class="setting-input-min" type="text" name="allow_domain" rows="6" cols="50" maxlength="3000">{$signup_config['allow_domain']}</textarea>
+                            </div>
+                            <div class="horizon"></div>
+                            <div class="setting-option-min">
+                                <label>{$LANG['admin-security']['disallow_domain']}</label>
+                                <textarea class="setting-input-min" type="text" name="disallow_domain" rows="6" cols="50" maxlength="3000"></textarea>
+                            </div>
+                            <div class="horizon"></div>
+                            <div class="setting-save">
+                                <button type="submit" name="submit">{$LANG['common']['save']}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+<!--{/if}-->
         </div>
     </div>
-    <script src="{loadjs admin-captcha.js}" type="text/javascript"></script>

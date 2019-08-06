@@ -1,5 +1,5 @@
 <?php
-$LANG['admin-captcha'] = array
+$LANG['admin-security'] = array
 (
     'captcha_function' => 'Captcha Function',
     'captcha_apply' => 'Apply Page',
@@ -32,5 +32,8 @@ $LANG['admin-captcha'] = array
     'difficulty_description' => 'Difficulty of Captcha',
     'easy' => 'Easy',
     'medium' => 'Medium',
-    'hard' => 'Hard'
+    'hard' => 'Hard',
+    'signup_email' => 'Signup Email',
+    'allow_domain' => 'Allow Domain',
+    'disallow_domain' => 'Disallow Domain'
 );

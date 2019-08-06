@@ -8,7 +8,7 @@ $load->loadClass('template', 'pagination', 'check', 'data_create', 'data_read', 
 $load->loadFunction('filter', 'admin', 'core');
 
 //Require another language file
-$load_language->addLanguageFile(array('admin-upload', 'admin-captcha', 'admin-social', 'admin-seo', 'admin-email'));
+$load_language->addLanguageFile(array('admin-upload', 'admin-security', 'admin-social', 'admin-seo', 'admin-email'));
 $lang_file = $load_language->loadLanguage($SYSTEM['system_lang']);
 foreach ($lang_file as $lang) {
     require ROOT_PATH.$lang;
@@ -45,7 +45,7 @@ $content['upload'] = '';
 $content['social'] = '';
 $content['email'] = '';
 $content['seo'] = '';
-$content['captcha'] = '';
+$content['security'] = '';
 $content['database'] = '';
 
 //List Language Options
@@ -565,73 +565,88 @@ if (!empty($login['username']) && $login['admin'] === true) {
                     exit();
                 }
                 break;
-            case ($_GET['mod'] === 'captcha'):
-                $content['captcha'] = 'active';
-                $display = 'config_captcha';
-                require dirname(__FILE__).'/source/class/class_captcha_config.php';
-                //Captcha Config
-                $captchaConfig = CaptchaConfig::getInstance();
-                $captchaConfig->getConnection($conn);
-                if ($captchaConfig->checkCaptchaEnable() === true) {
-                    $captcha['set'] = true;
+            case ($_GET['mod'] === 'security'):
+                $content['security'] = 'active';
+                $display = 'config_security';
+                require dirname(__FILE__).'/source/class/class_security_config.php';
+                if (isset($_GET['show'])) {
+                    $securityShow = $_GET['show'];
                 } else {
-                    $captcha['set'] = false;
+                    $securityShow = 'captcha';
                 }
-                $captcha['current_type'] = $captchaConfig->checkCaptchaType();
-                $captcha_type_list = array('simple_captcha', 'google_recaptcha', 'svg_captcha');
-                $captcha['current_apply'] = unserialize($captchaConfig->checkCaptchaApply());
-                if (is_array($captcha['current_apply']) === false) {
-                    $captcha['current_apply'] = array('');
-                }
-                $captcha_apply_list = array('login', 'signup');
-                //Get Captcha Type
-                if (isset($_POST['show_captcha_type'])) {
-                    $captcha['type'] = $_POST['show_captcha_type'];
-                    switch ($captcha['type']) {
-                        case 'simple_captcha' === $captcha['type']:
-                            if ($captchaConfig->simpleCaptchaConfig() !== false) {
-                                $simpleCaptcha = $captchaConfig->simpleCaptchaConfig();
-                                $captcha_option = array(
-                                    'image_height' => $simpleCaptcha['image_height'],
-                                    'image_width' => $simpleCaptcha['image_width'],
-                                    'font' => $simpleCaptcha['font_file'],
-                                    'text_color' => $simpleCaptcha['text_color'],
-                                    'noise_color' => $simpleCaptcha['noise_color'],
-                                    'total_character' => $simpleCaptcha['total_character'],
-                                    'random_dots' => $simpleCaptcha['random_dots'],
-                                    'random_lines' => $simpleCaptcha['random_lines']
-                                );
-                                $check_sensitive = array(
-                                    '0' => 'disable',
-                                    '1' => 'enable'
-                                );
+                switch ($securityShow) {
+                    case 'signup':
+                        //Signup Config
+                        $signupConfig = SecurityConfig::getInstance();
+                        $signupConfig->getConnection($conn);
+                        $signup_config = $signupConfig->getDomainConfig();
+                        break;
+                    default:
+                        //Captcha Config
+                        $captchaConfig = SecurityConfig::getInstance();
+                        $captchaConfig->getConnection($conn);
+                        if ($captchaConfig->checkCaptchaEnable() === true) {
+                            $captcha['set'] = true;
+                        } else {
+                            $captcha['set'] = false;
+                        }
+                        $captcha['current_type'] = $captchaConfig->checkCaptchaType();
+                        $captcha_type_list = array('simple_captcha', 'google_recaptcha', 'svg_captcha');
+                        $captcha['current_apply'] = unserialize($captchaConfig->checkCaptchaApply());
+                        if (is_array($captcha['current_apply']) === false) {
+                            $captcha['current_apply'] = array('');
+                        }
+                        $captcha_apply_list = array('login', 'signup');
+                        //Get Captcha Type
+                        if (isset($_POST['show_captcha_type'])) {
+                            $captcha['type'] = $_POST['show_captcha_type'];
+                            switch ($captcha['type']) {
+                                case 'simple_captcha' === $captcha['type']:
+                                    if ($captchaConfig->simpleCaptchaConfig() !== false) {
+                                        $simpleCaptcha = $captchaConfig->simpleCaptchaConfig();
+                                        $captcha_option = array(
+                                            'image_height' => $simpleCaptcha['image_height'],
+                                            'image_width' => $simpleCaptcha['image_width'],
+                                            'font' => $simpleCaptcha['font_file'],
+                                            'text_color' => $simpleCaptcha['text_color'],
+                                            'noise_color' => $simpleCaptcha['noise_color'],
+                                            'total_character' => $simpleCaptcha['total_character'],
+                                            'random_dots' => $simpleCaptcha['random_dots'],
+                                            'random_lines' => $simpleCaptcha['random_lines']
+                                        );
+                                        $check_sensitive = array(
+                                            '0' => 'disable',
+                                            '1' => 'enable'
+                                        );
+                                    }
+                                    break;
+                                case 'google_recaptcha' === $captcha['type']:
+                                    require dirname(__FILE__).'/source/recaptcha/recaptcha.php';
+                                    $reCaptcha = $captchaConfig->reCaptchaConfig();
+                                    break;
+                                case 'svg_captcha' === $captcha['type']:
+                                    require dirname(__FILE__).'/source/svg_captcha/SVGCaptcha.php';
+                                    if ($captchaConfig->svgCaptchaConfig() !== false) {
+                                        $svgCaptcha = $captchaConfig->svgCaptchaConfig();
+                                        $captcha_option = array(
+                                            'image_height' => $svgCaptcha['image_height'],
+                                            'image_width' => $svgCaptcha['image_width'],
+                                            'total_character' => $svgCaptcha['total_character']
+                                        );
+                                        $svg_difficulty = array(
+                                            '0' => 'easy',
+                                            '1' => 'medium',
+                                            '2' => 'hard'
+                                        );
+                                    }
+                                    break;
+                                default:
+                                    break;
                             }
-                            break;
-                        case 'google_recaptcha' === $captcha['type']:
-                            require dirname(__FILE__).'/source/recaptcha/recaptcha.php';
-                            $reCaptcha = $captchaConfig->reCaptchaConfig();
-                            break;
-                        case 'svg_captcha' === $captcha['type']:
-                            require dirname(__FILE__).'/source/svg_captcha/SVGCaptcha.php';
-                            if ($captchaConfig->svgCaptchaConfig() !== false) {
-                                $svgCaptcha = $captchaConfig->svgCaptchaConfig();
-                                $captcha_option = array(
-                                    'image_height' => $svgCaptcha['image_height'],
-                                    'image_width' => $svgCaptcha['image_width'],
-                                    'total_character' => $svgCaptcha['total_character']
-                                );
-                                $svg_difficulty = array(
-                                    '0' => 'easy',
-                                    '1' => 'medium',
-                                    '2' => 'hard'
-                                );
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    include($template->loadTemplate('ajax_captcha_list.html'));
-                    exit();
+                            include($template->loadTemplate('ajax_captcha_list.html'));
+                            exit();
+                        }
+                        break;
                 }
                 break;
             case ($_GET['mod'] === 'database'):
@@ -1103,7 +1118,7 @@ if (isset($_GET['update'])) {
             }
             break;
         case ($_GET['update'] === 'captcha_enable'):
-            $back['mod'] = 'captcha';
+            $back['mod'] = 'security';
             if (isset($_POST['captcha_set'])) {
                 $update['config'] = DataUpdate::getInstance();
                 $update['config']->getConnection($conn);
@@ -1153,7 +1168,7 @@ if (isset($_GET['update'])) {
             }
             break;
         case ($_GET['update'] === 'captcha_setting'):
-            $back['mod'] = 'captcha';
+            $back['mod'] = 'security';
             if (isset($_POST['captcha_type'])) {
                 $update['config'] = DataUpdate::getInstance();
                 $update['config']->getConnection($conn);
@@ -1229,6 +1244,23 @@ if (isset($_GET['update'])) {
                     default:
                         break;
                 }
+            }
+            break;
+        case ($_GET['update'] === 'signup_email'):
+            $back['mod'] = 'security';
+            if (isset($_POST['allow_domain']) && isset($_POST['disallow_domain'])) {
+                $update['config'] = DataUpdate::getInstance();
+                $update['config']->getConnection($conn);
+                $_POST['allow_domain'] = preg_replace('/\s+/', '', $_POST['allow_domain']);
+                $_POST['disallow_domain'] = preg_replace('/\s+/', '', $_POST['disallow_domain']);
+                $update_query = array(
+                    'config' => 'UPDATE email_config SET allow_domain = ?, disallow_domain = ? WHERE id = ?', 
+                    'prepare' => 'ssi', 
+                    'bind' => array($_POST['allow_domain'], $_POST['disallow_domain'], 1)
+                );
+                $update['config']->updateConfig($update_query);
+                sleep(1);
+                $display = 'view_success';
             }
             break;
         case ($_GET['update'] === 'social_enable'):

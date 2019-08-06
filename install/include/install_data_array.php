@@ -17,6 +17,10 @@ $insert[10] = 'localhost';
 $insert[11] = 'simple_captcha';
 $insert[12] = time();
 
+//Email domain config
+$domain['allow'] = 'gmail.com|yahoo.com|yahoo.com.tw|icloud.com|outlook.com';
+$domain['disallow'] = '';
+
 //Localhost email config
 $hostUrl = str_replace('www.', '', $_SERVER['HTTP_HOST']);
 
@@ -47,7 +51,7 @@ $captcha['check_sensitive'] = 0;
 $user_query = 'INSERT INTO user (display_name, username, password, email, language, is_admin, online_status, last_login, join_date) VALUES (?,?,?,?,?,?,?,?,?)';
 $category_query = 'INSERT INTO category (name, description, set_sitemap, last_edit, create_date) VALUES (?,?,?,?,?)';
 $board_query = 'INSERT INTO board (name, description, category_id, set_sitemap, last_edit, create_date) VALUES (?,?,?,?,?,?)';
-$email_config_query = 'INSERT INTO email_config (id, enable, type) VALUES (?,?,?)';
+$email_config_query = 'INSERT INTO email_config (id, enable, type, allow_domain, disallow_domain) VALUES (?,?,?,?,?)';
 $global_config_query = 'INSERT INTO global_config (id, web_name, web_description, web_language, web_timezone, last_edit) VALUES (?,?,?,?,?,?)';
 
 $config_query = array(

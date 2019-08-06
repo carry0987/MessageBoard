@@ -105,7 +105,7 @@ try {
     $board_stmt->execute();
     $email_stmt = $conn->stmt_init();
     $email_stmt->prepare($email_config_query);
-    $email_stmt->bind_param('iis', $insert[0], $get_email_set, $insert[10]);
+    $email_stmt->bind_param('iisss', $insert[0], $get_email_set, $insert[10], $domain['allow'], $domain['disallow']);
     $email_stmt->execute();
     $global_stmt = $conn->stmt_init();
     $global_stmt->prepare($global_config_query);

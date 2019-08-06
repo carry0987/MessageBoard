@@ -2,7 +2,7 @@
 require dirname(__FILE__).'/source/class/class_core.php';
 require dirname(__FILE__).'/source/class/class_load.php';
 $load = new Load;
-$load->loadClass('template', 'data_update', 'forgot_password', 'email_config', 'email_template', 'social_config', 'captcha_config');
+$load->loadClass('template', 'data_update', 'forgot_password', 'email_config', 'email_template', 'social_config', 'security_config');
 $load->loadFunction('filter', 'core', 'captcha');
 
 //Template setting
@@ -36,7 +36,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 }
 
 //Captcha Config
-$captchaConfig = CaptchaConfig::getInstance();
+$captchaConfig = SecurityConfig::getInstance();
 $captchaConfig->getConnection($conn);
 $captcha_apply = unserialize($captchaConfig->checkCaptchaApply());
 if ($captchaConfig->checkCaptchaEnable() === true && in_array('login', $captcha_apply) === true) {

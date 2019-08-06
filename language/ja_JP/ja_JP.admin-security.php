@@ -1,5 +1,5 @@
 <?php
-$LANG['admin-captcha'] = array
+$LANG['admin-security'] = array
 (
     'captcha_function' => '確認コード機能',
     'captcha_apply' => '確認コード適用のページ',
@@ -12,7 +12,7 @@ $LANG['admin-captcha'] = array
     'image_width' => '画像幅',
     'image_width_description' => '確認コード画像幅(px)',
     'font' => 'フォント',
-    'font_description' => 'フォントファイルを/ static / captcha / に',
+    'font_description' => 'フォントファイルを /static/captcha/ に',
     'text_color' => 'テキストの色',
     'text_color_description' => '確認コードテキストの色',
     'noise_color' => 'ノイズ色',
@@ -32,5 +32,8 @@ $LANG['admin-captcha'] = array
     'difficulty_description' => '確認コードの難しさ',
     'easy' => '簡単',
     'medium' => '普通',
-    'hard' => '難しい'
+    'hard' => '難しい',
+    'signup_email' => 'Signup Email',
+    'allow_domain' => 'Allow Domain',
+    'disallow_domain' => 'Disallow Domain'
 );

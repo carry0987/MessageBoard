@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var mod = 'captcha';
+    var mod = 'security';
     $('.option-set>.radio input:radio').change(function() {
         if ($(this).val() === 'disable') {
             hideSettingDIV();

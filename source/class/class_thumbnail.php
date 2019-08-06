@@ -70,7 +70,7 @@ class Thumbnail
                 //File name setup
                 $filename_err = explode('.', $getFile[$this->field_name]['name'][$key]);
                 $filename_err_count = count($filename_err);
-                $file_ext = $filename_err[$filename_err_count - 1];
+                $file_ext = strtolower($filename_err[$filename_err_count - 1]);
                 if ($this->file_name != '') {
                     $fileName = $this->file_name.'.'.$file_ext;
                 } else {
@@ -97,7 +97,7 @@ class Thumbnail
                 //File name setup
                 $filename_err = explode('.', $getFile[$this->field_name]['name']);
                 $filename_err_count = count($filename_err);
-                $file_ext = $filename_err[$filename_err_count - 1];
+                $file_ext = strtolower($filename_err[$filename_err_count - 1]);
                 if ($this->file_name != '') {
                     $fileName = $this->file_name.'.'.$file_ext;
                 } else {

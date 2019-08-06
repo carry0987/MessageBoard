@@ -188,6 +188,10 @@
         width: 100%;
     }
 
+    .setting-option-min {
+        width: 100%;
+    }
+
     /* Manage Page */
     .data-manage {
         margin: 0.5em 0em;

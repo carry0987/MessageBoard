@@ -912,6 +912,10 @@ button[disabled]:hover {
     padding: 0.5em;
 }
 
+.setting-option-min {
+    width: 25%;
+}
+
 .setting-list-box,
 .setting-list-description {
     display: inline-block;

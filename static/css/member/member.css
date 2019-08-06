@@ -266,6 +266,14 @@ body {
     padding: 10px 0px;
 }
 
+.notifications li>div>a>.notif-info>span>b {
+    max-width: 185px;
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .notifications li>div>a>.notif-avatar {
     width: 60px;
     height: 60px;

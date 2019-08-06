@@ -2,7 +2,7 @@
 require dirname(__FILE__).'/source/class/class_core.php';
 require dirname(__FILE__).'/source/class/class_load.php';
 $load = new Load;
-$load->loadClass('template', 'captcha_config', 'check', 'data_create', 'email_config', 'email_template', 'social_config');
+$load->loadClass('template', 'security_config', 'check', 'data_create', 'email_config', 'email_template', 'social_config');
 $load->loadFunction('filter', 'core', 'captcha');
 
 //Template setting
@@ -24,7 +24,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 //Captcha Config
-$captchaConfig = CaptchaConfig::getInstance();
+$captchaConfig = SecurityConfig::getInstance();
 $captchaConfig->getConnection($conn);
 $captcha_apply = unserialize($captchaConfig->checkCaptchaApply());
 if ($captchaConfig->checkCaptchaEnable() === true && in_array('signup', $captcha_apply) === true) {
@@ -200,6 +200,22 @@ if (isset($_POST['submit']) || isset($_POST['check_simple_captcha']) || isset($_
         }
     } elseif (strlen($get_email) > 80) {
         $email_error = $LANG['common']['email_length_error'];
+        $signup_permit = false;
+    }
+
+    //Check email domain
+    $checkDomain = SecurityConfig::getInstance();
+    $checkDomain->getConnection($conn);
+    $getDomainConfig = $checkDomain->getDomainConfig();
+    $checkAllow = explode('|', $getDomainConfig['allow_domain']);
+    $checkDisallow = explode('|', $getDomainConfig['disallow_domain']);
+    $getDomain = substr($get_email, strpos($get_email, '@') + 1);
+    if (in_array($getDomain, $checkAllow) === false) {
+        $email_error = $LANG['common']['email_format_error'];
+        $signup_permit = false;
+    }
+    if (in_array($getDomain, $checkDisallow) === true) {
+        $email_error = $LANG['common']['email_format_error'];
         $signup_permit = false;
     }
 
@@ -389,6 +405,8 @@ if (isset($_POST['submit']) || isset($_POST['check_simple_captcha']) || isset($_
         } else {
             $display = 'view_signup_error';
         }
+    } else {
+        $display = 'view_signup_error';
     }
 } else {
     $display = 'view_signup';

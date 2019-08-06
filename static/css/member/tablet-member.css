@@ -161,6 +161,10 @@
         margin-left: 204px;
     }
 
+    .notifications li>div>a>.notif-info>span>b {
+        max-width: 110px;
+    }
+
     /* Article List */
     .member-article li {
         padding: 10px;

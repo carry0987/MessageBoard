@@ -1,5 +1,5 @@
 <?php
-$LANG['admin-captcha'] = array
+$LANG['admin-security'] = array
 (
     'captcha_function' => '驗證碼功能',
     'captcha_apply' => '應用頁面',
@@ -32,5 +32,8 @@ $LANG['admin-captcha'] = array
     'difficulty_description' => '驗證碼的難易度',
     'easy' => '簡單',
     'medium' => '普通',
-    'hard' => '困難'
+    'hard' => '困難',
+    'signup_email' => '註冊信箱',
+    'allow_domain' => '允許網域',
+    'disallow_domain' => '不允許網域'
 );

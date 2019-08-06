@@ -1,5 +1,5 @@
 <?php
-class CaptchaConfig
+class SecurityConfig
 {
     private $connectdb;
     private static $config = 1;
@@ -20,6 +20,30 @@ class CaptchaConfig
     public function getConnection($connect)
     {
         $this->connectdb = $connect;
+    }
+
+    public function getDomainConfig()
+    {
+        $domain['query'] = 'SELECT allow_domain, disallow_domain FROM email_config WHERE id = ?';
+        $domain['stmt'] = $this->connectdb->stmt_init();
+        try {
+            $domain['stmt']->prepare($domain['query']);
+            $domain['stmt']->bind_param('i', self::$config);
+            $domain['stmt']->execute();
+            $domain['stmt']->bind_result($allow_domain, $disallow_domain);
+            $domain['result'] = $domain['stmt']->get_result();
+            if ($domain['result']->num_rows != 0) {
+                $domain['row'] = $domain['result']->fetch_assoc();
+                return $domain['row'];
+            } else {
+                return false;
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo '<h1>Service unavailable</h1>'."\n";
+            echo '<h2>Error Info :'.$e->getMessage().'</h2>'."\n";
+            echo '<h3>Error Code :'.$e->getCode().'</h3>'."\n";
+            exit();
+        }
     }
 
     public function checkCaptchaEnable()

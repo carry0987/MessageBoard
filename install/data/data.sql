@@ -247,6 +247,8 @@ CREATE TABLE IF NOT EXISTS email_config (
   id int(1) UNSIGNED NOT NULL AUTO_INCREMENT,
   enable tinyint(1) UNSIGNED NOT NULL,
   type varchar(10) NOT NULL,
+  allow_domain varchar(5000) NOT NULL,
+  disallow_domain varchar(5000) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

@@ -16,6 +16,7 @@ $LANG['admin'] = array
     'email_config' => 'メール設定',
     'seo_config' => 'SEO 設定',
     'sitemap_config' => 'Sitemap設定',
+    'security_config' => 'セキュリティ設定',
     'captcha_config' => '確認コード設定',
     'member_manage' => 'メンバー管理',
     'member_list' => 'メンバーリスト',

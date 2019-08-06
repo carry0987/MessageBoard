@@ -10,7 +10,6 @@
     /* Login Information */
     .login-user a {
         text-overflow: ellipsis;
-        max-width: 200px;
         overflow: hidden;
         white-space: nowrap;
     }
@@ -80,6 +79,10 @@
 
     #notif_wrapper:before {
         margin-left: 204px;
+    }
+
+    .notifications li>div>a>.notif-info>span>b {
+        max-width: 120px;
     }
 
     /* Setting */
