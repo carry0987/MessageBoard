@@ -47,15 +47,31 @@ Just unzip the zip file and upload files to the server
 
 ## Screenshots
 ### Homepage
-![](http://i.imgur.com/6z82R70.jpg)
-### Message
-![](http://i.imgur.com/Z8SgtW3.jpg)
-### Admin Message manager page
-![](https://i.imgur.com/uHISGPo.jpg)
-### Admin Board manager page
-![](http://i.imgur.com/VZyTGaK.jpg)
+![](https://i.imgur.com/SgR6rUo.png)
+### Notification
+![](https://i.imgur.com/HqsEWd6.png)
+### Board List
+![](https://i.imgur.com/LU6wYCD.png)
+### Article List
+![](https://i.imgur.com/CT7wWyB.png)
+### Article
+![](https://i.imgur.com/5vJ3LPG.png)
+### Article Edit
+![](https://i.imgur.com/FjtGwOF.png)
+### Member Profile
+![](https://i.imgur.com/U2PWRDj.png)
+### Admin Global Config
+![](https://i.imgur.com/Q7vYnYA.png)
+### Admin Members
+![](https://i.imgur.com/sBrXnZm.png)
+### Admin Article Manager
+![](https://i.imgur.com/C7iveMS.png)
+### Admin Category Edit
+![](https://i.imgur.com/RTqbNKC.png)
+### Admin Security Config
+![](https://i.imgur.com/n3cegyc.png)
 ### Mobile Overview<br />
-![](http://i.imgur.com/JTovlzE.jpg)
+![](https://i.imgur.com/QBUmBBu.png)
 
 ## Related project
 - [PHP-Template-Engine](https://github.com/carry0987/PHP-Template-Engine)
