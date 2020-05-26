@@ -39,9 +39,6 @@ Just unzip the zip file and upload files to the server
 - Mobile Support (RWD)
 - Use WYSIWYG Editor
 
-## Demo
-[Demo](https://www.nehscsa.com/messageboard/)
-
 ## Download
 [Download](https://github.com/carry0987/MessageBoard/releases)
 
